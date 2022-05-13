@@ -41,11 +41,11 @@ import IndexView from "views/Index.js";
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
-      <Route path="/rtl" render={(props) => <RTLLayout {...props} />} />
-      <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
-      <Route path="/" render={(props) => <IndexView {...props} />} />
-      <Redirect from="*" to="/" />
+      {/* <Route path='/admin' render={(props) => <AdminLayout {...props} />} /> */}
+      <Route path='/rtl' render={(props) => <RTLLayout {...props} />} />
+      <Route path='/auth' render={(props) => <AuthLayout {...props} />} />
+      <Route path='/' render={(props) => <AdminLayout {...props} />} />
+      <Redirect from='*' to='/' />
     </Switch>
   </BrowserRouter>,
   document.getElementById("root")
