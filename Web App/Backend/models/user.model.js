@@ -17,6 +17,11 @@ const userSchema = new Schema({
     default: "client",
     enum: ["client", "admin"],
   },
+  status: {
+    type: "String",
+    default: "pending",
+    enum: ["pending", "approved", "rejected"],
+  },
 });
 
 userSchema.pre("save", async function (next) {
@@ -33,11 +38,11 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
 };
 
 //Return JWT
-userSchema.methods.getJwtToken = () => {
+userSchema.methods.getJwtToken = function () {
   return sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE_TIME,
   });
 };
 
-const user = model("User", userSchema);
-module.exports = user;
+const User = model("User", userSchema);
+module.exports = User;

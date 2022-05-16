@@ -19,15 +19,22 @@ exports.userLogin = async (req, res) => {
         .json({ message: "User Not exists, please Signup First" });
     }
     if (!(await user?.comparePassword(password))) {
-      return res.status(401).json({
+      return res.status(500).json({
         status: "Unauthorized",
         message: "Email/Password does not match",
+      });
+    }
+    if (user.status === "pending" || user.status === "rejected") {
+      return res.status(500).json({
+        status: "Unauthorized",
+        message: "Your Account is not approved yet.",
       });
     }
     res.status(200).json({
       message: "Logged In",
       token: user.getJwtToken(),
       role: user.role,
+      fullName: user.fullName,
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -59,6 +66,20 @@ exports.userSignup = async (req, res) => {
     });
     user.save();
     return res.status(200).json({ message: "User Signed Up Successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+/**
+ * Get Users Profile from database
+ * @param {Request} req - request object
+ * @param {Response} res - response object
+ */
+exports.myProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select("-password");
+    return res.status(200).json(user);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

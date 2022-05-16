@@ -14,7 +14,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useState } from "react";
 // nodejs library that concatenates classes
 import classnames from "classnames";
 // reactstrap components
@@ -35,22 +35,40 @@ import {
 } from "reactstrap";
 // core components
 import AuthHeader from "components/Headers/AuthHeader.js";
+import { useDispatch } from "react-redux";
+import { signUp, signIn } from "../../../Redux/actions/auth.actions";
+import { useHistory } from "react-router";
 
 function Register() {
-  const [focusedName, setfocusedName] = React.useState(false);
-  const [focusedEmail, setfocusedEmail] = React.useState(false);
-  const [focusedPassword, setfocusedPassword] = React.useState(false);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const [focusedName, setfocusedName] = useState(false);
+  const [focusedEmail, setfocusedEmail] = useState(false);
+  const [focusedPassword, setfocusedPassword] = useState(false);
+  const [fullName, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async () => {
+    const formValues = {
+      fullName: fullName,
+      email: email,
+      password: password,
+    };
+    const res = await dispatch(signUp(formValues));
+    console.log(res);
+    if (!res) {
+      history.push("/login");
+    }
+  };
   return (
     <>
-      <AuthHeader
-        title="Create an account"
-        lead="Use these awesome forms to login or create new account in your project for free."
-      />
-      <Container className="mt--8 pb-5">
-        <Row className="justify-content-center">
-          <Col lg="6" md="8">
-            <Card className="bg-secondary border-0">
-              <CardHeader className="bg-transparent pb-5">
+      <AuthHeader title='Create an account' lead='' />
+      <Container className='mt--8 pb-5'>
+        <Row className='justify-content-center'>
+          <Col lg='6' md='8'>
+            <Card className='bg-secondary border-0'>
+              {/* <CardHeader className="bg-transparent pb-5">
                 <div className="text-muted text-center mt-2 mb-4">
                   <small>Sign up with</small>
                 </div>
@@ -88,26 +106,28 @@ function Register() {
                     <span className="btn-inner--text">Google</span>
                   </Button>
                 </div>
-              </CardHeader>
-              <CardBody className="px-lg-5 py-lg-5">
-                <div className="text-center text-muted mb-4">
-                  <small>Or sign up with credentials</small>
+              </CardHeader> */}
+              <CardBody className='px-lg-5 py-lg-5'>
+                <div className='text-center text-muted mb-4'>
+                  <large>Sign up with credentials</large>
                 </div>
-                <Form role="form">
+                <Form role='form'>
                   <FormGroup
                     className={classnames({
                       focused: focusedName,
-                    })}
-                  >
-                    <InputGroup className="input-group-merge input-group-alternative mb-3">
-                      <InputGroupAddon addonType="prepend">
+                    })}>
+                    <InputGroup className='input-group-merge input-group-alternative mb-3'>
+                      <InputGroupAddon addonType='prepend'>
                         <InputGroupText>
-                          <i className="ni ni-hat-3" />
+                          <i className='ni ni-hat-3' />
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input
-                        placeholder="Name"
-                        type="text"
+                        placeholder='Full Name'
+                        type='text'
+                        onChange={(e) => {
+                          setFullname(e.target.value);
+                        }}
                         onFocus={() => setfocusedName(true)}
                         onBlur={() => setfocusedName(false)}
                       />
@@ -116,17 +136,19 @@ function Register() {
                   <FormGroup
                     className={classnames({
                       focused: focusedEmail,
-                    })}
-                  >
-                    <InputGroup className="input-group-merge input-group-alternative mb-3">
-                      <InputGroupAddon addonType="prepend">
+                    })}>
+                    <InputGroup className='input-group-merge input-group-alternative mb-3'>
+                      <InputGroupAddon addonType='prepend'>
                         <InputGroupText>
-                          <i className="ni ni-email-83" />
+                          <i className='ni ni-email-83' />
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input
-                        placeholder="Email"
-                        type="email"
+                        placeholder='Email'
+                        type='email'
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                        }}
                         onFocus={() => setfocusedEmail(true)}
                         onBlur={() => setfocusedEmail(false)}
                       />
@@ -135,57 +157,67 @@ function Register() {
                   <FormGroup
                     className={classnames({
                       focused: focusedPassword,
-                    })}
-                  >
-                    <InputGroup className="input-group-merge input-group-alternative">
-                      <InputGroupAddon addonType="prepend">
+                    })}>
+                    <InputGroup className='input-group-merge input-group-alternative'>
+                      <InputGroupAddon addonType='prepend'>
                         <InputGroupText>
-                          <i className="ni ni-lock-circle-open" />
+                          <i className='ni ni-lock-circle-open' />
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input
-                        placeholder="Password"
-                        type="password"
+                        placeholder='Password'
+                        type='password'
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                        }}
                         onFocus={() => setfocusedPassword(true)}
                         onBlur={() => setfocusedPassword(false)}
                       />
                     </InputGroup>
                   </FormGroup>
-                  <div className="text-muted font-italic">
+                  <div className='text-muted font-italic'>
                     <small>
                       password strength:{" "}
-                      <span className="text-success font-weight-700">
-                        strong
-                      </span>
+                      {password?.length > 5 ? (
+                        <span className='text-success font-weight-700'>
+                          strong
+                        </span>
+                      ) : (
+                        <span className='text-warning font-weight-700'>
+                          weak
+                        </span>
+                      )}
                     </small>
                   </div>
-                  <Row className="my-4">
-                    <Col xs="12">
-                      <div className="custom-control custom-control-alternative custom-checkbox">
+                  {/* <Row className='my-4'>
+                    <Col xs='12'>
+                      <div className='custom-control custom-control-alternative custom-checkbox'>
                         <input
-                          className="custom-control-input"
-                          id="customCheckRegister"
-                          type="checkbox"
+                          className='custom-control-input'
+                          id='customCheckRegister'
+                          type='checkbox'
                         />
                         <label
-                          className="custom-control-label"
-                          htmlFor="customCheckRegister"
-                        >
-                          <span className="text-muted">
+                          className='custom-control-label'
+                          htmlFor='customCheckRegister'>
+                          <span className='text-muted'>
                             I agree with the{" "}
                             <a
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}
-                            >
+                              href='#pablo'
+                              onClick={(e) => e.preventDefault()}>
                               Privacy Policy
                             </a>
                           </span>
                         </label>
                       </div>
                     </Col>
-                  </Row>
-                  <div className="text-center">
-                    <Button className="mt-4" color="info" type="button">
+                  </Row> */}
+                  <div className='text-center'>
+                    <Button
+                      onClick={handleSubmit}
+                      className='mt-4'
+                      color='info'
+                      type='button'>
                       Create account
                     </Button>
                   </div>

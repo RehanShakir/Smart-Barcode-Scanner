@@ -1,8 +1,9 @@
 const express = require("express");
 const cors = require("cors");
+const morgan = require("morgan");
 const fileupload = require("express-fileupload");
 const bodyParser = require("body-parser");
-const apiRouter = require("./routes/index");
+const apiRouter = require("./routes/routes");
 
 // === Improved Security ===
 const xss = require("xss-clean");
@@ -19,13 +20,19 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
+// === CORS Enabled ===
+const corsOptions = {
+  origin: "*",
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
+app.use(morgan("dev"));
+
 // === import Routes here ===
 
 // Running API Routes
 app.use("/api", apiRouter);
-
-// === CORS Enabled ===
-app.use(cors());
 
 // === Enabling file uplod
 app.use(fileupload());

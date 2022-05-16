@@ -14,17 +14,34 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 // react library for routing
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
 
 // core components
 import AuthNavbar from "components/Navbars/AuthNavbar.js";
 import AuthFooter from "components/Footers/AuthFooter.js";
+import { getToken } from "../Redux/localstorage";
+import { loadProfile } from "../Redux/actions/auth.actions";
+import { useSelector, useDispatch } from "react-redux";
 
 import routes from "routes.js";
 
 function Auth() {
+  const authState = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+  const fetchProfile = useCallback(() => {
+    const token = getToken();
+    if (token && !authState.isSignedIn) {
+      dispatch(loadProfile(token));
+    }
+  }, [dispatch, authState.isSignedIn]);
+
+  useEffect(() => {
+    fetchProfile();
+  }, [fetchProfile]);
+  console.log(authState);
   const location = useLocation();
   const mainContentRef = React.useRef(null);
   React.useEffect(() => {
@@ -48,6 +65,7 @@ function Auth() {
         return getRoutes(prop.views);
       }
       if (prop.layout === "/auth") {
+        console.log(prop);
         return (
           <Route
             path={prop.layout + prop.path}
@@ -63,11 +81,11 @@ function Auth() {
 
   return (
     <>
-      <div className="main-content" ref={mainContentRef}>
+      <div className='main-content' ref={mainContentRef}>
         <AuthNavbar />
         <Switch>
           {getRoutes(routes)}
-          <Redirect from="*" to="/auth/login" />
+          <Redirect from='*' to='/auth/login' />
         </Switch>
       </div>
       <AuthFooter />

@@ -93,21 +93,21 @@ function RTL() {
         }}
         rtlActive
       />
-      <div className="main-content" ref={mainContentRef}>
+      <div className='main-content' ref={mainContentRef}>
         <AdminNavbar
-          theme="dark"
+          theme='dark'
           toggleSidenav={toggleSidenav}
           sidenavOpen={sidenavOpen}
           brandText={getBrandText(location.pathname)}
         />
         <Switch>
           {getRoutes(routes)}
-          <Redirect from="*" to="/rtl/rtl-support" />
+          <Redirect from='*' to='/rtl/rtl-support' />
         </Switch>
         <AdminFooter />
       </div>
       {sidenavOpen ? (
-        <div className="backdrop d-xl-none" onClick={toggleSidenav} />
+        <div className='backdrop d-xl-none' onClick={toggleSidenav} />
       ) : null}
     </>
   );

@@ -98,14 +98,15 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
       if (prop.redirect) {
         return null;
       }
+
       if (prop.collapse) {
         var st = {};
         st[prop["state"]] = !state[prop.state];
         return (
           <NavItem key={key}>
             <NavLink
-              href="#pablo"
-              data-toggle="collapse"
+              href='#pablo'
+              data-toggle='collapse'
               aria-expanded={state[prop.state]}
               className={classnames({
                 active: getCollapseInitialState(prop.views),
@@ -113,22 +114,21 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
               onClick={(e) => {
                 e.preventDefault();
                 setState(st);
-              }}
-            >
+              }}>
               {prop.icon ? (
                 <>
                   <i className={prop.icon} />
-                  <span className="nav-link-text">{prop.name}</span>
+                  <span className='nav-link-text'>{prop.name}</span>
                 </>
               ) : prop.miniName ? (
                 <>
-                  <span className="sidenav-mini-icon"> {prop.miniName} </span>
-                  <span className="sidenav-normal"> {prop.name} </span>
+                  <span className='sidenav-mini-icon'> {prop.miniName} </span>
+                  <span className='sidenav-normal'> {prop.name} </span>
                 </>
               ) : null}
             </NavLink>
             <Collapse isOpen={state[prop.state]}>
-              <Nav className="nav-sm flex-column">
+              <Nav className='nav-sm flex-column'>
                 {createLinks(prop.views)}
               </Nav>
             </Collapse>
@@ -139,19 +139,18 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
         <NavItem className={activeRoute(prop.layout + prop.path)} key={key}>
           <NavLink
             to={prop.layout + prop.path}
-            activeClassName=""
+            activeClassName=''
             onClick={closeSidenav}
-            tag={NavLinkRRD}
-          >
+            tag={NavLinkRRD}>
             {prop.icon !== undefined ? (
               <>
                 <i className={prop.icon} />
-                <span className="nav-link-text">{prop.name}</span>
+                <span className='nav-link-text'>{prop.name}</span>
               </>
             ) : prop.miniName !== undefined ? (
               <>
-                <span className="sidenav-mini-icon"> {prop.miniName} </span>
-                <span className="sidenav-normal"> {prop.name} </span>
+                <span className='sidenav-mini-icon'> {prop.miniName} </span>
+                <span className='sidenav-normal'> {prop.name} </span>
               </>
             ) : (
               prop.name
@@ -175,41 +174,40 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
     };
   }
   const scrollBarInner = (
-    <div className="scrollbar-inner">
-      <div className="sidenav-header d-flex align-items-center">
+    <div className='scrollbar-inner'>
+      <div className='sidenav-header d-flex align-items-center'>
         {logo ? (
           <NavbarBrand {...navbarBrandProps}>
             <img
               alt={logo.imgAlt}
-              className="navbar-brand-img"
+              className='navbar-brand-img'
               src={logo.imgSrc}
             />
           </NavbarBrand>
         ) : null}
-        <div className="ml-auto">
+        <div className='ml-auto'>
           <div
             className={classnames("sidenav-toggler d-none d-xl-block", {
               active: sidenavOpen,
             })}
-            onClick={toggleSidenav}
-          >
-            <div className="sidenav-toggler-inner">
-              <i className="sidenav-toggler-line" />
-              <i className="sidenav-toggler-line" />
-              <i className="sidenav-toggler-line" />
+            onClick={toggleSidenav}>
+            <div className='sidenav-toggler-inner'>
+              <i className='sidenav-toggler-line' />
+              <i className='sidenav-toggler-line' />
+              <i className='sidenav-toggler-line' />
             </div>
           </div>
         </div>
       </div>
-      <div className="navbar-inner">
+      <div className='navbar-inner'>
         <Collapse navbar isOpen={true}>
           <Nav navbar>{createLinks(routes)}</Nav>
-          <hr className="my-3" />
-          <h6 className="navbar-heading p-0 text-muted">
+          <hr className='my-3' />
+          {/* <h6 className="navbar-heading p-0 text-muted">
             <span className="docs-normal">Documentation</span>
             <span className="docs-mini">D</span>
-          </h6>
-          <Nav className="mb-md-3" navbar>
+          </h6> */}
+          {/* <Nav className="mb-md-3" navbar>
             <NavItem>
               <NavLink
                 href="https://demos.creative-tim.com/argon-dashboard-pro-react/#/documentation/overview?ref=adpr-sidebar"
@@ -246,7 +244,7 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
                 <span className="nav-link-text">Plugins</span>
               </NavLink>
             </NavItem>
-          </Nav>
+          </Nav> */}
         </Collapse>
       </div>
     </div>
@@ -258,8 +256,7 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
         (rtlActive ? "" : "fixed-left")
       }
       onMouseEnter={onMouseEnterSidenav}
-      onMouseLeave={onMouseLeaveSidenav}
-    >
+      onMouseLeave={onMouseLeaveSidenav}>
       {navigator.platform.indexOf("Win") > -1 ? (
         <PerfectScrollbar>{scrollBarInner}</PerfectScrollbar>
       ) : (

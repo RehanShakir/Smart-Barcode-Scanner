@@ -20,7 +20,7 @@ import Calendar from "views/pages/Calendar.js";
 import Cards from "views/pages/components/Cards.js";
 import Charts from "views/pages/Charts.js";
 import Components from "views/pages/forms/Components.js";
-import ClientDashboard from "views/pages/dashboards/Client.js";
+import AdminDashboard from "views/pages/dashboards/Admin.js";
 import Elements from "views/pages/forms/Elements.js";
 import Google from "views/pages/maps/Google.js";
 import Grid from "views/pages/components/Grid.js";
@@ -40,6 +40,7 @@ import Typography from "views/pages/components/Typography.js";
 import Validation from "views/pages/forms/Validation.js";
 import Vector from "views/pages/maps/Vector.js";
 import Widgets from "views/pages/Widgets.js";
+import AllUsers from "views/pages/AllUsers";
 
 const routes = [
   {
@@ -48,8 +49,8 @@ const routes = [
     icon: "ni ni-shop text-primary",
     // state: "dashboardsCollapse",
     path: "/dashboard",
-    layout: "/client",
-    component: ClientDashboard,
+    layout: "/admin",
+    component: AdminDashboard,
 
     // views: [
     //   {
@@ -70,6 +71,14 @@ const routes = [
   },
 
   {
+    name: "All Users",
+    icon: "ni ni-single-02 text-green",
+    // state: "dashboardsCollapse",
+    path: "/all-users",
+    layout: "/admin",
+    component: AllUsers,
+  },
+  {
     // collapse: true,
     name: "Settings",
     icon: "ni ni-ungroup text-orange",
@@ -78,7 +87,7 @@ const routes = [
     // name: "Profile",
     miniName: "P",
     component: Profile,
-    layout: "/client",
+    layout: "/admin",
     // views: [
     //   // {
     //   //   path: "/pricing",

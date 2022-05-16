@@ -1,8 +1,8 @@
 const express = require("express");
 const { Router } = express;
 const controller = require("../controllers/auth/auth.controller");
-const middleware = require("../middlewares/verifytoken");
-const { userSignup, userLogin } = controller;
+const middleware = require("../middlewares/auth.middleware");
+const { userSignup, userLogin, myProfile } = controller;
 const { userAuth } = middleware;
 
 const router = Router();
@@ -23,5 +23,10 @@ router.post("/signup", userSignup);
  * password
  */
 router.post("/login", userLogin);
+
+/**
+ * Get User Profile
+ */
+router.get("/my-profile", userAuth, myProfile);
 
 module.exports = router;

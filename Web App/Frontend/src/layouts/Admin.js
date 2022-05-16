@@ -14,17 +14,35 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 // react library for routing
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
 // core components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import AdminFooter from "components/Footers/AdminFooter.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
+import { getToken } from "../Redux/localstorage";
+import { loadProfile } from "../Redux/actions/auth.actions";
+import { useSelector, useDispatch } from "react-redux";
 
 import routes from "routes.js";
+import adminRoutes from "admin.routes.js";
 
 function Admin() {
+  const authState = useSelector((state) => state.auth);
+  const role = authState.role;
+
+  const dispatch = useDispatch();
+  const fetchProfile = useCallback(() => {
+    const token = getToken();
+    if (token && !authState.isSignedIn) {
+      dispatch(loadProfile(token));
+    }
+  }, [dispatch, authState.isSignedIn]);
+
+  useEffect(() => {
+    fetchProfile();
+  }, [fetchProfile]);
   const [sidenavOpen, setSidenavOpen] = React.useState(true);
   const location = useLocation();
   const mainContentRef = React.useRef(null);
@@ -38,7 +56,7 @@ function Admin() {
       if (prop.collapse) {
         return getRoutes(prop.views);
       }
-      if (prop.layout === "/admin") {
+      if (prop.layout === `/${role}`) {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -79,7 +97,7 @@ function Admin() {
   return (
     <>
       <Sidebar
-        routes={routes}
+        routes={role === "admin" ? adminRoutes : routes}
         toggleSidenav={toggleSidenav}
         sidenavOpen={sidenavOpen}
         logo={{
@@ -88,7 +106,7 @@ function Admin() {
           imgAlt: "...",
         }}
       />
-      <div className="main-content" ref={mainContentRef}>
+      <div className='main-content' ref={mainContentRef}>
         <AdminNavbar
           theme={getNavbarTheme()}
           toggleSidenav={toggleSidenav}
@@ -96,13 +114,14 @@ function Admin() {
           brandText={getBrandText(location.pathname)}
         />
         <Switch>
-          {getRoutes(routes)}
-          <Redirect from="*" to="/admin/dashboard" />
+          {role === "admin" ? getRoutes(adminRoutes) : getRoutes(routes)}
+
+          <Redirect from='*' to={`/${role}/dashboard`} />
         </Switch>
         <AdminFooter />
       </div>
       {sidenavOpen ? (
-        <div className="backdrop d-xl-none" onClick={toggleSidenav} />
+        <div className='backdrop d-xl-none' onClick={toggleSidenav} />
       ) : null}
     </>
   );

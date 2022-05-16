@@ -14,7 +14,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useState } from "react";
 // nodejs library that concatenates classes
 import classnames from "classnames";
 // reactstrap components
@@ -33,23 +33,43 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { useDispatch } from "react-redux";
+import { signIn } from "../../../Redux/actions/auth.actions";
+import { Redirect, Route } from "react-router-dom";
+// import history from "../../../History";
+import { useHistory } from "react-router";
 // core components
 import AuthHeader from "components/Headers/AuthHeader.js";
 
 function Login() {
-  const [focusedEmail, setfocusedEmail] = React.useState(false);
-  const [focusedPassword, setfocusedPassword] = React.useState(false);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const [focusedEmail, setfocusedEmail] = useState(false);
+  const [focusedPassword, setfocusedPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async () => {
+    const res = await dispatch(signIn(email, password));
+    console.log("HandleSubmit");
+    console.log(res);
+
+    if (!res) {
+      history.push("/admin");
+    }
+  };
+
   return (
     <>
       <AuthHeader
-        title="Welcome!"
-        lead="Use these awesome forms to login or create new account in your project for free."
+        title='Welcome!'
+        lead='Use these awesome forms to login or create new account in your project for free.'
       />
-      <Container className="mt--8 pb-5">
-        <Row className="justify-content-center">
-          <Col lg="5" md="7">
-            <Card className="bg-secondary border-0 mb-0">
-              <CardHeader className="bg-transparent pb-5">
+      <Container className='mt--8 pb-5'>
+        <Row className='justify-content-center'>
+          <Col lg='5' md='7'>
+            <Card className='bg-secondary border-0 mb-0'>
+              {/* <CardHeader className="bg-transparent pb-5">
                 <div className="text-muted text-center mt-2 mb-3">
                   <small>Sign in with</small>
                 </div>
@@ -87,26 +107,28 @@ function Login() {
                     <span className="btn-inner--text">Google</span>
                   </Button>
                 </div>
-              </CardHeader>
-              <CardBody className="px-lg-5 py-lg-5">
-                <div className="text-center text-muted mb-4">
-                  <small>Or sign in with credentials</small>
+              </CardHeader> */}
+              <CardBody className='px-lg-5 py-lg-5'>
+                <div className='text-center text-muted mb-4'>
+                  <small>Sign in with credentials</small>
                 </div>
-                <Form role="form">
+                <Form role='form'>
                   <FormGroup
                     className={classnames("mb-3", {
                       focused: focusedEmail,
-                    })}
-                  >
-                    <InputGroup className="input-group-merge input-group-alternative">
-                      <InputGroupAddon addonType="prepend">
+                    })}>
+                    <InputGroup className='input-group-merge input-group-alternative'>
+                      <InputGroupAddon addonType='prepend'>
                         <InputGroupText>
-                          <i className="ni ni-email-83" />
+                          <i className='ni ni-email-83' />
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input
-                        placeholder="Email"
-                        type="email"
+                        placeholder='Email'
+                        type='email'
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                        }}
                         onFocus={() => setfocusedEmail(true)}
                         onBlur={() => setfocusedEmail(true)}
                       />
@@ -115,62 +137,64 @@ function Login() {
                   <FormGroup
                     className={classnames({
                       focused: focusedPassword,
-                    })}
-                  >
-                    <InputGroup className="input-group-merge input-group-alternative">
-                      <InputGroupAddon addonType="prepend">
+                    })}>
+                    <InputGroup className='input-group-merge input-group-alternative'>
+                      <InputGroupAddon addonType='prepend'>
                         <InputGroupText>
-                          <i className="ni ni-lock-circle-open" />
+                          <i className='ni ni-lock-circle-open' />
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input
-                        placeholder="Password"
-                        type="password"
+                        placeholder='Password'
+                        type='password'
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                        }}
                         onFocus={() => setfocusedPassword(true)}
                         onBlur={() => setfocusedPassword(true)}
                       />
                     </InputGroup>
                   </FormGroup>
-                  <div className="custom-control custom-control-alternative custom-checkbox">
+                  {/* <div className='custom-control custom-control-alternative custom-checkbox'>
                     <input
-                      className="custom-control-input"
-                      id=" customCheckLogin"
-                      type="checkbox"
+                      className='custom-control-input'
+                      id=' customCheckLogin'
+                      type='checkbox'
                     />
                     <label
-                      className="custom-control-label"
-                      htmlFor=" customCheckLogin"
-                    >
-                      <span className="text-muted">Remember me</span>
+                      className='custom-control-label'
+                      htmlFor=' customCheckLogin'>
+                      <span className='text-muted'>Remember me</span>
                     </label>
-                  </div>
-                  <div className="text-center">
-                    <Button className="my-4" color="info" type="button">
+                  </div> */}
+                  <div className='text-center'>
+                    <Button
+                      className='my-4'
+                      color='info'
+                      type='button'
+                      onClick={handleSubmit}>
                       Sign in
                     </Button>
                   </div>
                 </Form>
               </CardBody>
             </Card>
-            <Row className="mt-3">
-              <Col xs="6">
+            <Row className='mt-3'>
+              <Col xs='6'>
                 <a
-                  className="text-light"
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <small>Forgot password?</small>
-                </a>
-              </Col>
-              <Col className="text-right" xs="6">
-                <a
-                  className="text-light"
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
+                  className='text-light'
+                  onClick={() => history.push("/register")}>
                   <small>Create new account</small>
                 </a>
               </Col>
+              {/* <Col className='text-right' xs='6'>
+                <a
+                  className='text-light'
+                  href='#pablo'
+                  onClick={(e) => e.preventDefault()}>
+                  <small>Create new account</small>
+                </a>
+              </Col> */}
             </Row>
           </Col>
         </Row>

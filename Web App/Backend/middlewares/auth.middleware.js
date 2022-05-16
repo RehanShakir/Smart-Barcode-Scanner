@@ -15,16 +15,14 @@ exports.userAuth = async (req, res, next) => {
   try {
     const token =
       req.headers["x-access-token"] ||
-      req?.headers?.authorization?.split("")[1];
+      req?.headers?.authorization?.split(" ")[1];
 
-    // console.log(req?.headers?.authorization?.split("")[1]);
-    // console.log("NEW LIIne");
-    // console.log(req?.headers?.authorization?.split("")[1]);
+    console.log(token);
 
     if (!token || token === "null") {
       return res.status(500).json("Login first to access the resource.");
     }
-    const decode = verify(token, process.env.JWT_SECRET);
+    const decode = jwt.verify(token, process.env.JWT_SECRET);
 
     const user = await User.findOne({ _id: decode.id });
     if (!user) {
@@ -32,7 +30,7 @@ exports.userAuth = async (req, res, next) => {
         .status(401)
         .json({ message: "Token expired, please generate new one" });
     }
-    req.user = await User.findById(decoded.id);
+    req.user = await User.findById(decode.id);
   } catch (error) {
     return res.status(400).json({
       message: "There is a problem with your token, please login again",
