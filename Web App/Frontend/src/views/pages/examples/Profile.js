@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Card,
@@ -9,24 +9,67 @@ import {
   FormGroup,
   Form,
   Input,
-  ListGroupItem,
-  ListGroup,
-  Progress,
   Container,
   Row,
   Col,
 } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
+import SimpleHeader from "components/Headers/SimpleHeader.js";
+import {
+  getScannedCountLoggedInUser,
+  getCounts,
+} from "../../../Axios/apiFunctions";
+import { useQuery } from "react-query";
+import { updateUserProfile } from "Redux/actions/auth.actions";
+import { notification } from "antd";
 
 // core components
-import ProfileHeader from "components/Headers/ProfileHeader.js";
+// import ProfileHeader from "components/Headers/ProfileHeader.js";
 
 function Profile() {
+  const [disabled, setDisabled] = useState(true);
   const authState = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const [fullName, setFullname] = useState(authState.fullName);
+  const [oldPassword, setOldPassword] = useState("");
+
+  const [newPassword, setNewPassword] = useState("");
+
+  const [email, setEmail] = useState(authState.email);
+
+  const { data } = useQuery(
+    authState.role === "admin" ? "getCount" : "getScannedCountLoggedInUser",
+    () =>
+      authState.role === "admin" ? getCounts() : getScannedCountLoggedInUser()
+  );
+  console.log(data);
+
+  const handleSubmit = async () => {
+    if (!oldPassword) {
+      notification["error"]({
+        message: "Old Password is required to update your account",
+      });
+      return;
+    }
+    await dispatch(
+      updateUserProfile({
+        fullName: fullName ? fullName : authState.fullName,
+        email: email ? email : authState.email,
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+      })
+    );
+  };
+
+  console.log(data?.data?.scannedBarcodes);
 
   return (
     <>
-      <ProfileHeader />
+      <SimpleHeader
+        name={authState.role === "admin" ? "Admin" : "Client"}
+        parentName='Settings'
+      />
+
       <Container className='mt--6' fluid>
         <Row>
           <Col className='order-xl-2' xl='4'>
@@ -43,14 +86,14 @@ function Profile() {
                       <img
                         alt='...'
                         className='rounded-circle'
-                        src={require("assets/img/theme/team-4.jpg").default}
+                        src={require("assets/img/theme/avatar.png").default}
                       />
                     </a>
                   </div>
                 </Col>
               </Row>
               <CardHeader className='text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4'>
-                <div className='d-flex justify-content-between'>
+                {/* <div className='d-flex justify-content-between'>
                   <Button
                     className='mr-4'
                     color='info'
@@ -67,13 +110,13 @@ function Profile() {
                     size='sm'>
                     Message
                   </Button>
-                </div>
+                </div> */}
               </CardHeader>
               <CardBody className='pt-0'>
                 <Row>
                   <div className='col'>
                     <div className='card-profile-stats d-flex justify-content-center'>
-                      <div>
+                      {/* <div>
                         <span className='heading'>22</span>
                         <span className='description'>Friends</span>
                       </div>
@@ -84,7 +127,7 @@ function Profile() {
                       <div>
                         <span className='heading'>89</span>
                         <span className='description'>Comments</span>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </Row>
@@ -99,17 +142,27 @@ function Profile() {
                   </div>
                   <div className='h5 mt-4'>
                     <i className='ni business_briefcase-24 mr-2' />
+                    {authState.role === "client"
+                      ? "Assigned Buttons" +
+                        " " +
+                        authState.assignedButtons?.map((d) => {
+                          return d.value;
+                        })
+                      : ""}
+                  </div>
+                  <div className='h5 mt-4'>
+                    <i className='ni business_briefcase-24 mr-2' />
                     {authState.role.toUpperCase()} ACCOUNT
                   </div>
-                  <div>
+                  {/* <div>
                     <i className='ni education_hat mr-2' />
                     University of Computer Science
-                  </div>
+                  </div> */}
                 </div>
               </CardBody>
             </Card>
 
-            <Card>
+            {/* <Card>
               <CardHeader>
                 <h5 className='h3 mb-0'>Progress track</h5>
               </CardHeader>
@@ -242,7 +295,7 @@ function Profile() {
                   </ListGroupItem>
                 </ListGroup>
               </CardBody>
-            </Card>
+            </Card> */}
           </Col>
           <Col className='order-xl-1' xl='8'>
             <Row>
@@ -254,10 +307,12 @@ function Profile() {
                         <CardTitle
                           className='text-uppercase text-muted mb-0 text-white'
                           tag='h5'>
-                          Total traffic
+                          Total Scanned Barcodes
                         </CardTitle>
                         <span className='h2 font-weight-bold mb-0 text-white'>
-                          350,897
+                          {authState.role === "admin"
+                            ? data?.data?.scannedBarcodes
+                            : data?.data?.count}
                         </span>
                       </div>
                       <Col className='col-auto'>
@@ -266,7 +321,7 @@ function Profile() {
                         </div>
                       </Col>
                     </Row>
-                    <p className='mt-3 mb-0 text-sm'>
+                    {/* <p className='mt-3 mb-0 text-sm'>
                       <span className='text-white mr-2'>
                         <i className='fa fa-arrow-up' />
                         3.48%
@@ -274,7 +329,7 @@ function Profile() {
                       <span className='text-nowrap text-light'>
                         Since last month
                       </span>
-                    </p>
+                    </p> */}
                   </CardBody>
                 </Card>
               </Col>
@@ -284,10 +339,10 @@ function Profile() {
                     <Row>
                       <div className='col'>
                         <CardTitle className='text-uppercase text-muted mb-0 text-white'>
-                          Performance
+                          Account Status
                         </CardTitle>
                         <span className='h2 font-weight-bold mb-0 text-white'>
-                          49,65%
+                          Approved
                         </span>
                       </div>
                       <Col className='col-auto'>
@@ -296,7 +351,7 @@ function Profile() {
                         </div>
                       </Col>
                     </Row>
-                    <p className='mt-3 mb-0 text-sm'>
+                    {/* <p className='mt-3 mb-0 text-sm'>
                       <span className='text-white mr-2'>
                         <i className='fa fa-arrow-up' />
                         3.48%
@@ -304,7 +359,7 @@ function Profile() {
                       <span className='text-nowrap text-light'>
                         Since last month
                       </span>
-                    </p>
+                    </p> */}
                   </CardBody>
                 </Card>
               </Col>
@@ -318,10 +373,11 @@ function Profile() {
                   <Col className='text-right' xs='4'>
                     <Button
                       color='primary'
-                      href='#pablo'
-                      onClick={(e) => e.preventDefault()}
+                      onClick={() =>
+                        disabled ? setDisabled(false) : setDisabled(true)
+                      }
                       size='sm'>
-                      Settings
+                      Edit
                     </Button>
                   </Col>
                 </Row>
@@ -341,13 +397,16 @@ function Profile() {
                             Username
                           </label>
                           <Input
-                            defaultValue='lucky.jesse'
+                            defaultValue={authState.fullName}
                             id='input-username'
                             placeholder='Username'
                             type='text'
+                            disabled={disabled}
+                            onChange={(e) => setFullname(e.target.value)}
                           />
                         </FormGroup>
                       </Col>
+
                       <Col lg='6'>
                         <FormGroup>
                           <label
@@ -356,14 +415,66 @@ function Profile() {
                             Email address
                           </label>
                           <Input
+                            defaultValue={authState.email}
                             id='input-email'
                             placeholder='jesse@example.com'
                             type='email'
+                            onChange={(e) => {
+                              setEmail(e.target.value);
+                            }}
+                            disabled={disabled}
                           />
                         </FormGroup>
                       </Col>
+                      <Col lg='6'>
+                        <FormGroup>
+                          <label
+                            className='form-control-label'
+                            htmlFor='input-email'>
+                            Old Password
+                          </label>
+                          <Input
+                            // defaultValue={authState.email}
+                            id='input-email'
+                            placeholder='*****'
+                            type='password'
+                            disabled={disabled}
+                            onChange={(e) => {
+                              setOldPassword(e.target.value);
+                            }}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg='6'>
+                        <FormGroup>
+                          <label
+                            className='form-control-label'
+                            htmlFor='input-email'>
+                            New Password
+                          </label>
+                          <Input
+                            // defaultValue={authState.email}
+                            id='input-email'
+                            placeholder='*****'
+                            type='password'
+                            disabled={disabled}
+                            onChange={(e) => {
+                              setNewPassword(e.target.value);
+                            }}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <Button
+                          color='primary'
+                          type='button'
+                          onClick={handleSubmit}
+                          disabled={disabled}>
+                          Update
+                        </Button>
+                      </Col>
                     </Row>
-                    <Row>
+                    {/* <Row>
                       <Col lg='6'>
                         <FormGroup>
                           <label
@@ -394,11 +505,11 @@ function Profile() {
                           />
                         </FormGroup>
                       </Col>
-                    </Row>
+                    </Row> */}
                   </div>
                   <hr className='my-4' />
 
-                  <h6 className='heading-small text-muted mb-4'>
+                  {/* <h6 className='heading-small text-muted mb-4'>
                     Contact information
                   </h6>
                   <div className='pl-lg-4'>
@@ -479,7 +590,7 @@ function Profile() {
                         defaultValue='A beautiful premium dashboard for Bootstrap 4.'
                       />
                     </FormGroup>
-                  </div>
+                  </div> */}
                 </Form>
               </CardBody>
             </Card>

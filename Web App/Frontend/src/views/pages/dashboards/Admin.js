@@ -1,36 +1,36 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React from "react";
 // node.js library that concatenates classes (strings)
-import classnames from "classnames";
+// import classnames from "classnames";
 // javascipt plugin for creating charts
-import { Chart } from "chart.js";
+// import { Chart } from "chart.js";
 // react plugin used to create charts
-import { Line, Bar } from "react-chartjs-2";
-// reactstrap components
-import {
-  Badge,
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle,
-  UncontrolledDropdown,
-  Form,
-  Input,
-  ListGroupItem,
-  ListGroup,
-  Media,
-  NavItem,
-  NavLink,
-  Nav,
-  Progress,
-  Table,
-  Container,
-  Row,
-  Col,
-  UncontrolledTooltip,
-} from "reactstrap";
+// import { Line, Bar } from "react-chartjs-2";
+// // reactstrap components
+// import {
+//   Badge,
+//   Button,
+//   Card,
+//   CardHeader,
+//   CardBody,
+//   DropdownMenu,
+//   DropdownItem,
+//   DropdownToggle,
+//   UncontrolledDropdown,
+//   Form,
+//   Input,
+//   ListGroupItem,
+//   ListGroup,
+//   Media,
+//   NavItem,
+//   NavLink,
+//   Nav,
+//   Progress,
+//   Table,
+//   Container,
+//   Row,
+//   Col,
+//   UncontrolledTooltip,
+// } from "reactstrap";
 
 // core components
 import CardsHeader from "components/Headers/CardsHeader.js";
@@ -38,27 +38,26 @@ import ReactBSTables from "../tables/ReactBSTables";
 import { useQuery } from "react-query";
 import { getCounts, getScannedData } from "../../../Axios/apiFunctions";
 
-import {
-  chartOptions,
-  parseOptions,
-  chartExample1,
-  chartExample2,
-} from "variables/charts.js";
+// import {
+//   chartOptions,
+//   parseOptions,
+//   chartExample1,
+//   chartExample2,
+// } from "variables/charts.js";
 
 function Dashboard() {
-  const [activeNav, setActiveNav] = React.useState(1);
-  const [chartExample1Data, setChartExample1Data] = React.useState("data1");
-  const toggleNavs = (e, index) => {
-    e.preventDefault();
-    setActiveNav(index);
-    setChartExample1Data(chartExample1Data === "data1" ? "data2" : "data1");
-  };
-  if (window.Chart) {
-    parseOptions(Chart, chartOptions());
-  }
+  // const [activeNav, setActiveNav] = React.useState(1);
+  // const [chartExample1Data, setChartExample1Data] = React.useState("data1");
+  // const toggleNavs = (e, index) => {
+  //   e.preventDefault();
+  //   setActiveNav(index);
+  //   setChartExample1Data(chartExample1Data === "data1" ? "data2" : "data1");
+  // };
+  // if (window.Chart) {
+  //   parseOptions(Chart, chartOptions());
+  // }
 
-  const { isLoading: loading, data } = useQuery("getCounts", () => getCounts());
-  console.log(data);
+  const { data } = useQuery("getCounts", () => getCounts());
 
   const { isLoading: dataLoading, data: scannedData } = useQuery(
     "getScannedData",
@@ -66,7 +65,6 @@ function Dashboard() {
   );
 
   const barcodeData3 = (data, index) => {
-    console.log(data);
     return {
       key: index,
       name: data.userId.fullName,

@@ -21,7 +21,6 @@ import classnames from "classnames";
 import {
   Button,
   Card,
-  CardHeader,
   CardBody,
   FormGroup,
   Form,
@@ -36,7 +35,7 @@ import {
 // core components
 import AuthHeader from "components/Headers/AuthHeader.js";
 import { useDispatch } from "react-redux";
-import { signUp, signIn } from "../../../Redux/actions/auth.actions";
+import { signUp } from "../../../Redux/actions/auth.actions";
 import { useHistory } from "react-router";
 
 function Register() {

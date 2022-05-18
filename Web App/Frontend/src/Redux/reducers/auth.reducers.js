@@ -1,4 +1,4 @@
-import { SIGN_OUT, SIGN_UP, SIGN_IN, LOAD_PROF } from "../types";
+import { SIGN_OUT, SIGN_UP, SIGN_IN, LOAD_PROF, UPDATE_PROF } from "../types";
 
 const INITIAL_STATE = {
   isSignedIn: false,
@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   email: "",
   role: "client",
   status: "",
+  assignedButtons: [],
 };
 
 const authReducer = (state = INITIAL_STATE, action) => {
@@ -33,7 +34,19 @@ const authReducer = (state = INITIAL_STATE, action) => {
         role: action.payload.role,
         userId: action.payload.userId,
         status: action.payload.status,
+        assignedButtons: action.payload.assignedButtons,
       };
+    case UPDATE_PROF:
+      return {
+        ...state,
+        isSignedIn: true,
+        fullName: action.payload.fullName,
+        email: action.payload.email,
+        role: action.payload.role,
+        userId: action.payload.userId,
+        status: action.payload.status,
+      };
+
     case SIGN_OUT:
       return {
         ...state,

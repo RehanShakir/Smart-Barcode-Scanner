@@ -36,3 +36,16 @@ exports.getData = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+/**
+ * Get Total Scanned Barcodes of Logged In User
+ * @param {Request} req - request object
+ * @param {Response} res - response object
+ */
+exports.scannedBarcodesCount = async (req, res) => {
+  try {
+    const count = await Scanner.countDocuments({ userId: req.user._id });
+    return res.status(200).json({ count });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};

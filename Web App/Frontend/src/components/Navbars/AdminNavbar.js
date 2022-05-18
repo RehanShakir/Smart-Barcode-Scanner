@@ -88,7 +88,7 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
       <Navbar
         className={classnames(
           "navbar-top navbar-expand border-bottom",
-          { "navbar-dark bg-info": theme === "dark" },
+          { "navbar-dark bg-primary": theme === "dark" },
           { "navbar-light bg-secondary": theme === "light" }
         )}>
         <Container fluid>
@@ -99,7 +99,7 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
                 { "navbar-search-light": theme === "dark" },
                 { "navbar-search-dark": theme === "light" }
               )}>
-              <FormGroup className='mb-0'>
+              {/* <FormGroup className='mb-0'>
                 <InputGroup className='input-group-alternative input-group-merge'>
                   <InputGroupAddon addonType='prepend'>
                     <InputGroupText>
@@ -108,7 +108,7 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
                   </InputGroupAddon>
                   <Input placeholder='Search' type='text' />
                 </InputGroup>
-              </FormGroup>
+              </FormGroup> */}
               <button
                 aria-label='Close'
                 className='close'
@@ -134,7 +134,7 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
                   </div>
                 </div>
               </NavItem>
-              <NavItem className='d-sm-none'>
+              {/* <NavItem className='d-sm-none'>
                 <NavLink onClick={openSearch}>
                   <i className='ni ni-zoom-split-in' />
                 </NavLink>
@@ -178,118 +178,6 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
                           </div>
                           <p className='text-sm mb-0'>
                             Let's meet at Starbucks at 11:30. Wdyt?
-                          </p>
-                        </div>
-                      </Row>
-                    </ListGroupItem>
-                    <ListGroupItem
-                      className='list-group-item-action'
-                      href='#pablo'
-                      onClick={(e) => e.preventDefault()}
-                      tag='a'>
-                      <Row className='align-items-center'>
-                        <Col className='col-auto'>
-                          <img
-                            alt='...'
-                            className='avatar rounded-circle'
-                            src={require("assets/img/theme/team-2.jpg").default}
-                          />
-                        </Col>
-                        <div className='col ml--2'>
-                          <div className='d-flex justify-content-between align-items-center'>
-                            <div>
-                              <h4 className='mb-0 text-sm'>John Snow</h4>
-                            </div>
-                            <div className='text-right text-muted'>
-                              <small>3 hrs ago</small>
-                            </div>
-                          </div>
-                          <p className='text-sm mb-0'>
-                            A new issue has been reported for Argon.
-                          </p>
-                        </div>
-                      </Row>
-                    </ListGroupItem>
-                    <ListGroupItem
-                      className='list-group-item-action'
-                      href='#pablo'
-                      onClick={(e) => e.preventDefault()}
-                      tag='a'>
-                      <Row className='align-items-center'>
-                        <Col className='col-auto'>
-                          <img
-                            alt='...'
-                            className='avatar rounded-circle'
-                            src={require("assets/img/theme/team-3.jpg").default}
-                          />
-                        </Col>
-                        <div className='col ml--2'>
-                          <div className='d-flex justify-content-between align-items-center'>
-                            <div>
-                              <h4 className='mb-0 text-sm'>John Snow</h4>
-                            </div>
-                            <div className='text-right text-muted'>
-                              <small>5 hrs ago</small>
-                            </div>
-                          </div>
-                          <p className='text-sm mb-0'>
-                            Your posts have been liked a lot.
-                          </p>
-                        </div>
-                      </Row>
-                    </ListGroupItem>
-                    <ListGroupItem
-                      className='list-group-item-action'
-                      href='#pablo'
-                      onClick={(e) => e.preventDefault()}
-                      tag='a'>
-                      <Row className='align-items-center'>
-                        <Col className='col-auto'>
-                          <img
-                            alt='...'
-                            className='avatar rounded-circle'
-                            src={require("assets/img/theme/team-4.jpg").default}
-                          />
-                        </Col>
-                        <div className='col ml--2'>
-                          <div className='d-flex justify-content-between align-items-center'>
-                            <div>
-                              <h4 className='mb-0 text-sm'>John Snow</h4>
-                            </div>
-                            <div className='text-right text-muted'>
-                              <small>2 hrs ago</small>
-                            </div>
-                          </div>
-                          <p className='text-sm mb-0'>
-                            Let's meet at Starbucks at 11:30. Wdyt?
-                          </p>
-                        </div>
-                      </Row>
-                    </ListGroupItem>
-                    <ListGroupItem
-                      className='list-group-item-action'
-                      href='#pablo'
-                      onClick={(e) => e.preventDefault()}
-                      tag='a'>
-                      <Row className='align-items-center'>
-                        <Col className='col-auto'>
-                          <img
-                            alt='...'
-                            className='avatar rounded-circle'
-                            src={require("assets/img/theme/team-5.jpg").default}
-                          />
-                        </Col>
-                        <div className='col ml--2'>
-                          <div className='d-flex justify-content-between align-items-center'>
-                            <div>
-                              <h4 className='mb-0 text-sm'>John Snow</h4>
-                            </div>
-                            <div className='text-right text-muted'>
-                              <small>3 hrs ago</small>
-                            </div>
-                          </div>
-                          <p className='text-sm mb-0'>
-                            A new issue has been reported for Argon.
                           </p>
                         </div>
                       </Row>
@@ -380,9 +268,9 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
                     </Col>
                   </Row>
                 </DropdownMenu>
-              </UncontrolledDropdown>
+              </UncontrolledDropdown> */}
             </Nav>
-            <Nav className='align-items-center ml-auto ml-md-0' navbar>
+            {/* <Nav className='align-items-center ml-auto ml-md-0' navbar>
               <UncontrolledDropdown nav>
                 <DropdownToggle className='nav-link pr-0' color='' tag='a'>
                   <Media className='align-items-center'>
@@ -403,9 +291,9 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
                   <DropdownItem className='noti-title' header tag='div'>
                     <h6 className='text-overflow m-0'>Welcome!</h6>
                   </DropdownItem>
-                  <DropdownItem onClick={() => history.push("/client/profile")}>
+                  <DropdownItem>
                     <i className='ni ni-single-02' />
-                    <span>My profile</span>
+                    <span>{authState.role}</span>
                   </DropdownItem>
                   <DropdownItem
                     href='#pablo'
@@ -432,7 +320,7 @@ function AdminNavbar({ theme, sidenavOpen, toggleSidenav }) {
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
-            </Nav>
+            </Nav> */}
           </Collapse>
         </Container>
       </Navbar>

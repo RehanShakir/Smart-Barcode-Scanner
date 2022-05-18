@@ -1,6 +1,15 @@
-import { SIGN_UP, SIGN_IN, LOAD_PROF, SIGN_OUT } from "../types";
+import {
+  SIGN_UP,
+  SIGN_IN,
+  LOAD_PROF,
+  SIGN_OUT,
+  UPDATE_PROF,
+  REFRESH,
+} from "../types";
 import server from "../../Axios/index";
 import { notification } from "antd";
+import { QueryCache } from "react-query";
+import { updateProfile } from "Axios/apiFunctions";
 
 import { saveToken, deleteToken } from "../localstorage";
 
@@ -36,7 +45,6 @@ export const signIn = (email, password) => {
         saveToken(res.data.token);
         dispatch({ type: SIGN_IN, payload: res.data });
       }
-      console.log(res.response.status);
     } catch (error) {
       if (error.response.status === 500) {
         notification["error"]({
@@ -64,7 +72,31 @@ export const loadProfile = (token) => {
   };
 };
 
+export const updateUserProfile = (formValues) => {
+  return async (dispatch) => {
+    try {
+      console.log(formValues);
+      const res = await updateProfile(formValues);
+      if (res.status === 200) {
+        notification["success"]({
+          message: `${res.data.message}`,
+        });
+      }
+      dispatch({ type: UPDATE_PROF, payload: res.data.data });
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
+};
+
 export const signOut = () => {
+  const queryCache = new QueryCache();
+  queryCache.clear();
   deleteToken();
   return { type: SIGN_OUT };
+};
+
+export const refresh = () => {
+  console.log(`Refreshing`);
+  return { type: REFRESH };
 };

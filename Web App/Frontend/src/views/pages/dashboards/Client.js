@@ -1,79 +1,61 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React from "react";
 // node.js library that concatenates classes (strings)
-import classnames from "classnames";
+// import classnames from "classnames";
 // javascipt plugin for creating charts
-import { Chart } from "chart.js";
+// import { Chart } from "chart.js";
 // react plugin used to create charts
-import { Line, Bar } from "react-chartjs-2";
-// reactstrap components
-import {
-  Badge,
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle,
-  UncontrolledDropdown,
-  Form,
-  Input,
-  ListGroupItem,
-  ListGroup,
-  Media,
-  NavItem,
-  NavLink,
-  Nav,
-  Progress,
-  Table,
-  Container,
-  Row,
-  Col,
-  UncontrolledTooltip,
-} from "reactstrap";
+// import { Line, Bar } from "react-chartjs-2";
+// // reactstrap components
+// import {
+//   Badge,
+//   Button,
+//   Card,
+//   CardHeader,
+//   CardBody,
+//   DropdownMenu,
+//   DropdownItem,
+//   DropdownToggle,
+//   UncontrolledDropdown,
+//   Form,
+//   Input,
+//   ListGroupItem,
+//   ListGroup,
+//   Media,
+//   NavItem,
+//   NavLink,
+//   Nav,
+//   Progress,
+//   Table,
+//   Container,
+//   Row,
+//   Col,
+//   UncontrolledTooltip,
+// } from "reactstrap";
 
 // core components
-import CardsHeader from "components/Headers/CardsHeader.js";
 import SimpleHeader from "components/Headers/SimpleHeader.js";
-import { useDispatch, useSelector } from "react-redux";
-import { getToken } from "../../../Redux/localstorage";
-import { loadProfile } from "../../../Redux/actions/auth.actions";
-import server from "../../../Axios";
 import ReactBSTables from "../tables/ReactBSTables";
 import { useQuery } from "react-query";
 import { getScannedDataLoggedInUser } from "../../../Axios/apiFunctions";
 
-import {
-  chartOptions,
-  parseOptions,
-  chartExample1,
-  chartExample2,
-} from "variables/charts.js";
+// import {
+//   chartOptions,
+//   parseOptions,
+//   // chartExample1,
+//   // chartExample2,
+// } from "variables/charts.js";
 
 function Dashboard() {
-  // const dispatch = useDispatch();
-  // const authState = useSelector((state) => state.auth);
-
-  // const fetchProfile = useCallback(() => {
-  //   const token = getToken();
-  //   if (token && !authState.isSignedIn) {
-  //     dispatch(loadProfile(token));
-  //   }
-  // }, [authState.isSignedIn, dispatch]);
-  // useEffect(() => {
-  //   fetchProfile();
-  // }, [fetchProfile]);
-
-  const [activeNav, setActiveNav] = React.useState(1);
-  const [chartExample1Data, setChartExample1Data] = React.useState("data1");
-  const toggleNavs = (e, index) => {
-    e.preventDefault();
-    setActiveNav(index);
-    setChartExample1Data(chartExample1Data === "data1" ? "data2" : "data1");
-  };
-  if (window.Chart) {
-    parseOptions(Chart, chartOptions());
-  }
+  // const [activeNav, setActiveNav] = useState(1);
+  // const [chartExample1Data, setChartExample1Data] = useState("data1");
+  // const toggleNavs = (e, index) => {
+  //   e.preventDefault();
+  //   setActiveNav(index);
+  //   setChartExample1Data(chartExample1Data === "data1" ? "data2" : "data1");
+  // };
+  // if (window.Chart) {
+  //   parseOptions(Chart, chartOptions());
+  // }
 
   const { isLoading: dataLoading, data: scannedData } = useQuery(
     "getScannedDataOfLoggedInUser",
@@ -105,12 +87,13 @@ function Dashboard() {
 
   return (
     <>
-      <SimpleHeader name='Client' parentName='Tables' />
+      <SimpleHeader name='Client' parentName='Table' />
       {dataLoading || (
         <ReactBSTables
           columns={columns}
           dataTable={scannedData?.data?.scannedData?.map(barcodeData3)}
           name='Client'
+          tableTitle='Scanned Barcode Data'
         />
       )}
 

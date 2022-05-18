@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const fileupload = require("express-fileupload");
 const bodyParser = require("body-parser");
 const apiRouter = require("./routes/routes");
+const path = require("path");
 
 // === Improved Security ===
 const xss = require("xss-clean");
@@ -33,6 +34,13 @@ app.use(morgan("dev"));
 
 // Running API Routes
 app.use("/api", apiRouter);
+
+//Frontend Build Route
+app.use("/", express.static(path.join(__dirname, "../Frontend/build")));
+
+app.get("/*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../Frontend/build/index.html"));
+});
 
 // === Enabling file uplod
 app.use(fileupload());

@@ -1,8 +1,13 @@
 const express = require("express");
 const { Router } = express;
 const controller = require("../controllers/admin/admin.controller");
-const { dashboardCounts, getAllUsers, statusUpdate, getScannedData } =
-  controller;
+const {
+  dashboardCounts,
+  getAllUsers,
+  statusUpdate,
+  getScannedData,
+  updateButtons,
+} = controller;
 
 const router = Router();
 
@@ -26,4 +31,11 @@ router.patch("/update-status/:userId", statusUpdate);
  * Get All Scanned Data
  */
 router.get("/scanned-data", getScannedData);
+
+/**
+ * Update Buttons
+ * @body
+ * selectedButtonsByAdmin - array
+ */
+router.patch("/update-buttons/:id", updateButtons);
 module.exports = router;

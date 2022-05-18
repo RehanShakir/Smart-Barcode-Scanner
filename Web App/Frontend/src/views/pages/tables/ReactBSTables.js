@@ -23,6 +23,9 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 // react component used to create sweet alerts
 import ReactBSAlert from "react-bootstrap-sweetalert";
+import { refresh } from "Redux/actions/auth.actions";
+import { useDispatch } from "react-redux";
+
 // reactstrap components
 import {
   Button,
@@ -35,7 +38,6 @@ import {
   UncontrolledTooltip,
 } from "reactstrap";
 // core components
-import SimpleHeader from "components/Headers/SimpleHeader.js";
 
 // import { dataTable } from "variables/general";
 
@@ -69,6 +71,7 @@ const pagination = paginationFactory({
 const { SearchBar } = Search;
 
 function ReactBSTables({ name, columns, dataTable, tableTitle }) {
+  const dispatch = useDispatch();
   const [alert, setAlert] = React.useState(null);
   const componentRef = React.useRef(null);
   // this function will copy to clipboard an entire table,
@@ -187,6 +190,17 @@ function ReactBSTables({ name, columns, dataTable, tableTitle }) {
             <Card>
               <CardHeader>
                 <h3 className='mb-0'>{tableTitle}</h3>
+                <Col className='mt-5 mt-md-0 text-md-right'>
+                  <Button
+                    className='btn-neutral '
+                    color='default'
+                    size='sm'
+                    onClick={() => {
+                      dispatch(refresh());
+                    }}>
+                    Refresh
+                  </Button>
+                </Col>
                 {/* <p className='text-sm mb-0'>
                   This is an exmaple of data table using the well known
                   react-bootstrap-table2 plugin. This is a minimal setup in

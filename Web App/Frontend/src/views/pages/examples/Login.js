@@ -21,7 +21,7 @@ import classnames from "classnames";
 import {
   Button,
   Card,
-  CardHeader,
+  // CardHeader,
   CardBody,
   FormGroup,
   Form,
@@ -33,17 +33,17 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signIn } from "../../../Redux/actions/auth.actions";
-import { Redirect, Route } from "react-router-dom";
-// import history from "../../../History";
 import { useHistory } from "react-router";
+import AuthFooter from "../../../components/Footers/AuthFooter";
 // core components
 import AuthHeader from "components/Headers/AuthHeader.js";
 
 function Login() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const authState = useSelector((state) => state.auth);
   const [focusedEmail, setfocusedEmail] = useState(false);
   const [focusedPassword, setfocusedPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -55,7 +55,11 @@ function Login() {
     console.log(res);
 
     if (!res) {
-      history.push("/admin");
+      console.log("Pushing");
+
+      authState.role === "admin"
+        ? history.push("/admin")
+        : history.push("/client");
     }
   };
 
@@ -63,7 +67,7 @@ function Login() {
     <>
       <AuthHeader
         title='Welcome!'
-        lead='Use these awesome forms to login or create new account in your project for free.'
+        lead='Login with your credentials to access the dashboard'
       />
       <Container className='mt--8 pb-5'>
         <Row className='justify-content-center'>
@@ -176,17 +180,24 @@ function Login() {
                       Sign in
                     </Button>
                   </div>
+                  <div className='text-center'>
+                    <small>
+                      Don't have an account?{" "}
+                      <Button
+                        className='my-3'
+                        color='primary'
+                        size='sm'
+                        type='button'
+                        onClick={() => history.push("/register")}>
+                        Sign Up
+                      </Button>
+                    </small>
+                  </div>
                 </Form>
               </CardBody>
             </Card>
             <Row className='mt-3'>
-              <Col xs='6'>
-                <a
-                  className='text-light'
-                  onClick={() => history.push("/register")}>
-                  <small>Create new account</small>
-                </a>
-              </Col>
+              <Col xs='6'></Col>
               {/* <Col className='text-right' xs='6'>
                 <a
                   className='text-light'
@@ -198,6 +209,7 @@ function Login() {
             </Row>
           </Col>
         </Row>
+        <AuthFooter />
       </Container>
     </>
   );

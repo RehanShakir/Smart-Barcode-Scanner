@@ -15,7 +15,7 @@
 
 */
 // nodejs library to set properties for components
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 // reactstrap components
 import {
@@ -23,17 +23,32 @@ import {
   BreadcrumbItem,
   Button,
   Card,
+  DropdownItem,
+  UncontrolledDropdown,
+  Media,
+  DropdownToggle,
   CardBody,
   CardTitle,
   Container,
   Row,
   Col,
+  DropdownMenu,
 } from "reactstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { signOut } from "Redux/actions/auth.actions";
 
 function CardsHeader({ name, parentName, cardsData }) {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const authState = useSelector((state) => state.auth);
+  const logOut = () => {
+    dispatch(signOut());
+    history.push("/auth");
+  };
   return (
     <>
-      <div className='header bg-info pb-6'>
+      <div className='header bg-primary pb-6'>
         <Container fluid>
           <div className='header-body'>
             <Row className='align-items-center py-4'>
@@ -58,22 +73,47 @@ function CardsHeader({ name, parentName, cardsData }) {
                 </Breadcrumb>
               </Col>
               <Col className='text-right' lg='6' xs='5'>
-                <Button
-                  className='btn-neutral'
-                  color='default'
-                  href='#pablo'
-                  onClick={(e) => e.preventDefault()}
-                  size='sm'>
-                  New
-                </Button>
-                <Button
-                  className='btn-neutral'
-                  color='default'
-                  href='#pablo'
-                  onClick={(e) => e.preventDefault()}
-                  size='sm'>
-                  Filters
-                </Button>
+                <UncontrolledDropdown>
+                  <DropdownToggle
+                    className='nav-link pr-0'
+                    color='#ffff'
+                    hover='white'
+                    tag='a'>
+                    <Media className='align-items-center'>
+                      <span className='avatar avatar-sm rounded-circle'>
+                        <img
+                          alt='...'
+                          src={require("assets/img/theme/avatar.png").default}
+                        />
+                      </span>
+                      <Media className='ml-2 d-none d-lg-block'>
+                        <span
+                          className='mb-0 text-sm font-weight-bold '
+                          style={{ color: "white" }}>
+                          {authState.fullName}
+                        </span>
+                      </Media>
+                    </Media>
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem className='noti-title' header tag='div'>
+                      <h6 className='text-overflow m-0'>Welcome!</h6>
+                    </DropdownItem>
+
+                    <DropdownItem
+                      href='#pablo'
+                      onClick={(e) => history.push("/profile")}>
+                      <i className='ni ni-settings-gear-65' />
+                      <span>Settings</span>
+                    </DropdownItem>
+
+                    <DropdownItem divider />
+                    <DropdownItem onClick={() => logOut()}>
+                      <i className='ni ni-user-run' />
+                      <span>Logout</span>
+                    </DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
               </Col>
             </Row>
 
@@ -98,12 +138,12 @@ function CardsHeader({ name, parentName, cardsData }) {
                         </div>
                       </Col>
                     </Row>
-                    <p className='mt-3 mb-0 text-sm'>
+                    {/* <p className='mt-3 mb-0 text-sm'>
                       <span className='text-success mr-2'>
                         <i className='fa fa-arrow-up' /> 3.48%
                       </span>{" "}
                       <span className='text-nowrap'>Since last month</span>
-                    </p>
+                    </p> */}
                   </CardBody>
                 </Card>
               </Col>
@@ -127,12 +167,12 @@ function CardsHeader({ name, parentName, cardsData }) {
                         </div>
                       </Col>
                     </Row>
-                    <p className='mt-3 mb-0 text-sm'>
+                    {/* <p className='mt-3 mb-0 text-sm'>
                       <span className='text-success mr-2'>
                         <i className='fa fa-arrow-up' /> 3.48%
                       </span>{" "}
                       <span className='text-nowrap'>Since last month</span>
-                    </p>
+                    </p> */}
                   </CardBody>
                 </Card>
               </Col>
@@ -156,12 +196,12 @@ function CardsHeader({ name, parentName, cardsData }) {
                         </div>
                       </Col>
                     </Row>
-                    <p className='mt-3 mb-0 text-sm'>
+                    {/* <p className='mt-3 mb-0 text-sm'>
                       <span className='text-success mr-2'>
                         <i className='fa fa-arrow-up' /> 3.48%
                       </span>{" "}
                       <span className='text-nowrap'>Since last month</span>
-                    </p>
+                    </p> */}
                   </CardBody>
                 </Card>
               </Col>
@@ -186,12 +226,12 @@ function CardsHeader({ name, parentName, cardsData }) {
                         </div>
                       </Col>
                     </Row>
-                    <p className='mt-3 mb-0 text-sm'>
+                    {/* <p className='mt-3 mb-0 text-sm'>
                       <span className='text-success mr-2'>
                         <i className='fa fa-arrow-up' /> 3.48%
                       </span>{" "}
                       <span className='text-nowrap'>Since last month</span>
-                    </p>
+                    </p> */}
                   </CardBody>
                 </Card>
               </Col>

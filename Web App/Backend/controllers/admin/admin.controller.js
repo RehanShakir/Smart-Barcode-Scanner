@@ -85,3 +85,26 @@ exports.getScannedData = async (req, res) => {
       .json({ message: `INTERNAL SERVER ERROR: ${error.message}` });
   }
 };
+
+/**
+ * Assign Buttons to user
+ * @param {Request} req - request object
+ * @param {Response} res - response object
+ */
+exports.updateButtons = async (req, res) => {
+  try {
+    const { assignedButtons } = req?.body;
+    console.log(assignedButtons);
+    let user = await User.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        $push: { assignedButtons },
+      },
+      { new: true, upsert: true }
+    );
+
+    return res.status(200).json({ user });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
