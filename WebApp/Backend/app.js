@@ -11,9 +11,6 @@ const xss = require("xss-clean");
 const mongoSanitize = require("express-mongo-sanitize");
 
 const app = express();
-console.log(__dirname);
-console.log(path.resolve(__dirname, "./Frontend/build/index.html"));
-console.log(path.join(__dirname, "./Frontend/build"));
 
 // === DB Connection ===
 
