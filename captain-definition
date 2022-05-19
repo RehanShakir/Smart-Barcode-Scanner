@@ -6,7 +6,7 @@
    "FROM node:14.15.4-alpine",
    "RUN mkdir -p /usr/src/app3",
    "WORKDIR /usr/src/app3",
-   "COPY ./WebApp/Backend /usr/src/app3",
+   "COPY ./WebApp/Backend/ /usr/src/app3",
    "RUN yarn install && yarn cache clean --force",
    
    "ENV NODE_ENV production",
