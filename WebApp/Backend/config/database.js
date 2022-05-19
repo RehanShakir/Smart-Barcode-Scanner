@@ -1,5 +1,12 @@
 const mongoose = require("mongoose");
 
+console.log(
+  process.env.NODE_ENV,
+  "",
+  process.env.MONGO_INITDB_ROOT_USERNAME,
+  "",
+  process.env.MONGO_INITDB_ROOT_PASSWORD
+);
 const options =
   (process.env.NODE_ENV === "development" && {
     useNewUrlParser: true,
