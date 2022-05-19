@@ -10,10 +10,19 @@ const { Request, Response } = express;
  */
 exports.dashboardCounts = async (req, res) => {
   try {
-    const users = await User.countDocuments();
-    const pendingUsers = await User.countDocuments({ status: "pending" });
-    const approvedUsers = await User.countDocuments({ status: "approved" });
-    const rejectedUsers = await User.countDocuments({ status: "rejected" });
+    const users = await User.countDocuments({ role: "client" });
+    const pendingUsers = await User.countDocuments({
+      status: "pending",
+      role: "client",
+    });
+    const approvedUsers = await User.countDocuments({
+      status: "approved",
+      role: "client",
+    });
+    const rejectedUsers = await User.countDocuments({
+      status: "rejected",
+      role: "client",
+    });
     const scannedBarcodes = await Scanner.countDocuments();
     return res.status(200).json({
       users,
