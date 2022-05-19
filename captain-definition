@@ -6,6 +6,7 @@
    "FROM node:14.15.4-alpine",
    "RUN mkdir -p /usr/src/app3",
    "WORKDIR /usr/src/app3",
+   "COPY package.json"
    "COPY ./WebApp/Backend /usr/src/app3",
    "RUN npm install && npm cache clean --force && npm run client:build",
    
