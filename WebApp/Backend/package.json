@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd .. && cd Frontend && npm run build && cd .. && cd Backend && node server.js",
+    "start": "cd .. && cd Frontend && yarn install  && yarn run build && cd .. && cd Backend && node server.js",
     "dev": "NODE_ENV=development nodemon server.js",
     "prod": "NODE_ENV=production nodemon server.js",
     "client": "cd .. && cd Frontend && npm run build"
