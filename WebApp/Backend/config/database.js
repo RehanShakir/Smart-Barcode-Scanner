@@ -13,10 +13,7 @@ const options =
   });
 exports.connect = () => {
   mongoose
-    .connect(process.env.DatabaseURL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
+    .connect(process.env.DatabaseURL, options)
     .then(() => {
       console.log("Database Access Granted");
     })
