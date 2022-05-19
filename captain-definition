@@ -5,9 +5,9 @@
  "dockerfileLines": [
    "FROM node:14.15.4-alpine",
    "RUN mkdir -p /usr/src/app3",
-   "WORKDIR /usr/src/app3",
+   "WORKDIR /usr/src/WebApp/Backend",
    "COPY ./WebApp ./",
-   "RUN cd /Backend && npm install && npm cache clean --force",
+   "RUN npm install && npm cache clean --force",
    
    "ENV NODE_ENV production",
    "ENV PORT 80",
