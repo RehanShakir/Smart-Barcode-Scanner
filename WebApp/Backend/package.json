@@ -26,7 +26,6 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
     "validator": "^13.7.0",
-    "xss-clean": "^0.1.1",
-    "react-scripts": "4.0.3"
+    "xss-clean": "^0.1.1"
   }
 }
