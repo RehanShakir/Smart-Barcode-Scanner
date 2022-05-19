@@ -51,12 +51,8 @@ function Login() {
 
   const handleSubmit = async () => {
     const res = await dispatch(signIn(email, password));
-    console.log("HandleSubmit");
-    console.log(res);
 
     if (!res) {
-      console.log("Pushing");
-
       authState.role === "admin"
         ? history.push("/admin")
         : history.push("/client");

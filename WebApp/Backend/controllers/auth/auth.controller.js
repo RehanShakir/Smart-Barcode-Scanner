@@ -36,6 +36,8 @@ exports.userLogin = async (req, res) => {
       token: user.getJwtToken(),
       role: user.role,
       fullName: user.fullName,
+      assignedButtons: user.assignedButtons,
+      email: user.email,
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });

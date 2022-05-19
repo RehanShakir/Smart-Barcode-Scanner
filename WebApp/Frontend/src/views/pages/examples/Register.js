@@ -55,7 +55,6 @@ function Register() {
       password: password,
     };
     const res = await dispatch(signUp(formValues));
-    console.log(res);
     if (!res) {
       history.push("/login");
     }

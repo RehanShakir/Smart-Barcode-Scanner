@@ -201,7 +201,9 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
       </div>
       <div className='navbar-inner'>
         <Collapse navbar isOpen={true}>
-          <Nav navbar>{createLinks(routes)}</Nav>
+          <Nav navbar style={{ marginTop: 50 }}>
+            {createLinks(routes)}
+          </Nav>
           <hr className='my-3' />
           {/* <h6 className="navbar-heading p-0 text-muted">
             <span className="docs-normal">Documentation</span>

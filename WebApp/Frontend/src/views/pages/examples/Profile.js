@@ -13,6 +13,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+
 import { useSelector, useDispatch } from "react-redux";
 import SimpleHeader from "components/Headers/SimpleHeader.js";
 import {
@@ -42,7 +43,6 @@ function Profile() {
     () =>
       authState.role === "admin" ? getCounts() : getScannedCountLoggedInUser()
   );
-  console.log(data);
 
   const handleSubmit = async () => {
     if (!oldPassword) {
@@ -60,8 +60,6 @@ function Profile() {
       })
     );
   };
-
-  console.log(data?.data?.scannedBarcodes);
 
   return (
     <>
@@ -143,7 +141,7 @@ function Profile() {
                   <div className='h5 mt-4'>
                     <i className='ni business_briefcase-24 mr-2' />
                     {authState.role === "client"
-                      ? "Assigned Buttons" +
+                      ? "Assigned Insurances" +
                         " " +
                         authState.assignedButtons?.map((d) => {
                           return d.value;

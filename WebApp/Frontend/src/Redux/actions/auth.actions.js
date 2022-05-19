@@ -64,7 +64,6 @@ export const loadProfile = (token) => {
           Authorization: `Basic ${token}`,
         },
       });
-      console.log(res.data);
       dispatch({ type: LOAD_PROF, payload: res.data });
     } catch (error) {
       console.log(error);
@@ -75,7 +74,6 @@ export const loadProfile = (token) => {
 export const updateUserProfile = (formValues) => {
   return async (dispatch) => {
     try {
-      console.log(formValues);
       const res = await updateProfile(formValues);
       if (res.status === 200) {
         notification["success"]({

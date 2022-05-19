@@ -19,7 +19,6 @@ const Dash = () => {
   useEffect(() => {
     fetchProfile();
   }, [fetchProfile]);
-  console.log(authState.role);
   return authState.role === "admin" ? <AdminDashboard /> : <ClientDashboard />;
 };
 export default Dash;

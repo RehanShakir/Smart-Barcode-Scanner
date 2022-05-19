@@ -3,24 +3,9 @@ import classnames from "classnames";
 
 import ReactBSTables from "./tables/ReactBSTables";
 import SimpleHeader from "components/Headers/SimpleHeader.js";
-import { useSelector } from "react-redux";
 
-import {
-  Form,
-  Input,
-  Button,
-  Modal,
-  InputGroup,
-  InputGroupAddon,
-  Card,
-  CardHeader,
-  CardBody,
-  FormGroup,
-  InputGroupText,
-} from "reactstrap";
+import { Input, Button, Modal, InputGroup, Card, CardBody } from "reactstrap";
 import { Select } from "antd";
-import server from "../../Axios/index";
-import { getToken } from "../../Redux/localstorage";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import NotificationAlert from "react-notification-alert";
 import {
@@ -28,13 +13,14 @@ import {
   statusUpdate,
   assignButtons,
 } from "../../Axios/apiFunctions";
+import { css } from "@emotion/react";
+import HashLoader from "react-spinners/HashLoader";
 
 const { Option } = Select;
 let count = 0;
 const AllUsers = () => {
   const [formModal, setformModal] = useState(false);
   const [focusedEmail, setFocusedEmail] = useState(false);
-  const [focusedPassword, setFocusedPassword] = useState(false);
   const [field, setField] = useState([{ value: "" }]);
   const [userId, setUserId] = useState("");
 
@@ -104,15 +90,17 @@ const AllUsers = () => {
     },
     {
       dataField: "buttons",
-      text: "Assign Buttons",
+      text: "Assign Insurances",
     },
     {
       dataField: "assignedButtons",
-      text: "Asigned Buttons",
+      text: "Asigned Insurances",
     },
   ];
-
-  // for (let i = 0; i < count; i++) {}
+  const override = css`
+    display: block;
+    margin: 0 auto;
+  `;
   let handleChangeBtn = (e, i) => {
     let newFormValues = [...field];
     // console.log(newFormValues, i, e.target.value);
@@ -174,7 +162,7 @@ const AllUsers = () => {
             size='sm'
             color='primary'
             onClick={() => handleAssignButton(data._id)}>
-            Assign
+            Assign Insurance
           </Button>
         ),
         assignedButtons: data.assignedButtons?.map((d) => {
@@ -210,14 +198,14 @@ const AllUsers = () => {
           <Card className='bg-secondary border-0 mb-0'>
             <CardBody className='px-lg-5 py-lg-5'>
               <div className='text-center text-muted mb-4'>
-                <small>Or sign in with credentials</small>
+                <h3>Assign Insurance</h3>
               </div>
               <Button
                 style={{ marginBottom: 15 }}
                 size='sm'
                 color='primary'
                 onClick={handleAddFields}>
-                Add More Button Fields
+                Add Insurance Name
               </Button>
 
               {renderedFields}
@@ -243,7 +231,12 @@ const AllUsers = () => {
           tableTitle={"All Users"}
         />
       ) : (
-        "Loading"
+        <HashLoader
+          color={"#5e72e4"}
+          loading={loading}
+          css={override}
+          size={50}
+        />
       )}
     </>
   );

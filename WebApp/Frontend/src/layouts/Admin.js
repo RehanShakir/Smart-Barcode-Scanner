@@ -102,8 +102,8 @@ function Admin() {
         sidenavOpen={sidenavOpen}
         logo={{
           innerLink: "/",
-          imgSrc: require("assets/img/brand/argon-react.png").default,
-          imgAlt: "...",
+          imgSrc: require("assets/img/brand/logo.png").default,
+          imgAlt: "Logo",
         }}
       />
       <div className='main-content' ref={mainContentRef}>

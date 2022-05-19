@@ -14,25 +14,14 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Buttons from "views/pages/components/Buttons.js";
-import Cards from "views/pages/components/Cards.js";
 import AdminDashboard from "views/pages/dashboards/Admin.js";
-import Grid from "views/pages/components/Grid.js";
-import Icons from "views/pages/components/Icons.js";
-import Notifications from "views/pages/components/Notifications.js";
 import Profile from "views/pages/examples/Profile.js";
-import ReactBSTables from "views/pages/tables/ReactBSTables.js";
-import Sortable from "views/pages/tables/Sortable.js";
-import Tables from "views/pages/tables/Tables.js";
-import Typography from "views/pages/components/Typography.js";
 import AllUsers from "views/pages/AllUsers";
 
 const routes = [
   {
-    // collapse: true,
     name: "Dashboards",
     icon: "ni ni-shop text-primary",
-    // state: "dashboardsCollapse",
     path: "/dashboard",
     layout: "/admin",
     component: AdminDashboard,

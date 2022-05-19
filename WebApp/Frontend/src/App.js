@@ -5,12 +5,9 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import AdminLayout from "layouts/Admin.js";
 import RTLLayout from "layouts/RTL.js";
-import AuthLayout from "layouts/Auth.js";
 import Login from "views/pages/examples/Login";
-import IndexView from "views/Index.js";
 import Register from "./views/pages/examples/Register";
 import Profile from "./views/pages/examples/Profile";
-import Dashboard from "./views/pages/dashboards/Dashboard";
 import { getToken } from "./Redux/localstorage";
 
 function LoggedIn({ children, redirectTo }) {
@@ -28,7 +25,6 @@ function RequireAuth({ children, redirectTo }) {
 const App = () => {
   return (
     <Switch>
-      {/* <Route path='/admin' render={(props) => <AdminLayout {...props} />} /> */}
       <Route path='/rtl' render={(props) => <RTLLayout {...props} />} />
       <Route
         path='/auth'
