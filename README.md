@@ -62,8 +62,11 @@ https://smart-barcode-webapp.production.rehanshakir.com/
 
 
 Admin Account: admin@smartbarcode.com
+
 Password: admin123456
+
 Client Account: test@smartbarcode.com
+
 Password: test123456
 
 ### FrontEnd
@@ -72,7 +75,9 @@ Password: test123456
 
 
 -   Link: [Complete Dashboard](https://smart-barcode-webapp.production.rehanshakir.com/ )
+
     *   user: admin@smartbarcode.com
+
     *   pass: admin123456
 
 ![dashboard24](artwork/scr1.png) Sign-in Page / Sign-up Page
