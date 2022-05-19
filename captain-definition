@@ -7,8 +7,7 @@
    "RUN mkdir -p /usr/src/app3",
    "WORKDIR /usr/src/app3",
    "COPY ./WebApp/Backend /usr/src/app3",
-   "RUN yarn install && yarn cache clean --force",
-   "RUN yarn run client:build"
+   "RUN yarn install && yarn cache clean --force && yarn run client:build",
    
    "ENV NODE_ENV production",
    "ENV PORT 80",
