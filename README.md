@@ -58,28 +58,36 @@ These instructions will get you a copy of the project up and running on your sys
 
 WebApp can be accessed from the link below
 
-**TO BE ADDED**
+https://smart-barcode-webapp.production.rehanshakir.com/ 
+
+
+Admin Account: admin@smartbarcode.com
+Password: admin123456
+Client Account: test@smartbarcode.com
+Password: test123456
 
 ### FrontEnd
 
 -   The WebApp is developed using NodeJS, ReactJS and MongoDB.
 
-**TO BE ADDED**
 
+-   Link: [Complete Dashboard](https://smart-barcode-webapp.production.rehanshakir.com/ )
+    *   user: admin@smartbarcode.com
+    *   pass: admin123456
 
-<!-- -   Link: [Complete Dashboard]()
-    *   user: admin@Smart Barcode Scanner.com
-    *   pass: admin -->
+![dashboard24](artwork/scr1.png) Sign-in Page / Sign-up Page
 
-<!-- ![dashboard21](artwork/db4.png) Dashboard Home Page
+![dashboard21](artwork/ascr2.png) Dashboard Home Page(Admin)
 
-![dashboard23](artwork/db3.png) Settings Page
+![dashboard23](artwork/ascr3.png) Users Access Page
 
-![dashboard18](artwork/db7.png) Map Page Additional Information Marker
+![dashboard18](artwork/ascr4.png) Insurance Assignment Page
 
-![dashboard24](artwork/db5.png) Sign-in Page
+![dashboard18](artwork/ascr5.png) Admin Profile Page
 
-![dashboard25](artwork/db6.png) Sign-up Page -->
+![dashboard25](artwork/cscr1.png) Client Dashboard
+
+![dashboard25](artwork/cscr3.png) Client Profile Page
 
 ### Database
 
