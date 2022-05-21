@@ -25,6 +25,7 @@
   - [Circuit](#circuit)
   - [WebApp](#webapp)
   - [Usage](#usage)
+  - [Demo Videos](#video)
   - [List Of Components](#list)
   - [Built Using](#built_using)
   - [Authors](#authors)
@@ -57,28 +58,41 @@ These instructions will get you a copy of the project up and running on your sys
 
 WebApp can be accessed from the link below
 
-**TO BE ADDED**
+https://smart-barcode-webapp.production.rehanshakir.com/ 
+
+
+Admin Account: admin@smartbarcode.com
+
+Password: admin123456
+
+Client Account: test@smartbarcode.com
+
+Password: test123456
 
 ### FrontEnd
 
 -   The WebApp is developed using NodeJS, ReactJS and MongoDB.
 
-**TO BE ADDED**
 
+-   Link: [Complete Dashboard](https://smart-barcode-webapp.production.rehanshakir.com/ )
 
-<!-- -   Link: [Complete Dashboard]()
-    *   user: admin@Smart Barcode Scanner.com
-    *   pass: admin -->
+    *   user: admin@smartbarcode.com
 
-<!-- ![dashboard21](artwork/db4.png) Dashboard Home Page
+    *   pass: admin123456
 
-![dashboard23](artwork/db3.png) Settings Page
+![dashboard24](artwork/scr1.png) Sign-in Page / Sign-up Page
 
-![dashboard18](artwork/db7.png) Map Page Additional Information Marker
+![dashboard21](artwork/ascr2.png) Dashboard Home Page(Admin)
 
-![dashboard24](artwork/db5.png) Sign-in Page
+![dashboard23](artwork/ascr3.png) Users Access Page
 
-![dashboard25](artwork/db6.png) Sign-up Page -->
+![dashboard18](artwork/ascr4.png) Insurance Assignment Page
+
+![dashboard18](artwork/ascr5.png) Admin Profile Page
+
+![dashboard25](artwork/cscr1.png) Client Dashboard
+
+![dashboard25](artwork/cscr3.png) Client Profile Page
 
 ### Database
 
@@ -92,7 +106,12 @@ You can access the database from the link below
 
 ![dashboard115](artwork/db.png) Database -->
 
-## Usage <a name = "usage"></a>
+# Usage <a name = "usage"></a>
+
+# Demo Videos <a name = "video"></a>
+
+- [WebApp](https://youtu.be/_Q1-vhzjxG8) - WebApp Demo Video
+
 # ⛏️ Built Using <a name = "built_using"></a>
 
 
