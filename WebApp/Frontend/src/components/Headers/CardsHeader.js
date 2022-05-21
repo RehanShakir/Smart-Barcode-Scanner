@@ -101,8 +101,8 @@ function CardsHeader({ name, parentName, cardsData }) {
                     </DropdownItem>
 
                     <DropdownItem
-                      href='#pablo'
-                      onClick={(e) => history.push("/profile")}>
+                      href=''
+                      onClick={(e) => history.push("/admin/profile")}>
                       <i className='ni ni-settings-gear-65' />
                       <span>Settings</span>
                     </DropdownItem>

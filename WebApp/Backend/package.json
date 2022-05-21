@@ -8,7 +8,7 @@
     "start": "node server.js",
     "dev": "NODE_ENV=development nodemon server.js",
     "prod": "NODE_ENV=production nodemon server.js",
-    "client": "cd .. && cd Frontend && npm run build"
+    "client:build": "cd .. && cd Frontend && npm run build"
   },
   "keywords": [],
   "author": "",
