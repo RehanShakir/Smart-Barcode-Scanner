@@ -120,7 +120,7 @@ function Dashboard() {
         title='Claim Insurance'
         visible={isModalVisible}
         // onOk={handleOk}
-        // onCancel={handleCancel}
+        onCancel={handleCancel}
         footer={null}>
         <Form
           name='basic'
