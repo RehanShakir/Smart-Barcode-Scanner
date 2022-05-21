@@ -1,11 +1,9 @@
 const mongoose = require("mongoose");
 const { model, Schema, Types } = mongoose;
 
-const scannerSchema = new Schema(
+const insuranceSchema = new Schema(
   {
-    userId: { type: Types.ObjectId, ref: "User" },
-    barcode: { type: String },
-    buttons: [{ type: String }],
+    scannerId: { type: Types.ObjectId, ref: "Scanner" },
     name: { type: String },
     address: { type: String },
     code: { type: String },
@@ -17,5 +15,5 @@ const scannerSchema = new Schema(
   },
   { timestamps: true }
 );
-const Scanner = model("Scanner", scannerSchema);
-module.exports = Scanner;
+const Insurance = model("Insurance", insuranceSchema);
+module.exports = Insurance;
