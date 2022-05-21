@@ -70,3 +70,12 @@ export const assignButtons = (data, id) =>
       },
     }
   );
+
+export const userScannedData = async (data) => {
+  const d = await server.get(`/admin/user-scanned-data/${data.id}`, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+  return d;
+};

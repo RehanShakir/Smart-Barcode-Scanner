@@ -29,7 +29,7 @@ function AdminFooter() {
               <div className='copyright text-center text-lg-left text-muted'>
                 © {new Date().getFullYear()}{" "}
                 <a className='font-weight-bold ml-1' href='#'>
-                  Smart Barcode
+                  Sendsafe Global 🌎
                 </a>
               </div>
             </Col>

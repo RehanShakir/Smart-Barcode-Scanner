@@ -3,28 +3,44 @@ import React from "react";
 // core components
 import CardsHeader from "components/Headers/CardsHeader.js";
 import ReactBSTables from "../tables/ReactBSTables";
+import { Button } from "reactstrap";
 import { useQuery } from "react-query";
-import { getCounts, getScannedData } from "../../../Axios/apiFunctions";
+import {
+  getCounts,
+  getScannedData,
+  getAllUsersData,
+} from "../../../Axios/apiFunctions";
+import { useHistory } from "react-router-dom";
 
 import { css } from "@emotion/react";
 import HashLoader from "react-spinners/HashLoader";
 
 function Dashboard() {
+  const history = useHistory();
   const { data } = useQuery("getCounts", () => getCounts());
 
   const { isLoading: dataLoading, data: scannedData } = useQuery(
-    "getScannedData",
-    () => getScannedData()
+    "getAllUsersData",
+    () => getAllUsersData()
   );
-
   const barcodeData3 = (data, index) => {
+    console.log(data);
     return {
       key: index,
-      name: data.userId.fullName,
-      email: data.userId.email,
-      barcode: data.barcode,
-      status: data.userId.status,
-      buttons: data.buttons + ",",
+      name: data.fullName,
+      email: data.email,
+      status: data.status,
+      detail: (
+        <Button
+          style={{ marginTop: 10, marginLeft: 10 }}
+          size='sm'
+          color='info'
+          onClick={() =>
+            history.push({ pathname: "/admin/details", state: data })
+          }>
+          View More
+        </Button>
+      ),
     };
   };
 
@@ -42,7 +58,7 @@ function Dashboard() {
   const columns = [
     {
       dataField: "name",
-      text: "Scanned By",
+      text: "Full Name",
       sort: true,
     },
     {
@@ -50,16 +66,13 @@ function Dashboard() {
       text: "Email",
       sort: true,
     },
-    {
-      dataField: "barcode",
-      text: "Bar Code",
-      sort: true,
-    },
+
     {
       dataField: "status",
-      text: "status",
+      text: "Status",
       sort: true,
     },
+    { dataField: "detail", text: "Details" },
   ];
 
   const override = css`
@@ -82,7 +95,7 @@ function Dashboard() {
       {dataLoading || (
         <ReactBSTables
           columns={columns}
-          dataTable={scannedData?.data?.scannedData?.map(barcodeData3)}
+          dataTable={scannedData?.data?.users?.map(barcodeData3)}
           tableTitle={"Scanned Data"}
         />
       )}

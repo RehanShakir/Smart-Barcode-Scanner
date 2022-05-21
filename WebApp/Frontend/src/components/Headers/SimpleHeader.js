@@ -101,8 +101,8 @@ function TimelineHeader({ name, parentName }) {
                     </DropdownItem>
 
                     <DropdownItem
-                      href='#pablo'
-                      onClick={(e) => history.push("/profile")}>
+                      href=''
+                      onClick={(e) => history.push("/client/profile")}>
                       <i className='ni ni-settings-gear-65' />
                       <span>Settings</span>
                     </DropdownItem>
