@@ -79,3 +79,12 @@ export const userScannedData = async (data) => {
   });
   return d;
 };
+
+export const claimInsurance = async (data, id) => {
+  const res = await server.post(`/barcode/claim/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+  return res;
+};

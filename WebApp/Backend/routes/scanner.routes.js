@@ -1,7 +1,7 @@
 const express = require("express");
 const { Router } = express;
 const controller = require("../controllers/scanner.controller");
-const { scan, getData, scannedBarcodesCount } = controller;
+const { scan, getData, scannedBarcodesCount, claimInsurance } = controller;
 const router = Router();
 
 /**
@@ -20,5 +20,17 @@ router.get("/data", getData);
  * Get No of Scanned Barcodes of Logged In User
  */
 router.get("/count", scannedBarcodesCount);
+/**
+ * Post Insurance
+ * @body {String}
+ * - name
+ * - email
+ * - phoneNumber
+ * - address
+ * - code
+ * - productStatus
+ * - sizeWeight
+ */
+router.post("/claim/:id", claimInsurance);
 
 module.exports = router;

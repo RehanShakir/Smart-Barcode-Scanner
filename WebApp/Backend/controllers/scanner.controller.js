@@ -49,3 +49,42 @@ exports.scannedBarcodesCount = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+/**
+ * Post insurance
+ * @param {Request} req - request object
+ * @param {Response} res - response object
+ */
+exports.claimInsurance = async (req, res) => {
+  try {
+    const {
+      name,
+      address,
+      code,
+      productStatus,
+      website,
+      sizeWeight,
+      email,
+      phoneNumber,
+    } = req?.body;
+    console.log(req?.body);
+    const insurance = await Scanner.findByIdAndUpdate(
+      { _id: req.params.id },
+      {
+        name,
+        address,
+        code,
+        productStatus,
+        website,
+        sizeWeight,
+        email,
+        phoneNumber,
+      },
+      { upsert: true, new: true }
+    );
+    return res.status(200).json({ insurance });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+};

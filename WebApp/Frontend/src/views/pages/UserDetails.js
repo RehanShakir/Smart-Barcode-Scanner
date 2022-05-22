@@ -58,19 +58,15 @@ const UsersDetails = (props) => {
       text: "Choosed Insurance",
       sort: true,
     },
+
     {
-      dataField: "companyName",
-      text: "Company Name",
+      dataField: "code",
+      text: "Track & Trace Code",
       sort: true,
     },
     {
-      dataField: "contactPerson",
-      text: "Contact Person",
-      sort: true,
-    },
-    {
-      dataField: "address",
-      text: "Address",
+      dataField: "productStatus",
+      text: "Product Status",
       sort: true,
     },
     {
@@ -84,8 +80,8 @@ const UsersDetails = (props) => {
       sort: true,
     },
     {
-      dataField: "shipments",
-      text: "Shipments Per Year",
+      dataField: "address",
+      text: "Address",
       sort: true,
     },
   ];
@@ -99,6 +95,11 @@ const UsersDetails = (props) => {
       return {
         barcode: data.barcode,
         selectedInsurance: data.buttons,
+        address: data.address,
+        productStatus: data.productStatus,
+        website: data.website,
+        phoneNumber: data.phoneNumber,
+        code: data.code,
       };
     });
   }
