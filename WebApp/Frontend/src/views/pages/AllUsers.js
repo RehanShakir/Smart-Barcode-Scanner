@@ -21,12 +21,6 @@ const AllUsers = () => {
   const [focusedEmail, setFocusedEmail] = useState(false);
   const [field, setField] = useState([{ value: "" }]);
   const [userId, setUserId] = useState("");
-  const [userInsuracnes, setUserInsuracnes] = useState([
-    {
-      id: "",
-      insurance: [],
-    },
-  ]);
 
   const notificationAlertRef = React.useRef(null);
   const notify = (type, title, message) => {
@@ -151,14 +145,11 @@ const AllUsers = () => {
   const handleAssignButton = (id, index) => {
     setformModal(true);
     setUserId(id);
-    // console.log(field[0].value);
-    // field.splice(1, 1, { value: tableData[index].assignButtons[0] });
 
     tableData[index].assignedButtons.map((d) => {
       field.push({ value: d.value });
     });
   };
-  console.log(field);
   const handleAddFields = () => {
     setField([...field, { value: "" }]);
   };

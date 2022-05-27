@@ -8,6 +8,7 @@ const {
   getScannedData,
   updateButtons,
   userScannedData,
+  getOneUser,
 } = controller;
 
 const router = Router();
@@ -45,4 +46,7 @@ router.patch("/update-buttons/:id", updateButtons);
  * @params - {id}
  */
 router.get("/user-scanned-data/:id", userScannedData);
+
+router.get("/user/:id", getOneUser);
+
 module.exports = router;

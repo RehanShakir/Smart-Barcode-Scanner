@@ -14,15 +14,11 @@ import { updateProfile } from "Axios/apiFunctions";
 import { saveToken, deleteToken } from "../localstorage";
 
 export const signUp = (formValues) => {
-  const { fullName, email, password } = formValues;
+  // const { fullName, email, password } = formValues;
 
   return async (dispatch) => {
     try {
-      const res = await server.post("/auth/signup", {
-        fullName,
-        email,
-        password,
-      });
+      const res = await server.post("/auth/signup", formValues);
       if (res.status === 200) {
         notification["success"]({
           message: "Sign Up Successfull",

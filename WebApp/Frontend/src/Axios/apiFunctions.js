@@ -2,13 +2,15 @@ import server from "./index";
 
 import { getToken } from "../Redux/localstorage";
 
-// const headerToken = {
-//   headers: {
-//     Authorization: `Bearer ${getToken()}`,
-//   },
-// };
 export const getAllUsersData = () =>
   server.get("/admin/all-users", {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+
+export const getOneUser = async (id) =>
+  await server.get(`/admin/user/${id.id}`, {
     headers: {
       Authorization: `Bearer ${getToken()}`,
     },
@@ -82,6 +84,15 @@ export const userScannedData = async (data) => {
 
 export const claimInsurance = async (data, id) => {
   const res = await server.post(`/barcode/claim/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+  return res;
+};
+
+export const uploadPhotos = async (photos, id) => {
+  const res = await server.patch(`/barcode/upload/${id}`, photos, {
     headers: {
       Authorization: `Bearer ${getToken()}`,
     },

@@ -22,6 +22,24 @@ const userSchema = new Schema({
     default: "pending",
     enum: ["pending", "approved", "rejected"],
   },
+  companyName: {
+    type: String,
+  },
+  contactPerson: {
+    type: String,
+  },
+  address: {
+    type: String,
+  },
+  website: {
+    type: String,
+  },
+  phoneNumber: {
+    type: String,
+  },
+  shipmentsPerYear: {
+    type: String,
+  },
   assignedButtons: [
     {
       value: { type: String },

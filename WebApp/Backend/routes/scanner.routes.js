@@ -1,8 +1,11 @@
 const express = require("express");
 const { Router } = express;
 const controller = require("../controllers/scanner.controller");
-const { scan, getData, scannedBarcodesCount, claimInsurance } = controller;
+const multer = require("multer");
+const { scan, getData, scannedBarcodesCount, claimInsurance, uploadPhotos } =
+  controller;
 const router = Router();
+const upload = multer({ dest: "upload/" });
 
 /**
  * Save Scanned Data
@@ -32,5 +35,11 @@ router.get("/count", scannedBarcodesCount);
  * - sizeWeight
  */
 router.post("/claim/:id", claimInsurance);
+
+/**
+ * Get Scanned Data of Logged In User
+ * @body {files}
+ */
+router.patch("/upload/:id", upload.array("photos"), uploadPhotos);
 
 module.exports = router;

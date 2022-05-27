@@ -24,7 +24,6 @@ function Dashboard() {
     () => getAllUsersData()
   );
   const barcodeData3 = (data, index) => {
-    console.log(data);
     return {
       key: index,
       name: data.fullName,

@@ -6,108 +6,29 @@ import SimpleHeader from "components/Headers/SimpleHeader.js";
 import { Card, CardBody, CardTitle, Col, Row, Container } from "reactstrap";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import NotificationAlert from "react-notification-alert";
-import { statusUpdate, userScannedData } from "../../Axios/apiFunctions";
+import { Card as ANTD_CARD } from "antd";
+import {
+  statusUpdate,
+  userScannedData,
+  getOneUser,
+} from "../../Axios/apiFunctions";
 import { css } from "@emotion/react";
 import HashLoader from "react-spinners/HashLoader";
 
+const { Meta } = ANTD_CARD;
 const UsersDetails = (props) => {
-  const notificationAlertRef = React.useRef(null);
-  const notify = (type, title, message) => {
-    let options = {
-      place: "tc",
-      message: (
-        <div className='alert-text'>
-          <span className='alert-title' data-notify='title'>
-            {" "}
-          </span>
-          <span data-notify='message'>{message}</span>
-        </div>
-      ),
-      type: type,
-      icon: "ni ni-bell-55",
-      autoDismiss: 7,
-    };
-    notificationAlertRef.current.notificationAlert(options);
-  };
   const [tableData, setTableData] = useState({});
 
-  const { isLoading: loading, data } = useQuery("userScannedData", () =>
-    userScannedData({ id: props.location.state._id })
+  const { isLoading: loading, data } = useQuery("getOneUser", () =>
+    getOneUser({ id: props.location.state._id })
   );
-  console.log(data);
-
-  const queryClient = useQueryClient();
-  // const getDataMutation = useMutation(userScannedData, {
-  //   onSuccess: (data) => {
-  //     queryClient.invalidateQueries("userScannedData");
-  //   },
-  // });
 
   useEffect(() => {
-    setTableData(data?.data?.data);
-  }, [loading, data?.data?.data]);
-
-  const columns = [
-    {
-      dataField: "barcode",
-      text: "Scanned Barcodes",
-      sort: true,
-    },
-    {
-      dataField: "selectedInsurance",
-      text: "Choosed Insurance",
-      sort: true,
-    },
-
-    {
-      dataField: "code",
-      text: "Track & Trace Code",
-      sort: true,
-    },
-    {
-      dataField: "productStatus",
-      text: "Product Status",
-      sort: true,
-    },
-    {
-      dataField: "website",
-      text: "Website",
-      sort: true,
-    },
-    {
-      dataField: "phoneNumber",
-      text: "Phone Number",
-      sort: true,
-    },
-    {
-      dataField: "address",
-      text: "Address",
-      sort: true,
-    },
-  ];
-  const override = css`
-    display: block;
-    margin: 0 auto;
-  `;
-  let tableRows;
-  if (tableData?.length) {
-    tableRows = tableData?.map((data, index) => {
-      return {
-        barcode: data.barcode,
-        selectedInsurance: data.buttons,
-        address: data.address,
-        productStatus: data.productStatus,
-        website: data.website,
-        phoneNumber: data.phoneNumber,
-        code: data.code,
-      };
-    });
-  }
+    setTableData(data?.data);
+  }, [loading, data?.data]);
 
   return (
     <>
-      <NotificationAlert ref={notificationAlertRef} />
-
       <SimpleHeader name='Admin' parentName='Tables' />
 
       <Container className='mt--6' fluid>
@@ -125,7 +46,9 @@ const UsersDetails = (props) => {
                           Total Scanned Barcodes
                         </CardTitle>
                         <span className='h2 font-weight-bold mb-0 text-white'>
-                          {tableData?.length}
+                          {tableData?.scanCount === 0
+                            ? "No Scanned Barcodes"
+                            : tableData?.scanCount}
                         </span>
                       </div>
                       <Col className='col-auto'>
@@ -167,23 +90,43 @@ const UsersDetails = (props) => {
                 </Card>
               </Col>
             </Row>
-            <div style={{ marginTop: 50 }}>
-              {tableData?.length > 0 ? (
-                <ReactBSTables
-                  columns={columns}
-                  dataTable={tableRows}
-                  tableTitle={`User Name: ${tableData[0]?.userId?.fullName}`}
-                />
-              ) : <HashLoader
-                  color={"#5e72e4"}
-                  loading={loading}
-                  css={override}
-                  size={50}
-                /> ? (
-                loading === false
-              ) : (
-                "No Scanned Barcodes"
-              )}
+            <div
+              style={{
+                marginTop: 5,
+                display: "flex",
+                justifyContent: "center",
+              }}>
+              <ANTD_CARD
+                title={`User Name: ${tableData?.user?.fullName?.toUpperCase()}`}
+                style={{ width: 500 }}>
+                <p>
+                  <strong>Company Name:</strong> {tableData?.user?.companyName}
+                </p>
+                <p>
+                  <strong>Contact person</strong>{" "}
+                  {tableData?.user?.contactPerson}
+                </p>
+                <p>
+                  <strong>Address:</strong> {tableData?.user?.address}
+                </p>
+                <p>
+                  <strong>Website:</strong> {tableData?.user?.website}
+                </p>
+              </ANTD_CARD>
+              <ANTD_CARD
+                title={`Status: ${tableData?.user?.status?.toUpperCase()}`}
+                style={{ width: 500 }}>
+                <p>
+                  <strong>Email:</strong> {tableData?.user?.email}
+                </p>
+                <p>
+                  <strong>Phone Number:</strong> {tableData?.user?.phoneNumber}
+                </p>
+                <p>
+                  <strong>How many shipments per year:</strong>{" "}
+                  {tableData?.user?.shipmentsPerYear}
+                </p>
+              </ANTD_CARD>
             </div>
           </Col>
         </Row>
