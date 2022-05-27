@@ -50,21 +50,30 @@ function Register() {
   const [fullName, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [value, setValue] = React.useState(true);
+  const [companyName, setCompanyName] = useState("");
+  const [contactPerson, setContactPerson] = useState("");
+  const [address, setAddress] = useState("");
+  const [website, setWebsite] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [shipmentsPerYear, setShipmentsPerYear] = useState("");
 
   const handleSubmit = async () => {
     setIsModalVisible(true);
   };
 
   const onChange = async (e) => {
-    console.log("radio checked", e.target.value);
-    // setValue(e.target.value);
     if (e.target.value === true) {
       setIsModalVisible(false);
       const formValues = {
         fullName: fullName,
         email: email,
         password: password,
+        companyName: companyName,
+        contactPerson: contactPerson,
+        address: address,
+        website: website,
+        phoneNumber: phoneNumber,
+        shipmentsPerYear: shipmentsPerYear,
       };
       const res = await dispatch(signUp(formValues));
       if (!res) {
@@ -107,6 +116,132 @@ function Register() {
                         type='text'
                         onChange={(e) => {
                           setFullname(e.target.value);
+                        }}
+                        onFocus={() => setfocusedName(true)}
+                        onBlur={() => setfocusedName(false)}
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                  <FormGroup
+                    className={classnames({
+                      focused: focusedName,
+                    })}>
+                    <InputGroup className='input-group-merge input-group-alternative mb-3'>
+                      <InputGroupAddon addonType='prepend'>
+                        <InputGroupText>
+                          <i className='ni ni-app' />
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder='Company Name'
+                        type='text'
+                        onChange={(e) => {
+                          setCompanyName(e.target.value);
+                        }}
+                        onFocus={() => setfocusedName(true)}
+                        onBlur={() => setfocusedName(false)}
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                  <FormGroup
+                    className={classnames({
+                      focused: focusedName,
+                    })}>
+                    <InputGroup className='input-group-merge input-group-alternative mb-3'>
+                      <InputGroupAddon addonType='prepend'>
+                        <InputGroupText>
+                          <i className='ni ni-circle-08' />
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder='Contact Person'
+                        type='text'
+                        onChange={(e) => {
+                          setContactPerson(e.target.value);
+                        }}
+                        onFocus={() => setfocusedName(true)}
+                        onBlur={() => setfocusedName(false)}
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                  <FormGroup
+                    className={classnames({
+                      focused: focusedName,
+                    })}>
+                    <InputGroup className='input-group-merge input-group-alternative mb-3'>
+                      <InputGroupAddon addonType='prepend'>
+                        <InputGroupText>
+                          <i className='ni ni-map-big' />
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder='Address'
+                        type='text'
+                        onChange={(e) => {
+                          setAddress(e.target.value);
+                        }}
+                        onFocus={() => setfocusedName(true)}
+                        onBlur={() => setfocusedName(false)}
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                  <FormGroup
+                    className={classnames({
+                      focused: focusedName,
+                    })}>
+                    <InputGroup className='input-group-merge input-group-alternative mb-3'>
+                      <InputGroupAddon addonType='prepend'>
+                        <InputGroupText>
+                          <i className='ni ni-world-2' />
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder='Website'
+                        type='text'
+                        onChange={(e) => {
+                          setWebsite(e.target.value);
+                        }}
+                        onFocus={() => setfocusedName(true)}
+                        onBlur={() => setfocusedName(false)}
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                  <FormGroup
+                    className={classnames({
+                      focused: focusedName,
+                    })}>
+                    <InputGroup className='input-group-merge input-group-alternative mb-3'>
+                      <InputGroupAddon addonType='prepend'>
+                        <InputGroupText>
+                          <i className='ni ni-mobile-button' />
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder='Phone Number'
+                        type='text'
+                        onChange={(e) => {
+                          setPhoneNumber(e.target.value);
+                        }}
+                        onFocus={() => setfocusedName(true)}
+                        onBlur={() => setfocusedName(false)}
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                  <FormGroup
+                    className={classnames({
+                      focused: focusedName,
+                    })}>
+                    <InputGroup className='input-group-merge input-group-alternative mb-3'>
+                      <InputGroupAddon addonType='prepend'>
+                        <InputGroupText>
+                          <i className='ni ni-chart-pie-35' />
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder='How many shipments per year?'
+                        type='text'
+                        onChange={(e) => {
+                          setShipmentsPerYear(e.target.value);
                         }}
                         onFocus={() => setfocusedName(true)}
                         onBlur={() => setfocusedName(false)}

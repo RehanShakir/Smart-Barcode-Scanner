@@ -4,14 +4,16 @@ const { model, Schema, Types } = mongoose;
 const insuranceSchema = new Schema(
   {
     scannerId: { type: Types.ObjectId, ref: "Scanner" },
-    name: { type: String },
+    customerName: { type: String },
     address: { type: String },
     code: { type: String },
     productStatus: { type: String },
-    website: { type: String },
+    packageContents: { type: String },
     sizeWeight: { type: String },
     email: { type: String },
     phoneNumber: { type: String },
+    email: { type: String },
+    nameWebshop: { type: String },
   },
   { timestamps: true }
 );

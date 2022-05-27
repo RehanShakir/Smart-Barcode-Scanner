@@ -9,11 +9,15 @@ const scannerSchema = new Schema(
     name: { type: String },
     address: { type: String },
     code: { type: String },
-    productStatus: { type: String },
+    barcode: { type: String },
+    packageContents: { type: String },
+    productStatus: { type: String, enum: ["lost", "damaged"] },
     website: { type: String },
     sizeWeight: { type: String },
     email: { type: String },
     phoneNumber: { type: String },
+    productPhotos: [{ type: String }],
+    claim: { type: String, default: false },
   },
   { timestamps: true }
 );

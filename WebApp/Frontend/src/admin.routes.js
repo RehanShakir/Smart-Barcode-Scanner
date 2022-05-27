@@ -18,6 +18,7 @@ import AdminDashboard from "views/pages/dashboards/Admin.js";
 import Profile from "views/pages/examples/Profile.js";
 import AllUsers from "views/pages/AllUsers";
 import UserDetails from "views/pages/UserDetails";
+import UserClaims from "views/pages/UserClaims";
 
 const routes = [
   {
@@ -38,6 +39,15 @@ const routes = [
     visible: true,
   },
   {
+    name: "User Claims",
+    icon: "ni ni-circle-08 text-black",
+    path: "/claim",
+    miniName: "P",
+    component: UserClaims,
+    layout: "/admin",
+    visible: true,
+  },
+  {
     name: "Settings",
     icon: "ni ni-ungroup text-orange",
     path: "/profile",
@@ -46,6 +56,7 @@ const routes = [
     layout: "/admin",
     visible: true,
   },
+
   {
     path: "/details",
     component: UserDetails,
