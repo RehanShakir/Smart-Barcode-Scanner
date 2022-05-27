@@ -110,12 +110,9 @@ exports.uploadPhotos = async (req, res) => {
 
     const photosObj = req?.files;
     let photos = [];
-    console.log(photosObj);
-
     for (let i = 0; i < photosObj.length; i++) {
       const result = await multer.uploadPhoto(photosObj[i]);
       photos.push(result.Location);
-      console.log(photosObj[i].path);
       await unlinkFile(photosObj[i].path);
     }
 

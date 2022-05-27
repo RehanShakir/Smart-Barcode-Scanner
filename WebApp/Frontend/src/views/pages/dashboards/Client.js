@@ -88,16 +88,16 @@ function Dashboard() {
   const handleUpload = async () => {
     const formData = new FormData();
     setUploaing(true);
+    setUploaing(false);
+    setUploadModalVisible(false);
+    setUploadList(false);
+    setUploadFileList([]);
     uploadFileList.forEach((file) => {
       formData.append("photos", file);
     });
 
     const res = await uploadPhotos(formData, scannerId);
     if (res.status === 200) {
-      setUploaing(false);
-      setUploadModalVisible(false);
-      setUploadList(false);
-
       getDataMutation.mutate();
 
       notification["success"]({
@@ -106,6 +106,7 @@ function Dashboard() {
     } else {
       setUploaing(false);
       setUploadModalVisible(false);
+      setUploadFileList([]);
 
       notification["error"]({
         message: "Something went wrong! Please check your internet connection",
@@ -114,7 +115,8 @@ function Dashboard() {
     }
   };
 
-  const beforeUpload = (file) => {
+  const beforeUpload = (file, fileList) => {
+    console.log(fileList);
     uploadFileList.push(file);
     setUploadFileList(uploadFileList);
     return false;
@@ -277,7 +279,7 @@ function Dashboard() {
           <Upload
             multiple={true}
             fileList={uploadFileList}
-            showUploadList={showUploadList}
+            showUploadList={true}
             beforeUpload={beforeUpload}
             onRemove={onRemove}>
             <Button size='lg' color='primary'>
