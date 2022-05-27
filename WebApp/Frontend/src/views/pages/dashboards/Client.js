@@ -94,15 +94,15 @@ function Dashboard() {
 
     const res = await uploadPhotos(formData, scannerId);
     if (res.status === 200) {
-      getDataMutation.mutate();
-
       setUploaing(false);
       setUploadModalVisible(false);
+      setUploadList(false);
+
+      getDataMutation.mutate();
 
       notification["success"]({
         message: "Photos Uploaded Successfully!",
       });
-      setUploadList(false);
     } else {
       setUploaing(false);
       setUploadModalVisible(false);
