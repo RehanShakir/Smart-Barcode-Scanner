@@ -138,3 +138,16 @@ export const removeInsuracne = async (id, insurance) => {
   );
   return res;
 };
+
+export const scanBarcode = async (barcode) => {
+  const res = await server.post(
+    `/barcode/scan/`,
+    { barcode: barcode },
+    {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  );
+  return res;
+};

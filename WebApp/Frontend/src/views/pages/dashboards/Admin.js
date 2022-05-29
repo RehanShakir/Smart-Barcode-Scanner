@@ -93,6 +93,7 @@ function Dashboard() {
       />
       {dataLoading || (
         <ReactBSTables
+          disabled={false}
           columns={columns}
           dataTable={scannedData?.data?.users?.map(barcodeData3)}
           tableTitle={"Scanned Data"}

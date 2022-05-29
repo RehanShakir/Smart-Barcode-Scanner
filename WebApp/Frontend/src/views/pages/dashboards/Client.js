@@ -10,6 +10,7 @@ import {
   uploadPhotos,
   removePhoto,
   removeInsuracne,
+  scanBarcode,
 } from "../../../Axios/apiFunctions";
 import { css } from "@emotion/react";
 import HashLoader from "react-spinners/HashLoader";
@@ -46,6 +47,8 @@ function Dashboard() {
     id: "",
     insurance: [],
   });
+  const [barcodeModalVisible, setBarcodeModalVisible] = useState(false);
+  const [barcode, setBarcode] = useState("");
   const [showButton, setShowButton] = useState();
 
   const [photos, setPhotos] = useState({
@@ -262,6 +265,30 @@ function Dashboard() {
     console.log("Failed:", errorInfo);
   };
 
+  const handleAddBarcode = () => {
+    console.log("barcode");
+    setBarcodeModalVisible(true);
+  };
+
+  const handleBarcodeModalOk = async () => {
+    console.log(barcode);
+    const res = await scanBarcode(barcode);
+    if (res.status === 200) {
+      setBarcodeModalVisible(false);
+      getDataMutation.mutate();
+
+      notification["success"]({
+        message: "Barcode Added Successfully!",
+      });
+    } else {
+      setBarcodeModalVisible(false);
+
+      notification["error"]({
+        message: "Something went wrong! Please check your internet connection",
+      });
+    }
+  };
+
   const columns = [
     {
       dataField: "barcode",
@@ -316,6 +343,8 @@ function Dashboard() {
       {dataLoading || (
         <ReactBSTables
           columns={columns}
+          disabled={true}
+          handleAddBarcode={handleAddBarcode}
           dataTable={scannedData?.data?.scannedData?.map(barcodeData3)}
           name='Client'
           tableTitle='Scanned Barcode Data'
@@ -517,6 +546,23 @@ function Dashboard() {
               </div>
             );
           })}
+        </div>
+      </Modal>
+      <Modal
+        title='Enter Barcode'
+        visible={barcodeModalVisible}
+        onOk={handleBarcodeModalOk}
+        onCancel={() => setBarcodeModalVisible(false)}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            // flexDirection: "row",
+          }}>
+          <Input
+            placeholder='Enter Barcode'
+            onChange={(e) => setBarcode(e.target.value)}
+          />
         </div>
       </Modal>
     </>

@@ -200,6 +200,7 @@ const UsersDetails = () => {
               }}>
               {tableData?.length > 0 ? (
                 <ReactBSTables
+                  disabled={false}
                   columns={columns}
                   dataTable={tableRows}
                   tableTitle={"Claim Information"}

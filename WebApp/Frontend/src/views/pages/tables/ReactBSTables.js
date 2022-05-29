@@ -70,7 +70,14 @@ const pagination = paginationFactory({
 
 const { SearchBar } = Search;
 
-function ReactBSTables({ name, columns, dataTable, tableTitle }) {
+function ReactBSTables({
+  name,
+  columns,
+  dataTable,
+  tableTitle,
+  disabled,
+  handleAddBarcode,
+}) {
   const dispatch = useDispatch();
   const [alert, setAlert] = React.useState(null);
   const componentRef = React.useRef(null);
@@ -200,7 +207,17 @@ function ReactBSTables({ name, columns, dataTable, tableTitle }) {
                     }}>
                     Refresh
                   </Button>
+                  {disabled && (
+                    <Button
+                      className='btn-neutral '
+                      color='primary'
+                      size='sm'
+                      onClick={handleAddBarcode}>
+                      Add Barcode
+                    </Button>
+                  )}
                 </Col>
+
                 {/* <p className='text-sm mb-0'>
                   This is an exmaple of data table using the well known
                   react-bootstrap-table2 plugin. This is a minimal setup in

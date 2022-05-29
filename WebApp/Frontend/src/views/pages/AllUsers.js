@@ -243,6 +243,7 @@ const AllUsers = () => {
       {tableData?.length > 0 ? (
         <ReactBSTables
           columns={columns}
+          disabled={false}
           dataTable={tableRows}
           tableTitle={"All Users"}
         />

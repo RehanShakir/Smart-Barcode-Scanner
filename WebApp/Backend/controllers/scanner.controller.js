@@ -89,7 +89,6 @@ exports.claimInsurance = async (req, res) => {
         sizeWeight,
         email,
         phoneNumber,
-        barcode,
         packageContents,
         buttons,
         claim: true,

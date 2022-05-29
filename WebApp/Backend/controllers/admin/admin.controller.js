@@ -176,3 +176,48 @@ exports.updateClaimStatus = async (req, res) => {
       .json({ message: `INTERNAL SERVER ERROR: ${error.message}` });
   }
 };
+// exports.updatePassword = async (req, res) => {
+//   try {
+//     let { fullName, email, oldPassword, newPassword } = req?.body;
+
+//     if (!oldPassword) {
+//       return res.status(500).json({
+//         status: "Failed",
+//         message: "Old Password is required",
+//       });
+//     }
+
+//     if (!newPassword) {
+//       newPassword = oldPassword;
+//     }
+//     const user = await User.findById(req.user._id);
+
+//     if (!(await user?.comparePassword(oldPassword))) {
+//       return res.status(500).json({
+//         status: "Unauthorized",
+//         message: "Old Password is inorrect",
+//       });
+//     }
+
+//     const userData = await User.findOneAndUpdate(
+//       { _id: req.user._id },
+//       {
+//         fullName,
+//         email,
+//         password: await user.generateHash(newPassword),
+//         role: user.role,
+//         status: user.status,
+//       },
+//       { new: true }
+//     );
+
+//     res.status(200).json({
+//       message: "User Information Updated",
+//       data: userData,
+//     });
+//   } catch (error) {
+//     return res
+//       .status(500)
+//       .json({ message: `INTERNAL SERVER ERROR: ${error.message}` });
+//   }
+// };
