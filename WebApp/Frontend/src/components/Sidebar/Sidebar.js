@@ -186,7 +186,7 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
             />
           </NavbarBrand>
         ) : null}
-        <div className='ml-auto'>
+        {/* <div className='ml-auto'>
           <div
             className={classnames("sidenav-toggler d-none d-xl-block", {
               active: sidenavOpen,
@@ -198,7 +198,7 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
               <i className='sidenav-toggler-line' />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className='navbar-inner'>
         <Collapse navbar isOpen={true}>

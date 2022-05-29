@@ -2,8 +2,15 @@ const express = require("express");
 const { Router } = express;
 const controller = require("../controllers/scanner.controller");
 const multer = require("multer");
-const { scan, getData, scannedBarcodesCount, claimInsurance, uploadPhotos } =
-  controller;
+const {
+  scan,
+  getData,
+  scannedBarcodesCount,
+  claimInsurance,
+  uploadPhotos,
+  removePhoto,
+  removeInsurance,
+} = controller;
 const router = Router();
 const upload = multer({ dest: "upload/" });
 
@@ -41,5 +48,19 @@ router.post("/claim/:id", claimInsurance);
  * @body {files}
  */
 router.patch("/upload/:id", upload.array("photos"), uploadPhotos);
+
+/**
+ * remove Photo
+ * @param {string} id
+ * @body {files}
+ */
+router.patch("/remove/:id", removePhoto);
+
+/**
+ * remove Insurane
+ * @param {string} id
+ * @body {files}
+ */
+router.patch("/remove-insurance/:id", removeInsurance);
 
 module.exports = router;

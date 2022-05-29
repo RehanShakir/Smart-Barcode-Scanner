@@ -26,7 +26,10 @@ const UsersDetails = (props) => {
   useEffect(() => {
     setTableData(data?.data);
   }, [loading, data?.data]);
-
+  const override = css`
+    display: block;
+    margin: 0 auto;
+  `;
   return (
     <>
       <SimpleHeader name='Admin' parentName='Tables' />
@@ -90,44 +93,55 @@ const UsersDetails = (props) => {
                 </Card>
               </Col>
             </Row>
-            <div
-              style={{
-                marginTop: 5,
-                display: "flex",
-                justifyContent: "center",
-              }}>
-              <ANTD_CARD
-                title={`User Name: ${tableData?.user?.fullName?.toUpperCase()}`}
-                style={{ width: 500 }}>
-                <p>
-                  <strong>Company Name:</strong> {tableData?.user?.companyName}
-                </p>
-                <p>
-                  <strong>Contact person</strong>{" "}
-                  {tableData?.user?.contactPerson}
-                </p>
-                <p>
-                  <strong>Address:</strong> {tableData?.user?.address}
-                </p>
-                <p>
-                  <strong>Website:</strong> {tableData?.user?.website}
-                </p>
-              </ANTD_CARD>
-              <ANTD_CARD
-                title={`Status: ${tableData?.user?.status?.toUpperCase()}`}
-                style={{ width: 500 }}>
-                <p>
-                  <strong>Email:</strong> {tableData?.user?.email}
-                </p>
-                <p>
-                  <strong>Phone Number:</strong> {tableData?.user?.phoneNumber}
-                </p>
-                <p>
-                  <strong>How many shipments per year:</strong>{" "}
-                  {tableData?.user?.shipmentsPerYear}
-                </p>
-              </ANTD_CARD>
-            </div>
+            {loading ? (
+              <HashLoader
+                color={"#5e72e4"}
+                loading={loading}
+                css={override}
+                size={50}
+              />
+            ) : (
+              <div
+                style={{
+                  marginTop: 5,
+                  display: "flex",
+                  justifyContent: "center",
+                }}>
+                <ANTD_CARD
+                  title={`User Name: ${tableData?.user?.fullName?.toUpperCase()}`}
+                  style={{ width: 500 }}>
+                  <p>
+                    <strong>Company Name:</strong>{" "}
+                    {tableData?.user?.companyName}
+                  </p>
+                  <p>
+                    <strong>Contact person</strong>{" "}
+                    {tableData?.user?.contactPerson}
+                  </p>
+                  <p>
+                    <strong>Address:</strong> {tableData?.user?.address}
+                  </p>
+                  <p>
+                    <strong>Website:</strong> {tableData?.user?.website}
+                  </p>
+                </ANTD_CARD>
+                <ANTD_CARD
+                  title={`Status: ${tableData?.user?.status?.toUpperCase()}`}
+                  style={{ width: 500 }}>
+                  <p>
+                    <strong>Email:</strong> {tableData?.user?.email}
+                  </p>
+                  <p>
+                    <strong>Phone Number:</strong>{" "}
+                    {tableData?.user?.phoneNumber}
+                  </p>
+                  <p>
+                    <strong>How many shipments per year:</strong>{" "}
+                    {tableData?.user?.shipmentsPerYear}
+                  </p>
+                </ANTD_CARD>
+              </div>
+            )}
           </Col>
         </Row>
       </Container>

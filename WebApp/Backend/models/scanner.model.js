@@ -18,6 +18,12 @@ const scannerSchema = new Schema(
     phoneNumber: { type: String },
     productPhotos: [{ type: String }],
     claim: { type: String, default: false },
+    claimStatus: {
+      type: String,
+      emum: ["inProgress", "finished", "flagged"],
+      default: "inProgress",
+    },
+    deleteButtonFlag: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

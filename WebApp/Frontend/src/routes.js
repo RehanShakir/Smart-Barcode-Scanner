@@ -24,6 +24,7 @@ const routes = [
     icon: "ni ni-shop text-primary",
     path: "/dashboard",
     layout: "/client",
+    miniName: "D",
     component: ClientDashboard,
   },
 

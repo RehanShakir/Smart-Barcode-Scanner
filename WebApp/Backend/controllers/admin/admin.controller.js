@@ -152,3 +152,27 @@ exports.getOneUser = async (req, res) => {
       .json({ message: `INTERNAL SERVER ERROR: ${error.message}` });
   }
 };
+
+/**
+ * Update Claim Status
+ * @param {Request} req - request object
+ * @param {Response} res - response object
+ */
+exports.updateClaimStatus = async (req, res) => {
+  try {
+    await Scanner.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        claimStatus: req.body.claimStatus,
+      },
+      { new: true }
+    );
+    return res
+      .status(200)
+      .json({ message: "Claim Status updated successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: `INTERNAL SERVER ERROR: ${error.message}` });
+  }
+};
