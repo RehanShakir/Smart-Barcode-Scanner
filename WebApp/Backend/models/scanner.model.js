@@ -23,7 +23,7 @@ const scannerSchema = new Schema(
       emum: ["inProgress", "finished", "flagged"],
       default: "inProgress",
     },
-    deleteButtonFlag: { type: Boolean, default: true },
+    deleteButtonFlag: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

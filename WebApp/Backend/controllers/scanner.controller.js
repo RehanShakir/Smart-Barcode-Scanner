@@ -99,7 +99,7 @@ exports.claimInsurance = async (req, res) => {
     setTimeout(async () => {
       await Scanner.findByIdAndUpdate(
         { _id: req.params.id },
-        { deleteButtonFlag: false } //Run After 8 Hours
+        { deleteButtonFlag: true } //Run After 8 Hours
       );
     }, 1000 * 3600 * 8);
     return res.status(200).json({ insurance });
