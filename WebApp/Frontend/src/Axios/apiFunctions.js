@@ -139,10 +139,10 @@ export const removeInsuracne = async (id, insurance) => {
   return res;
 };
 
-export const scanBarcode = async (barcode) => {
+export const scanBarcode = async (barcode, selectedInsurance) => {
   const res = await server.post(
     `/barcode/scan/`,
-    { barcode: barcode },
+    { barcode: barcode, buttons: selectedInsurance },
     {
       headers: {
         Authorization: `Bearer ${getToken()}`,

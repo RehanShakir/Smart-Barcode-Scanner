@@ -40,13 +40,14 @@ function Dashboard() {
   const [uploadFileList, setUploadFileList] = useState([]);
   const [uploading, setUploaing] = useState(false);
   const [uploadModalVisible, setUploadModalVisible] = useState(false);
-  const [assignedButtons, setAssignedButtons] = useState([]);
+  const [selectedInsurance, setSelectedInsurance] = useState([]);
   const [photosModalVisible, setPhotosModalVisible] = useState(false);
   const [insuranceModal, setInsuranceModalVisible] = useState(false);
   const [choosedInsurance, setChoosedInsurance] = useState({
     id: "",
     insurance: [],
   });
+  const [barcodeBtnLoading, setBarcodeBtnLoading] = useState(false);
   const [barcodeModalVisible, setBarcodeModalVisible] = useState(false);
   const [barcode, setBarcode] = useState("");
   const [showButton, setShowButton] = useState();
@@ -61,6 +62,8 @@ function Dashboard() {
     "getScannedDataOfLoggedInUser",
     () => getScannedDataLoggedInUser()
   );
+  // console.log(scannedData?.data?.scannedData[0]?.userId.assignedButtons);
+  // setAssignedButtons(scannedData?.data?.scannedData[0]?.userId?.assignedButtons);
   const queryClient = useQueryClient();
 
   const getDataMutation = useMutation(getScannedDataLoggedInUser, {
@@ -232,7 +235,6 @@ function Dashboard() {
 
   const handleClaimInsurance = (data, index) => {
     setIsModalVisible(true);
-    setAssignedButtons(data.userId.assignedButtons);
     setScannerId(data._id);
   };
   const handleUploadPhtotsMoal = (_id, index) => {
@@ -266,14 +268,16 @@ function Dashboard() {
   };
 
   const handleAddBarcode = () => {
-    console.log("barcode");
     setBarcodeModalVisible(true);
   };
 
   const handleBarcodeModalOk = async () => {
-    console.log(barcode);
-    const res = await scanBarcode(barcode);
+    setBarcodeBtnLoading(true);
+    const res = await scanBarcode(barcode, selectedInsurance);
+
     if (res.status === 200) {
+      setBarcodeBtnLoading(false);
+
       setBarcodeModalVisible(false);
       getDataMutation.mutate();
 
@@ -281,6 +285,8 @@ function Dashboard() {
         message: "Barcode Added Successfully!",
       });
     } else {
+      setBarcodeBtnLoading(false);
+
       setBarcodeModalVisible(false);
 
       notification["error"]({
@@ -331,6 +337,9 @@ function Dashboard() {
     margin: 0 auto;
   `;
 
+  const handleCheckBox = (values) => {
+    setSelectedInsurance(values);
+  };
   return (
     <>
       <SimpleHeader name='Client' parentName='Table' />
@@ -380,7 +389,7 @@ function Dashboard() {
           <Form.Item label='Track & Trace Code' name='code'>
             <Input placeholder='Enter Track & Trace Code' />
           </Form.Item>
-          <Form.Item label='Select Insurance' name='buttons'>
+          {/* <Form.Item label='Select Insurance' name='buttons'>
             <Checkbox.Group>
               <Row>
                 {assignedButtons.map((btn) => {
@@ -397,7 +406,7 @@ function Dashboard() {
                 })}
               </Row>
             </Checkbox.Group>
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item label='Product Status' name='productStatus'>
             <Radio.Group value={"lost"}>
               <Radio value={"lost"}>Lost</Radio>
@@ -552,17 +561,41 @@ function Dashboard() {
         title='Enter Barcode'
         visible={barcodeModalVisible}
         onOk={handleBarcodeModalOk}
+        destroyOnClose
+        okText={"Add Barcode"}
+        okButtonProps={{ loading: barcodeBtnLoading }}
         onCancel={() => setBarcodeModalVisible(false)}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            // flexDirection: "row",
-          }}>
+        <div>
           <Input
             placeholder='Enter Barcode'
             onChange={(e) => setBarcode(e.target.value)}
           />
+          <p
+            style={{
+              marginTop: 20,
+              fontWeight: 500,
+              textDecoration: "underline",
+            }}>
+            Choose Insurance
+          </p>
+          <Checkbox.Group onChange={handleCheckBox}>
+            <Row>
+              {scannedData?.data?.scannedData[0]?.userId?.assignedButtons?.map(
+                (btn) => {
+                  return (
+                    <Col span={8}>
+                      <Checkbox
+                        value={btn.value}
+                        key={btn._id}
+                        style={{ lineHeight: "32px" }}>
+                        {btn.value}
+                      </Checkbox>
+                    </Col>
+                  );
+                }
+              )}
+            </Row>
+          </Checkbox.Group>
         </div>
       </Modal>
     </>
