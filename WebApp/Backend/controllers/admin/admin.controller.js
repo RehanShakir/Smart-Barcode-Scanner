@@ -83,7 +83,7 @@ exports.statusUpdate = async (req, res) => {
  */
 exports.getScannedData = async (req, res) => {
   try {
-    const scannedData = await Scanner.find().populate({
+    const scannedData = await Scanner.find({ claim: true }).populate({
       path: "userId",
       select: "-password",
     });
@@ -107,7 +107,7 @@ exports.updateButtons = async (req, res) => {
     let user = await User.findOneAndUpdate(
       { _id: req.params.id },
       {
-        $push: { assignedButtons },
+        assignedButtons,
       },
       { new: true, upsert: true }
     );
@@ -115,5 +115,40 @@ exports.updateButtons = async (req, res) => {
     return res.status(200).json({ user });
   } catch (error) {
     return res.status(500).json({ message: error.message });
+  }
+};
+
+/**
+ * Get Scanned Data By User id
+ * @param {Request} req - request object
+ * @param {Response} res - response object
+ */
+exports.userScannedData = async (req, res) => {
+  try {
+    const scannedData = await Scanner.find({ userId: req.params.id }).populate({
+      path: "userId",
+      select: "-password",
+    });
+    return res.status(200).json({ data: scannedData });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+/**
+ * Get One User By Id
+ * @param {Request} req - request object
+ * @param {Response} res - response object
+ */
+exports.getOneUser = async (req, res) => {
+  try {
+    const scanCount = await Scanner.countDocuments({ userId: req.params.id });
+    const user = await User.findOne({ _id: req.params.id });
+
+    return res.status(200).json({ user, scanCount });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: `INTERNAL SERVER ERROR: ${error.message}` });
   }
 };

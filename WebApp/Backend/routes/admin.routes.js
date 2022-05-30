@@ -7,6 +7,8 @@ const {
   statusUpdate,
   getScannedData,
   updateButtons,
+  userScannedData,
+  getOneUser,
 } = controller;
 
 const router = Router();
@@ -38,4 +40,13 @@ router.get("/scanned-data", getScannedData);
  * selectedButtonsByAdmin - array
  */
 router.patch("/update-buttons/:id", updateButtons);
+
+/**
+ * Get Scanned Data by user _id
+ * @params - {id}
+ */
+router.get("/user-scanned-data/:id", userScannedData);
+
+router.get("/user/:id", getOneUser);
+
 module.exports = router;

@@ -37,8 +37,11 @@ import AuthHeader from "components/Headers/AuthHeader.js";
 import { useDispatch } from "react-redux";
 import { signUp } from "../../../Redux/actions/auth.actions";
 import { useHistory } from "react-router";
+import { Modal, Radio, notification } from "antd";
 
 function Register() {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const dispatch = useDispatch();
   const history = useHistory();
   const [focusedName, setfocusedName] = useState(false);
@@ -47,18 +50,45 @@ function Register() {
   const [fullName, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [contactPerson, setContactPerson] = useState("");
+  const [address, setAddress] = useState("");
+  const [website, setWebsite] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [shipmentsPerYear, setShipmentsPerYear] = useState("");
 
   const handleSubmit = async () => {
-    const formValues = {
-      fullName: fullName,
-      email: email,
-      password: password,
-    };
-    const res = await dispatch(signUp(formValues));
-    if (!res) {
-      history.push("/login");
+    setIsModalVisible(true);
+  };
+
+  const onChange = async (e) => {
+    if (e.target.value === true) {
+      setIsModalVisible(false);
+      const formValues = {
+        fullName: fullName,
+        email: email,
+        password: password,
+        companyName: companyName,
+        contactPerson: contactPerson,
+        address: address,
+        website: website,
+        phoneNumber: phoneNumber,
+        shipmentsPerYear: shipmentsPerYear,
+      };
+      const res = await dispatch(signUp(formValues));
+      if (!res) {
+        history.push("/login");
+      }
+    } else {
+      setIsModalVisible(false);
+      notification["error"]({
+        message: "Sign Up Failed! You disagreed to our terms and conditions.",
+      });
     }
   };
+  const handleOk = async () => {};
+
+  const handleCancel = () => {};
   return (
     <>
       <AuthHeader title='Create an account' lead='' />
@@ -66,45 +96,6 @@ function Register() {
         <Row className='justify-content-center'>
           <Col lg='6' md='8'>
             <Card className='bg-secondary border-0'>
-              {/* <CardHeader className="bg-transparent pb-5">
-                <div className="text-muted text-center mt-2 mb-4">
-                  <small>Sign up with</small>
-                </div>
-                <div className="text-center">
-                  <Button
-                    className="btn-neutral btn-icon mr-4"
-                    color="default"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <span className="btn-inner--icon mr-1">
-                      <img
-                        alt="..."
-                        src={
-                          require("assets/img/icons/common/github.svg").default
-                        }
-                      />
-                    </span>
-                    <span className="btn-inner--text">Github</span>
-                  </Button>
-                  <Button
-                    className="btn-neutral btn-icon"
-                    color="default"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <span className="btn-inner--icon mr-1">
-                      <img
-                        alt="..."
-                        src={
-                          require("assets/img/icons/common/google.svg").default
-                        }
-                      />
-                    </span>
-                    <span className="btn-inner--text">Google</span>
-                  </Button>
-                </div>
-              </CardHeader> */}
               <CardBody className='px-lg-5 py-lg-5'>
                 <div className='text-center text-muted mb-4'>
                   <large>Sign up with credentials</large>
@@ -125,6 +116,132 @@ function Register() {
                         type='text'
                         onChange={(e) => {
                           setFullname(e.target.value);
+                        }}
+                        onFocus={() => setfocusedName(true)}
+                        onBlur={() => setfocusedName(false)}
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                  <FormGroup
+                    className={classnames({
+                      focused: focusedName,
+                    })}>
+                    <InputGroup className='input-group-merge input-group-alternative mb-3'>
+                      <InputGroupAddon addonType='prepend'>
+                        <InputGroupText>
+                          <i className='ni ni-app' />
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder='Company Name'
+                        type='text'
+                        onChange={(e) => {
+                          setCompanyName(e.target.value);
+                        }}
+                        onFocus={() => setfocusedName(true)}
+                        onBlur={() => setfocusedName(false)}
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                  <FormGroup
+                    className={classnames({
+                      focused: focusedName,
+                    })}>
+                    <InputGroup className='input-group-merge input-group-alternative mb-3'>
+                      <InputGroupAddon addonType='prepend'>
+                        <InputGroupText>
+                          <i className='ni ni-circle-08' />
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder='Contact Person'
+                        type='text'
+                        onChange={(e) => {
+                          setContactPerson(e.target.value);
+                        }}
+                        onFocus={() => setfocusedName(true)}
+                        onBlur={() => setfocusedName(false)}
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                  <FormGroup
+                    className={classnames({
+                      focused: focusedName,
+                    })}>
+                    <InputGroup className='input-group-merge input-group-alternative mb-3'>
+                      <InputGroupAddon addonType='prepend'>
+                        <InputGroupText>
+                          <i className='ni ni-map-big' />
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder='Address'
+                        type='text'
+                        onChange={(e) => {
+                          setAddress(e.target.value);
+                        }}
+                        onFocus={() => setfocusedName(true)}
+                        onBlur={() => setfocusedName(false)}
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                  <FormGroup
+                    className={classnames({
+                      focused: focusedName,
+                    })}>
+                    <InputGroup className='input-group-merge input-group-alternative mb-3'>
+                      <InputGroupAddon addonType='prepend'>
+                        <InputGroupText>
+                          <i className='ni ni-world-2' />
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder='Website'
+                        type='text'
+                        onChange={(e) => {
+                          setWebsite(e.target.value);
+                        }}
+                        onFocus={() => setfocusedName(true)}
+                        onBlur={() => setfocusedName(false)}
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                  <FormGroup
+                    className={classnames({
+                      focused: focusedName,
+                    })}>
+                    <InputGroup className='input-group-merge input-group-alternative mb-3'>
+                      <InputGroupAddon addonType='prepend'>
+                        <InputGroupText>
+                          <i className='ni ni-mobile-button' />
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder='Phone Number'
+                        type='text'
+                        onChange={(e) => {
+                          setPhoneNumber(e.target.value);
+                        }}
+                        onFocus={() => setfocusedName(true)}
+                        onBlur={() => setfocusedName(false)}
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                  <FormGroup
+                    className={classnames({
+                      focused: focusedName,
+                    })}>
+                    <InputGroup className='input-group-merge input-group-alternative mb-3'>
+                      <InputGroupAddon addonType='prepend'>
+                        <InputGroupText>
+                          <i className='ni ni-chart-pie-35' />
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder='How many shipments per year?'
+                        type='text'
+                        onChange={(e) => {
+                          setShipmentsPerYear(e.target.value);
                         }}
                         onFocus={() => setfocusedName(true)}
                         onBlur={() => setfocusedName(false)}
@@ -187,29 +304,7 @@ function Register() {
                       )}
                     </small>
                   </div>
-                  {/* <Row className='my-4'>
-                    <Col xs='12'>
-                      <div className='custom-control custom-control-alternative custom-checkbox'>
-                        <input
-                          className='custom-control-input'
-                          id='customCheckRegister'
-                          type='checkbox'
-                        />
-                        <label
-                          className='custom-control-label'
-                          htmlFor='customCheckRegister'>
-                          <span className='text-muted'>
-                            I agree with the{" "}
-                            <a
-                              href='#pablo'
-                              onClick={(e) => e.preventDefault()}>
-                              Privacy Policy
-                            </a>
-                          </span>
-                        </label>
-                      </div>
-                    </Col>
-                  </Row> */}
+
                   <div className='text-center'>
                     <Button
                       onClick={handleSubmit}
@@ -224,6 +319,53 @@ function Register() {
             </Card>
           </Col>
         </Row>
+        <Modal
+          title='Terms And Conditions'
+          visible={isModalVisible}
+          // onOk={handleOk}
+          // onCancel={handleCancel}
+          footer={null}>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Pellentesque vestibulum viverra elit, congue tincidunt tellus
+            volutpat eu. Nulla mi odio, luctus vel metus id, vestibulum sagittis
+            quam. Nulla facilisi. Nunc eu tristique orci, vel facilisis leo.
+            Maecenas aliquam tortor quis sagittis gravida. Vestibulum efficitur
+            mattis purus, eu efficitur quam tincidunt a. Fusce risus mauris,
+            sollicitudin tempus feugiat ut, tempor eu est. Vivamus bibendum
+            elementum nunc, eu gravida lorem faucibus quis. Etiam sed iaculis
+            enim. Ut auctor pretium sapien ut lobortis. Vestibulum sit amet
+            tellus ut mi fringilla porta. Suspendisse tellus ipsum, bibendum
+            quis purus quis, semper gravida neque. Etiam egestas hendrerit
+            mauris id ullamcorper. Morbi et rhoncus nisi, eget placerat odio.
+            Nullam rutrum sodales leo non vehicula. Suspendisse elementum congue
+            felis, eu commodo nisl commodo eu. In egestas urna et ultrices
+            imperdiet. Nam sit amet vulputate velit, non dictum diam. Donec
+            efficitur mauris tortor. Donec pharetra ligula at magna egestas, sit
+            amet sollicitudin ligula porttitor. Ut consequat iaculis nisi, eu
+            fermentum odio pulvinar quis. Praesent in lorem porttitor, fringilla
+            arcu sit amet, blandit massa. Aenean vel ante ac sapien placerat
+            dictum. Vestibulum mollis consectetur nibh tristique sodales. Sed
+            sit amet ante rutrum, fermentum mi id, hendrerit augue. Phasellus
+            non scelerisque arcu. Nam fermentum arcu metus. Nulla hendrerit et
+            risus et sodales. Sed dapibus mattis metus non ornare. Vivamus
+            fringilla cursus nunc, vel sagittis elit sagittis ac. Aliquam tempus
+            interdum bibendum. Vivamus vitae porta enim. Pellentesque habitant
+            morbi tristique senectus et netus et malesuada fames ac turpis
+            egestas. Mauris et lacinia nunc. Nulla accumsan vel lorem non
+            auctor. Vestibulum iaculis lectus non diam venenatis, non auctor
+            augue tristique. Cras in semper ipsum, et faucibus massa. Nullam sed
+            convallis arcu, ac volutpat arcu. Donec eu augue dignissim, dictum
+            mi ut, pharetra massa. Sed viverra sem vulputate bibendum facilisis.
+            Duis posuere, leo sit amet venenatis accumsan, ligula massa
+            convallis ipsum, sed lacinia purus quam interdum nisl. Nam eget
+            lobortis sem, id tempor ex.
+          </p>
+          <Radio.Group onChange={onChange}>
+            <Radio value={true}>I agreed to the terms and conditions</Radio>
+            <Radio value={false}>I disagree</Radio>
+          </Radio.Group>
+        </Modal>
       </Container>
     </>
   );

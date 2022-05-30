@@ -5,6 +5,8 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import AdminLayout from "layouts/Admin.js";
 import RTLLayout from "layouts/RTL.js";
+import UsersDetails from "views/pages/UserDetails";
+import UserClaims from "views/pages/UserClaims";
 import Login from "views/pages/examples/Login";
 import Register from "./views/pages/examples/Register";
 import Profile from "./views/pages/examples/Profile";
@@ -18,14 +20,12 @@ function LoggedIn({ children, redirectTo }) {
 
 function RequireAuth({ children, redirectTo }) {
   let isAuthenticated = getToken();
-  console.log(isAuthenticated);
   return isAuthenticated ? children : <Redirect from='*' to={redirectTo} />;
 }
 
 const App = () => {
   return (
     <Switch>
-      <Route path='/rtl' render={(props) => <RTLLayout {...props} />} />
       <Route
         path='/auth'
         render={() => (
@@ -48,6 +48,22 @@ const App = () => {
         render={(props) => (
           <RequireAuth redirectTo={"/auth"}>
             <Profile />
+          </RequireAuth>
+        )}
+      />
+      <Route
+        path='/details'
+        render={() => (
+          <RequireAuth redirectTo={"/auth"}>
+            <UsersDetails />
+          </RequireAuth>
+        )}
+      />
+      <Route
+        path='/claims'
+        render={() => (
+          <RequireAuth redirectTo={"/auth"}>
+            <UserClaims />
           </RequireAuth>
         )}
       />

@@ -6,6 +6,18 @@ const scannerSchema = new Schema(
     userId: { type: Types.ObjectId, ref: "User" },
     barcode: { type: String },
     buttons: [{ type: String }],
+    name: { type: String },
+    address: { type: String },
+    code: { type: String },
+    barcode: { type: String },
+    packageContents: { type: String },
+    productStatus: { type: String, enum: ["lost", "damaged"] },
+    website: { type: String },
+    sizeWeight: { type: String },
+    email: { type: String },
+    phoneNumber: { type: String },
+    productPhotos: [{ type: String }],
+    claim: { type: String, default: false },
   },
   { timestamps: true }
 );

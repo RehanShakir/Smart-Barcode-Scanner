@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
-import classnames from "classnames";
+import React, { useState, useEffect } from "react";
 
 import ReactBSTables from "./tables/ReactBSTables";
 import SimpleHeader from "components/Headers/SimpleHeader.js";
@@ -17,7 +16,6 @@ import { css } from "@emotion/react";
 import HashLoader from "react-spinners/HashLoader";
 
 const { Option } = Select;
-let count = 0;
 const AllUsers = () => {
   const [formModal, setformModal] = useState(false);
   const [focusedEmail, setFocusedEmail] = useState(false);
@@ -61,7 +59,7 @@ const AllUsers = () => {
 
   const handleChange = async (value, data) => {
     const res = await statusUpdate(data);
-    console.log(res);
+
     if (res.status === 200) {
       notify("success", "Status", "Status Updated Successfully");
     }
@@ -103,40 +101,61 @@ const AllUsers = () => {
   `;
   let handleChangeBtn = (e, i) => {
     let newFormValues = [...field];
-    // console.log(newFormValues, i, e.target.value);
     newFormValues[i].value = e.target.value;
-    console.log(newFormValues);
     setField(newFormValues);
+  };
+  const handleRemoveClick = (index) => {
+    const list = [...field];
+    list.splice(index, 1);
+    setField(list);
   };
 
   const renderedFields = field.map((d, index) => {
     return (
-      <InputGroup
-        className='input-group-merge input-group-alternative'
-        key={index}>
-        <Input
-          placeholder='Button Name'
-          type='email'
-          style={{ marginTop: 10 }}
-          onChange={(e) => {
-            handleChangeBtn(e, index);
-          }}
-          onFocus={() => setFocusedEmail(true)}
-          onBlur={() => setFocusedEmail(false)}
-        />
-      </InputGroup>
+      <div style={{ display: "flex" }} key={index}>
+        <div style={{ marginTop: 5 }}>
+          <InputGroup
+            className='input-group-merge input-group-alternative'
+            key={index}>
+            <Input
+              placeholder='Insurance Name'
+              type='email'
+              value={d.value}
+              onChange={(e) => {
+                handleChangeBtn(e, index);
+              }}
+              onFocus={() => setFocusedEmail(true)}
+              onBlur={() => setFocusedEmail(false)}
+            />
+          </InputGroup>
+        </div>
+
+        <div>
+          <Button
+            style={{ marginTop: 10, marginLeft: 10 }}
+            size='sm'
+            color='info'
+            onClick={() => handleRemoveClick(index)}>
+            X
+          </Button>
+        </div>
+      </div>
     );
   });
-  const handleAssignButton = (id) => {
+  const handleAssignButton = (id, index) => {
     setformModal(true);
     setUserId(id);
+
+    tableData[index].assignedButtons.map((d) => {
+      field.push({ value: d.value });
+    });
   };
   const handleAddFields = () => {
     setField([...field, { value: "" }]);
   };
   let tableRows;
   if (tableData?.length > 0) {
-    tableRows = tableData?.map((data) => {
+    tableRows = tableData?.map((data, index) => {
       return {
         name: data.fullName,
         email: data.email,
@@ -161,7 +180,7 @@ const AllUsers = () => {
           <Button
             size='sm'
             color='primary'
-            onClick={() => handleAssignButton(data._id)}>
+            onClick={() => handleAssignButton(data._id, index)}>
             Assign Insurance
           </Button>
         ),
@@ -172,10 +191,7 @@ const AllUsers = () => {
     });
   }
   const handleSubmit = async () => {
-    console.log(field);
-    console.log(userId);
     const res = await assignButtons(field, userId);
-    console.log(res);
     if (res.status === 200) {
       getDataMutation.mutate();
       setformModal(false);

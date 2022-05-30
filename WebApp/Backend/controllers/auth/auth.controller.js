@@ -24,7 +24,6 @@ exports.userLogin = async (req, res) => {
         message: "Email/Password does not match",
       });
     }
-    console.log(user.status);
     if (user.status === "pending" || user.status === "rejected") {
       return res.status(500).json({
         status: "Unauthorized",
@@ -51,7 +50,17 @@ exports.userLogin = async (req, res) => {
 
 exports.userSignup = async (req, res) => {
   try {
-    const { fullName, email, password } = req?.body;
+    const {
+      fullName,
+      email,
+      password,
+      companyName,
+      contactPerson,
+      address,
+      website,
+      phoneNumber,
+      shipmentsPerYear,
+    } = req?.body;
     if (await UserExists(email)) {
       return res
         .status(500)
@@ -66,8 +75,15 @@ exports.userSignup = async (req, res) => {
       fullName,
       email,
       password,
+      companyName,
+      contactPerson,
+      address,
+      website,
+      phoneNumber,
+      shipmentsPerYear,
     });
     user.save();
+
     return res.status(200).json({ message: "User Signed Up Successfully" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -91,8 +107,7 @@ exports.myProfile = async (req, res) => {
 exports.updateProfile = async (req, res) => {
   try {
     let { fullName, email, oldPassword, newPassword } = req?.body;
-    console.log(oldPassword);
-    console.log(newPassword);
+
     if (!oldPassword) {
       return res.status(500).json({
         status: "Failed",

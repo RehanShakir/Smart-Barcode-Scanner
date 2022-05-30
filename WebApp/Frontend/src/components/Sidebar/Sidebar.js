@@ -179,6 +179,7 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
         {logo ? (
           <NavbarBrand {...navbarBrandProps}>
             <img
+              style={{ marginLeft: 0, maxWidth: 150 }}
               alt={logo.imgAlt}
               className='navbar-brand-img'
               src={logo.imgSrc}
