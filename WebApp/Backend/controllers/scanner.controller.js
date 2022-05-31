@@ -173,3 +173,12 @@ exports.removeInsurance = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+exports.deleteInusrance = async (req, res) => {
+  try {
+    await Scanner.findByIdAndDelete(req.params.id);
+    return res.status(200).json({ message: "Barcode Deleted Successfully!" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};

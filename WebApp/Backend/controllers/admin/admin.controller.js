@@ -24,12 +24,16 @@ exports.dashboardCounts = async (req, res) => {
       role: "client",
     });
     const scannedBarcodes = await Scanner.countDocuments();
+    const userBarcodeCount = await Scanner.countDocuments({ claim: false });
+    const userClaimCount = await Scanner.countDocuments({ claim: true });
     return res.status(200).json({
       users,
       pendingUsers,
       approvedUsers,
       rejectedUsers,
       scannedBarcodes,
+      userBarcodeCount,
+      userClaimCount,
     });
   } catch (error) {
     return res
@@ -143,9 +147,14 @@ exports.userScannedData = async (req, res) => {
 exports.getOneUser = async (req, res) => {
   try {
     const scanCount = await Scanner.countDocuments({ userId: req.params.id });
+    const claimCount = await Scanner.countDocuments({
+      userId: req.params.id,
+      claim: true,
+    });
+
     const user = await User.findOne({ _id: req.params.id });
 
-    return res.status(200).json({ user, scanCount });
+    return res.status(200).json({ user, scanCount, claimCount });
   } catch (error) {
     return res
       .status(500)
@@ -176,48 +185,26 @@ exports.updateClaimStatus = async (req, res) => {
       .json({ message: `INTERNAL SERVER ERROR: ${error.message}` });
   }
 };
-// exports.updatePassword = async (req, res) => {
-//   try {
-//     let { fullName, email, oldPassword, newPassword } = req?.body;
 
-//     if (!oldPassword) {
-//       return res.status(500).json({
-//         status: "Failed",
-//         message: "Old Password is required",
-//       });
-//     }
-
-//     if (!newPassword) {
-//       newPassword = oldPassword;
-//     }
-//     const user = await User.findById(req.user._id);
-
-//     if (!(await user?.comparePassword(oldPassword))) {
-//       return res.status(500).json({
-//         status: "Unauthorized",
-//         message: "Old Password is inorrect",
-//       });
-//     }
-
-//     const userData = await User.findOneAndUpdate(
-//       { _id: req.user._id },
-//       {
-//         fullName,
-//         email,
-//         password: await user.generateHash(newPassword),
-//         role: user.role,
-//         status: user.status,
-//       },
-//       { new: true }
-//     );
-
-//     res.status(200).json({
-//       message: "User Information Updated",
-//       data: userData,
-//     });
-//   } catch (error) {
-//     return res
-//       .status(500)
-//       .json({ message: `INTERNAL SERVER ERROR: ${error.message}` });
-//   }
-// };
+/**
+ * Total Claims of One User
+ * @param {Request} req - request object
+ * @param {Response} res - response object
+ */
+exports.userClaimAndBarcodeCount = async (req, res) => {
+  try {
+    let userBarcodeCount = await Scanner.countDocuments({
+      userId: req.params.id,
+      claim: false,
+    });
+    let userClaimCount = await Scanner.countDocuments({
+      userId: req.params.id,
+      claim: true,
+    });
+    return res.status(200).json({ userBarcodeCount, userClaimCount });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: `INTERNAL SERVER ERROR: ${error.message}` });
+  }
+};

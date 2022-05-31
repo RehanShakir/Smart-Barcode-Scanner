@@ -18,8 +18,13 @@ import HashLoader from "react-spinners/HashLoader";
 const { Meta } = ANTD_CARD;
 const UsersDetails = (props) => {
   const [tableData, setTableData] = useState({});
+  // const [userId, setUserId] = useState("");
 
-  const { isLoading: loading, data } = useQuery("getOneUser", () =>
+  const {
+    isLoading: loading,
+    data,
+    isFetching,
+  } = useQuery(["getOneUser", props.location.state._id], () =>
     getOneUser({ id: props.location.state._id })
   );
 
@@ -30,15 +35,16 @@ const UsersDetails = (props) => {
     display: block;
     margin: 0 auto;
   `;
+  console.log(tableData);
   return (
     <>
       <SimpleHeader name='Admin' parentName='Tables' />
 
       <Container className='mt--6' fluid>
         <Row>
-          <Col className='order-xl-1'>
+          <Col className=''>
             <Row>
-              <Col lg='6'>
+              <Col lg='4'>
                 <Card className='bg-gradient-success border-0'>
                   <CardBody>
                     <Row>
@@ -63,7 +69,30 @@ const UsersDetails = (props) => {
                   </CardBody>
                 </Card>
               </Col>
-              <Col lg='6'>
+              <Col lg='4'>
+                <Card className='bg-gradient-danger border-0' tag='h5'>
+                  <CardBody>
+                    <Row>
+                      <div className='col'>
+                        <CardTitle className='text-uppercase text-muted mb-0 text-white'>
+                          Total Claims
+                        </CardTitle>
+                        <span className='h2 font-weight-bold mb-0 text-white'>
+                          {tableData?.claimCount === 0
+                            ? "No Claims"
+                            : tableData?.claimCount}
+                        </span>
+                      </div>
+                      <Col className='col-auto'>
+                        <div className='icon icon-shape bg-white text-dark rounded-circle shadow'>
+                          <i className='ni ni-spaceship' />
+                        </div>
+                      </Col>
+                    </Row>
+                  </CardBody>
+                </Card>
+              </Col>
+              <Col lg='4'>
                 <Card className='bg-gradient-danger border-0' tag='h5'>
                   <CardBody>
                     <Row>
@@ -73,13 +102,12 @@ const UsersDetails = (props) => {
                         </CardTitle>
                         <span className='h2 font-weight-bold mb-0 text-white'>
                           <small>
-                            {tableData?.length
-                              ? tableData[0]?.userId?.assignedButtons?.map(
-                                  (d) => {
-                                    return d.value + ", ";
-                                  }
-                                )
-                              : "No Assigned Insurance"}
+                            {tableData?.user?.assignedButtons.length
+                              ? tableData?.user?.assignedButtons?.map((d) => {
+                                  console.log(d.value);
+                                  return d.value + ", ";
+                                })
+                              : "No Assigned Insurances"}
                           </small>
                         </span>
                       </div>

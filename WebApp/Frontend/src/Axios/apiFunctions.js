@@ -151,3 +151,13 @@ export const scanBarcode = async (barcode, selectedInsurance) => {
   );
   return res;
 };
+
+export const deleteBarcode = async (id) =>
+  await server.delete(`/barcode/delete/${id}`, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+
+export const userCounts = async (userId) =>
+  await server.get(`/admin/user-count/${userId}`);

@@ -7,8 +7,8 @@ import { Button } from "reactstrap";
 import { useQuery } from "react-query";
 import {
   getCounts,
-  getScannedData,
   getAllUsersData,
+  userCounts,
 } from "../../../Axios/apiFunctions";
 import { useHistory } from "react-router-dom";
 
@@ -18,6 +18,7 @@ import HashLoader from "react-spinners/HashLoader";
 function Dashboard() {
   const history = useHistory();
   const { data } = useQuery("getCounts", () => getCounts());
+  console.log(data);
 
   const { isLoading: dataLoading, data: scannedData } = useQuery(
     "getAllUsersData",

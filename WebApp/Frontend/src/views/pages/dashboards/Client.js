@@ -11,6 +11,7 @@ import {
   removePhoto,
   removeInsuracne,
   scanBarcode,
+  deleteBarcode,
 } from "../../../Axios/apiFunctions";
 import { css } from "@emotion/react";
 import HashLoader from "react-spinners/HashLoader";
@@ -28,6 +29,8 @@ import {
   Checkbox,
   Row,
   Col,
+  Popconfirm,
+  message,
 } from "antd";
 import { formattedDate } from "config/config";
 
@@ -62,8 +65,7 @@ function Dashboard() {
     "getScannedDataOfLoggedInUser",
     () => getScannedDataLoggedInUser()
   );
-  // console.log(scannedData?.data?.scannedData[0]?.userId.assignedButtons);
-  // setAssignedButtons(scannedData?.data?.scannedData[0]?.userId?.assignedButtons);
+
   const queryClient = useQueryClient();
 
   const getDataMutation = useMutation(getScannedDataLoggedInUser, {
@@ -134,7 +136,40 @@ function Dashboard() {
           </strong>
         ),
       scanDate: formattedDate(data.createdAt),
+      delete: (
+        <Popconfirm
+          key={index + "popconfirm"}
+          title='Are you sure to delete this entry?'
+          onConfirm={() => handleDeleteEntry(data._id)}
+          onCancel={handleCancelPopConfirm}
+          okText='Yes'
+          cancelText='No'>
+          <Button key={index + "btn2"} size='sm' color='danger'>
+            Delete
+          </Button>
+        </Popconfirm>
+      ),
     };
+  };
+
+  const handleCancelPopConfirm = () => {
+    console.log("Cancelled");
+  };
+
+  const handleDeleteEntry = async (id) => {
+    console.log(id);
+    const res = await deleteBarcode(id);
+    console.log(res);
+    if (res.status === 200) {
+      getDataMutation.mutate();
+      notification["success"]({
+        message: res?.data?.message,
+      });
+    } else {
+      notification["error"]({
+        message: "Something went wrong! Please check your internet connection",
+      });
+    }
   };
 
   const handleInsuranceModal = (id, insurance, deleteButtonFlag) => {
@@ -329,6 +364,11 @@ function Dashboard() {
     {
       dataField: "scanDate",
       text: "Date",
+      sort: true,
+    },
+    {
+      dataField: "delete",
+      text: "Delete",
       sort: true,
     },
   ];

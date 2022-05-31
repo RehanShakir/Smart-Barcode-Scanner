@@ -17,7 +17,7 @@ const scannerSchema = new Schema(
     email: { type: String },
     phoneNumber: { type: String },
     productPhotos: [{ type: String }],
-    claim: { type: String, default: false },
+    claim: { type: Boolean, default: false },
     claimStatus: {
       type: String,
       emum: ["inProgress", "finished", "flagged"],
