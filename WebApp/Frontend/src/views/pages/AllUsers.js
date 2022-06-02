@@ -244,6 +244,7 @@ const AllUsers = () => {
         <ReactBSTables
           columns={columns}
           disabled={false}
+          showDateRange={false}
           dataTable={tableRows}
           tableTitle={"All Users"}
         />

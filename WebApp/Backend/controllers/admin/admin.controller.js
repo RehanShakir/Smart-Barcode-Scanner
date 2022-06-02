@@ -107,7 +107,6 @@ exports.getScannedData = async (req, res) => {
 exports.updateButtons = async (req, res) => {
   try {
     const { assignedButtons } = req?.body;
-    console.log(assignedButtons);
     let user = await User.findOneAndUpdate(
       { _id: req.params.id },
       {
@@ -152,7 +151,11 @@ exports.getOneUser = async (req, res) => {
       claim: true,
     });
 
-    const user = await User.findOne({ _id: req.params.id });
+    // const user = await User.findOne({ _id: req.params.id });
+    const user = await Scanner.find({ userId: req.params.id }).populate({
+      path: "userId",
+      select: "-password",
+    });
 
     return res.status(200).json({ user, scanCount, claimCount });
   } catch (error) {

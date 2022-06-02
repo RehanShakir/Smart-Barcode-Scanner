@@ -157,9 +157,7 @@ function Dashboard() {
   };
 
   const handleDeleteEntry = async (id) => {
-    console.log(id);
     const res = await deleteBarcode(id);
-    console.log(res);
     if (res.status === 200) {
       getDataMutation.mutate();
       notification["success"]({
@@ -392,6 +390,7 @@ function Dashboard() {
       {dataLoading || (
         <ReactBSTables
           columns={columns}
+          showDateRange={false}
           disabled={true}
           handleAddBarcode={handleAddBarcode}
           dataTable={scannedData?.data?.scannedData?.map(barcodeData3)}

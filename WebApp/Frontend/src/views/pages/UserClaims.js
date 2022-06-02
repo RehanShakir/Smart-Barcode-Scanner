@@ -201,6 +201,7 @@ const UsersDetails = () => {
               {tableData?.length > 0 ? (
                 <ReactBSTables
                   disabled={false}
+                  showDateRange={false}
                   columns={columns}
                   dataTable={tableRows}
                   tableTitle={"Claim Information"}

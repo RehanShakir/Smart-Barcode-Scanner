@@ -37,6 +37,9 @@ import {
   Col,
   UncontrolledTooltip,
 } from "reactstrap";
+import { Form, DatePicker } from "antd";
+
+const { RangePicker } = DatePicker;
 // core components
 
 // import { dataTable } from "variables/general";
@@ -77,6 +80,8 @@ function ReactBSTables({
   tableTitle,
   disabled,
   handleAddBarcode,
+  dateRange,
+  showDateRange,
 }) {
   const dispatch = useDispatch();
   const [alert, setAlert] = React.useState(null);
@@ -277,14 +282,28 @@ function ReactBSTables({
                           <div
                             id='datatable-basic_filter'
                             className='dataTables_filter px-4 pb-1 float-right'>
-                            <label>
-                              Search:
-                              <SearchBar
-                                className='form-control-sm'
-                                placeholder=''
-                                {...props.searchProps}
-                              />
-                            </label>
+                            {showDateRange ? (
+                              <label>
+                                Select Date To Filter Date
+                                <Form.Item>
+                                  <RangePicker
+                                    name='dateOfEntry'
+                                    // value={filters.dateOfEntry}
+                                    onChange={(date) => dateRange(date)}
+                                    allowClear={true}
+                                  />
+                                </Form.Item>
+                              </label>
+                            ) : (
+                              <label>
+                                Search:
+                                <SearchBar
+                                  className='form-control-sm'
+                                  placeholder=''
+                                  {...props.searchProps}
+                                />
+                              </label>
+                            )}
                           </div>
                         </Col>
                       </Row>
