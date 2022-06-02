@@ -198,23 +198,21 @@ const UsersDetails = () => {
                 display: "flex",
                 justifyContent: "center",
               }}>
-              {tableData?.length > 0 ? (
-                <ReactBSTables
-                  disabled={false}
-                  showDateRange={false}
-                  columns={columns}
-                  dataTable={tableRows}
-                  tableTitle={"Claim Information"}
-                />
-              ) : <HashLoader
+              {loading ? (
+                <HashLoader
                   color={"#5e72e4"}
                   loading={loading}
                   css={override}
                   size={50}
-                /> ? (
-                loading === false
+                />
               ) : (
-                "No Users Claims"
+                <ReactBSTables
+                  disabled={false}
+                  showDateRange={false}
+                  columns={columns}
+                  dataTable={tableRows ? tableRows : []}
+                  tableTitle={"Claim Information"}
+                />
               )}
             </div>
           </Col>

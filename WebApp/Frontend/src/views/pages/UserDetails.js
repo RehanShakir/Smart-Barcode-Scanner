@@ -27,6 +27,12 @@ const UsersDetails = (props) => {
   const [filteredData, setFilteredData] = useState([]);
   const [counts, setCounts] = useState(null);
 
+  if (props.location.state._id) {
+    console.log(props.location.state._id);
+  }
+
+  localStorage.setItem("UserDetialsID", props.location.state._id);
+
   // const [userId, setUserId] = useState("");
 
   const barcodeData3 = (data, index) => {
@@ -49,8 +55,19 @@ const UsersDetails = (props) => {
     isLoading: loading,
     data,
     isFetching,
-  } = useQuery(["getOneUser", props.location.state._id], () =>
-    getOneUser({ id: props.location.state._id })
+  } = useQuery(
+    [
+      "getOneUser",
+      !props.location.state._id
+        ? localStorage.getItem("UserDetialsID")
+        : props.location.state._id,
+    ],
+    () =>
+      getOneUser({
+        id: !props.location.state._id
+          ? localStorage.getItem("UserDetialsID")
+          : props.location.state._id,
+      })
   );
 
   const dateRange = (e) => {
@@ -74,7 +91,8 @@ const UsersDetails = (props) => {
     setTableData(data?.data);
     setScannedData(data?.data?.user);
     setFilteredData(data?.data?.user);
-  }, [loading, data?.data?.user[0]]);
+  }, [loading, data?.data]);
+
   const override = css`
     display: block;
     margin: 0 auto;
@@ -209,38 +227,47 @@ const UsersDetails = (props) => {
                   justifyContent: "center",
                 }}>
                 <ANTD_CARD
-                  title={`User Name: ${tableData?.user[0]?.userId?.fullName?.toUpperCase()}`}
+                  title={`User Name: ${
+                    tableData?.user &&
+                    tableData?.user[0]?.userId?.fullName?.toUpperCase()
+                  }`}
                   style={{ width: 500 }}>
                   <p>
                     <strong>Company Name:</strong>{" "}
-                    {tableData?.user[0]?.userId?.companyName}
+                    {tableData?.user && tableData?.user[0]?.userId?.companyName}
                   </p>
                   <p>
                     <strong>Contact person</strong>{" "}
-                    {tableData?.user[0]?.userId?.contactPerson}
+                    {tableData?.user &&
+                      tableData?.user[0]?.userId?.contactPerson}
                   </p>
                   <p>
                     <strong>Address:</strong>{" "}
-                    {tableData?.user[0]?.userId?.address}
+                    {tableData?.user && tableData?.user[0]?.userId?.address}
                   </p>
                   <p>
                     <strong>Website:</strong>{" "}
-                    {tableData?.user[0]?.userId?.website}
+                    {tableData?.user && tableData?.user[0]?.userId?.website}
                   </p>
                 </ANTD_CARD>
                 <ANTD_CARD
-                  title={`Status: ${tableData?.user[0]?.userId?.status?.toUpperCase()}`}
+                  title={`Status: ${
+                    tableData?.user &&
+                    tableData?.user[0]?.userId?.status?.toUpperCase()
+                  }`}
                   style={{ width: 500 }}>
                   <p>
-                    <strong>Email:</strong> {tableData?.user[0]?.userId?.email}
+                    <strong>Email:</strong>{" "}
+                    {tableData?.user && tableData?.user[0]?.userId?.email}
                   </p>
                   <p>
                     <strong>Phone Number:</strong>{" "}
-                    {tableData?.user[0]?.userId?.phoneNumber}
+                    {tableData?.user && tableData?.user[0]?.userId?.phoneNumber}
                   </p>
                   <p>
                     <strong>How many shipments per year:</strong>{" "}
-                    {tableData?.user[0]?.userId?.shipmentsPerYear}
+                    {tableData?.user &&
+                      tableData?.user[0]?.userId?.shipmentsPerYear}
                   </p>
                 </ANTD_CARD>
               </div>
