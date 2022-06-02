@@ -284,7 +284,7 @@ function ReactBSTables({
                             className='dataTables_filter px-4 pb-1 float-right'>
                             {showDateRange ? (
                               <label>
-                                Select Date To Filter Date
+                                Select Date To Filter Data
                                 <Form.Item>
                                   <RangePicker
                                     name='dateOfEntry'
