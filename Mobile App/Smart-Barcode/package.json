@@ -35,7 +35,7 @@
     "galio-framework": "^0.8.0",
     "prop-types": "^15.7.2",
     "react": "17.0.2",
-    "react-native": "0.68.2",
+    "react-native": "^0.68.2",
     "react-native-checkbox-group": "^1.0.3",
     "react-native-extra-dimensions-android": "^1.2.5",
     "react-native-gesture-handler": "~2.2.1",

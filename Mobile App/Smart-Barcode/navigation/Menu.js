@@ -18,8 +18,8 @@ function CustomDrawerContent({
     <Block
       style={styles.container}
       forceInset={{ top: "always", horizontal: "never" }}>
-      <Block flex={0.06} style={styles.header}>
-        {/* <Image styles={styles.logo} source={Images.Logo} /> */}
+      <Block flex={0.6} style={styles.header}>
+        <Image resizeMode="contain" style={styles.logo} source={Images.Logo} />
       </Block>
       <Block flex style={{ paddingLeft: 8, paddingRight: 14 }}>
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
@@ -59,11 +59,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  logo:{
+    width:'100%',
+    height:'100%',
+  },  
   header: {
-    paddingHorizontal: 28,
-    paddingBottom: theme.SIZES.BASE,
-    paddingTop: theme.SIZES.BASE * 3,
-    justifyContent: "center",
+    // paddingHorizontal: 28,
+    // paddingBottom: theme.SIZES.BASE,
+    // paddingTop: theme.SIZES.BASE * 3,
+    // justifyContent: "center",
   },
 });
 

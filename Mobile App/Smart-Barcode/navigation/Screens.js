@@ -118,7 +118,6 @@ function ProfileStack(props) {
           header: ({ navigation, scene }) => (
             <Header
               title='Profile'
-              back
               navigation={navigation}
               scene={scene}
             />

@@ -78,6 +78,7 @@ class DrawerItem extends React.Component {
     ];
 
     return (
+      <>
       <TouchableOpacity
         style={{ height: 60 }}
         onPress={() =>
@@ -103,6 +104,7 @@ class DrawerItem extends React.Component {
           </Block>
         </Block>
       </TouchableOpacity>
+      </>
     );
   }
 }
