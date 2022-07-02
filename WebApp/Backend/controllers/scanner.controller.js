@@ -78,6 +78,7 @@ exports.claimInsurance = async (req, res) => {
       barcode,
       buttons,
     } = req?.body;
+    console.log(req?.body);
     const insurance = await Scanner.findByIdAndUpdate(
       { _id: req.params.id },
       {
@@ -118,6 +119,7 @@ exports.uploadPhotos = async (req, res) => {
     const unlinkFile = promisify(fs.unlink);
 
     const photosObj = req?.files;
+    console.log(req?.files);
     let photos = [];
     for (let i = 0; i < photosObj.length; i++) {
       const result = await multer.uploadPhoto(photosObj[i]);
@@ -135,6 +137,7 @@ exports.uploadPhotos = async (req, res) => {
     );
     return res.status(200).json({ message: "Photo Uplaoded Successfully" });
   } catch (error) {
+    console.error(error);
     return res.status(500).json({ message: error.message });
   }
 };
