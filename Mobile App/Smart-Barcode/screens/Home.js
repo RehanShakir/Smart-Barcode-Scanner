@@ -3,10 +3,8 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
-  KeyboardAvoidingView,
   Text,
   View,
-  TouchableOpacity,
   ToastAndroid,
   Image,
 } from "react-native";

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   ImageBackground,
@@ -14,7 +14,8 @@ import { Button, Icon, Input } from "../components";
 import { Images, argonTheme } from "../constants";
 import { useDispatch, useSelector } from "react-redux";
 import { withNavigation } from "@react-navigation/compat";
-import { signIn } from "../Redux/actions/auth.actions";
+import { signIn, loadProfile } from "../Redux/actions/auth.actions";
+import { getState, getToken } from "../Redux/localstorage/index";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -23,10 +24,25 @@ const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const authState = useSelector((state) => state.auth);
+  // console.log(authState.isSignedIn);
 
-  // if (authState.isSignedIn) {
-  //   navigation.navigate("Home");
-  // }
+  const fetchUser = async () => {
+    const token = await getToken();
+    console.log(token);
+    if (!authState.isSignedIn && token) {
+      console.log("in use if");
+
+      dispatch(loadProfile(token));
+      navigation.navigate("Home");
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, [authState.isSignedIn]);
+
+  if (getState()) {
+  }
   const handleLogin = async () => {
     console.log(email, password);
     const res = await dispatch(signIn(email, password));
@@ -37,7 +53,6 @@ const Login = ({ navigation }) => {
     }
 
     if (!res) {
-      console.log("logged");
       navigation.navigate("Home");
       // navigation.navigate("Home");
       // authState.role === "admin"
@@ -55,35 +70,8 @@ const Login = ({ navigation }) => {
         <Block safe flex middle>
           <Block style={styles.registerContainer}>
             <Block flex={0.25} middle style={styles.socialConnect}>
-              {/* <Text color='#8898AA' size={12}>
-                  Sign up with
-                </Text> */}
               <Block row style={{ marginTop: theme.SIZES.BASE }}>
                 <Image source={Images.Logo} style={styles.avatar} />
-                {/* <Button style={{ ...styles.socialButtons, marginRight: 30 }}>
-                    <Block row>
-                      <Icon
-                        name='logo-github'
-                        family='Ionicon'
-                        size={14}
-                        color={"black"}
-                        style={{ marginTop: 2, marginRight: 5 }}
-                      />
-                      <Text style={styles.socialTextButtons}>GITHUB</Text>
-                    </Block>
-                  </Button> */}
-                {/* <Button style={styles.socialButtons}>
-                    <Block row>
-                      <Icon
-                        name="logo-google"
-                        family="Ionicon"
-                        size={14}
-                        color={"black"}
-                        style={{ marginTop: 2, marginRight: 5 }}
-                      />
-                      <Text style={styles.socialTextButtons}>GOOGLE</Text>
-                    </Block>
-                  </Button> */}
               </Block>
             </Block>
             <Block flex>
@@ -129,15 +117,6 @@ const Login = ({ navigation }) => {
                       }
                       onChangeText={(e) => setPassword(e)}
                     />
-                    <Block row style={styles.passwordCheck}>
-                      <Text size={12} color={argonTheme.COLORS.MUTED}>
-                        password strength:
-                      </Text>
-                      <Text bold size={12} color={argonTheme.COLORS.SUCCESS}>
-                        {" "}
-                        strong
-                      </Text>
-                    </Block>
                   </Block>
 
                   <Block middle>
@@ -214,8 +193,6 @@ const styles = StyleSheet.create({
   avatar: {
     width: 200,
     height: 200,
-    // borderRadius: 62,
-    // borderWidth: 0,
   },
 });
 

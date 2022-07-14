@@ -22,6 +22,28 @@ export const saveToken = async (state) => {
   } catch (err) {}
 };
 
+export const getState = async () => {
+  try {
+    //   const serializedState = localStorage.getItem("token");
+    const serializedState = await AsyncStorage.getItem("isSignedIn");
+
+    if (serializedState === null) {
+      return undefined;
+    }
+    return JSON.parse(serializedState);
+  } catch (err) {
+    return undefined;
+  }
+};
+
+export const saveState = async (state) => {
+  try {
+    const serializedState = JSON.stringify(state);
+    //   localStorage.setItem("token", serializedState);
+    await AsyncStorage.setItem("isSignedIn", serializedState);
+  } catch (err) {}
+};
+
 export const deleteToken = async () => {
   try {
     //   localStorage.removeItem("token");

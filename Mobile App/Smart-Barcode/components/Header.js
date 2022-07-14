@@ -5,14 +5,13 @@ import {
   StyleSheet,
   Platform,
   Dimensions,
+  Image,
 } from "react-native";
 import { Button, Block, NavBar, Text, theme } from "galio-framework";
-import { Images } from "../constants";
 
 import Icon from "./Icon";
 import Input from "./Input";
-import Tabs from "./Tabs";
-import argonTheme from "../constants/Theme";
+import { Images, argonTheme } from "../constants";
 
 const { height, width } = Dimensions.get("window");
 const iPhoneX = () =>
@@ -65,123 +64,124 @@ class Header extends React.Component {
 
     return back ? navigation.goBack() : navigation.openDrawer();
   };
-  // renderRight = () => {
-  //   const { white, title, navigation } = this.props;
+  renderRight = () => {
+    const { white, title, navigation } = this.props;
 
-  //   if (title === "Title") {
-  //     return [
-  //       <Image source={Images.Logo} style={styles.avatar} />,
+    // if (title === "Title") {
+    return [
+      <Image source={Images.Logo} style={styles.logo} />,
 
-  //       // <BellButton key='chat-title' navigation={navigation} isWhite={white} />,
-  //       // <BasketButton
-  //       //   key='basket-title'
-  //       //   navigation={navigation}
-  //       //   isWhite={white}
-  //       // />,
-  //     ];
-  //   }
+      // <BellButton key='chat-title' navigation={navigation} isWhite={white} />,
+      // <BasketButton
+      //   key='basket-title'
+      //   navigation={navigation}
+      //   isWhite={white}
+      // />,
+    ];
+    // }
 
-  //   // switch (title) {
-  //   //   case "Home":
-  //   //     return [
-  //   //       <BellButton
-  //   //         key='chat-home'
-  //   //         navigation={navigation}
-  //   //         isWhite={white}
-  //   //       />,
-  //   //       <BasketButton
-  //   //         key='basket-home'
-  //   //         navigation={navigation}
-  //   //         isWhite={white}
-  //   //       />,
-  //   //     ];
-  //   //   case "Deals":
-  //   //     return [
-  //   //       <BellButton key='chat-categories' navigation={navigation} />,
-  //   //       <BasketButton key='basket-categories' navigation={navigation} />,
-  //   //     ];
-  //   //   case "Categories":
-  //   //     return [
-  //   //       <BellButton
-  //   //         key='chat-categories'
-  //   //         navigation={navigation}
-  //   //         isWhite={white}
-  //   //       />,
-  //   //       <BasketButton
-  //   //         key='basket-categories'
-  //   //         navigation={navigation}
-  //   //         isWhite={white}
-  //   //       />,
-  //   //     ];
-  //   //   case "Category":
-  //   //     return [
-  //   //       <BellButton
-  //   //         key='chat-deals'
-  //   //         navigation={navigation}
-  //   //         isWhite={white}
-  //   //       />,
-  //   //       <BasketButton
-  //   //         key='basket-deals'
-  //   //         navigation={navigation}
-  //   //         isWhite={white}
-  //   //       />,
-  //   //     ];
-  //   //   case "Profile":
-  //   //     return [
-  //   //       <BellButton
-  //   //         key='chat-profile'
-  //   //         navigation={navigation}
-  //   //         isWhite={white}
-  //   //       />,
-  //   //       <BasketButton
-  //   //         key='basket-deals'
-  //   //         navigation={navigation}
-  //   //         isWhite={white}
-  //   //       />,
-  //   //     ];
-  //   //   case "Product":
-  //   //     return [
-  //   //       <SearchButton
-  //   //         key='search-product'
-  //   //         navigation={navigation}
-  //   //         isWhite={white}
-  //   //       />,
-  //   //       <BasketButton
-  //   //         key='basket-product'
-  //   //         navigation={navigation}
-  //   //         isWhite={white}
-  //   //       />,
-  //   //     ];
-  //   //   case "Search":
-  //   //     return [
-  //   //       <BellButton
-  //   //         key='chat-search'
-  //   //         navigation={navigation}
-  //   //         isWhite={white}
-  //   //       />,
-  //   //       <BasketButton
-  //   //         key='basket-search'
-  //   //         navigation={navigation}
-  //   //         isWhite={white}
-  //   //       />,
-  //   //     ];
-  //   //   case "Settings":
-  //   //     return [
-  //   //       <BellButton
-  //   //         key='chat-search'
-  //   //         navigation={navigation}
-  //   //         isWhite={white}
-  //   //       />,
-  //   //       <BasketButton
-  //   //         key='basket-search'
-  //   //         navigation={navigation}
-  //   //         isWhite={white}
-  //   //       />,
-  //   //     ];
-  //   //   default:
-  //   //     break;
-  //   // }
-  // };
+    // switch (title) {
+    //   case "Home":
+    //     return [
+    //       <Text>Hello</Text>,
+    //       // <BellButton
+    //       //   key='chat-home'
+    //       //   navigation={navigation}
+    //       //   isWhite={white}
+    //       // />,
+    //       // <BasketButton
+    //       //   key='basket-home'
+    //       //   navigation={navigation}
+    //       //   isWhite={white}
+    //       // />,
+    //     ];
+    //   case "Deals":
+    //     return [
+    //       <BellButton key='chat-categories' navigation={navigation} />,
+    //       <BasketButton key='basket-categories' navigation={navigation} />,
+    //     ];
+    //   case "Categories":
+    //     return [
+    //       <BellButton
+    //         key='chat-categories'
+    //         navigation={navigation}
+    //         isWhite={white}
+    //       />,
+    //       <BasketButton
+    //         key='basket-categories'
+    //         navigation={navigation}
+    //         isWhite={white}
+    //       />,
+    //     ];
+    //   case "Category":
+    //     return [
+    //       <BellButton
+    //         key='chat-deals'
+    //         navigation={navigation}
+    //         isWhite={white}
+    //       />,
+    //       <BasketButton
+    //         key='basket-deals'
+    //         navigation={navigation}
+    //         isWhite={white}
+    //       />,
+    //     ];
+    //   case "Profile":
+    //     return [
+    //       <BellButton
+    //         key='chat-profile'
+    //         navigation={navigation}
+    //         isWhite={white}
+    //       />,
+    //       <BasketButton
+    //         key='basket-deals'
+    //         navigation={navigation}
+    //         isWhite={white}
+    //       />,
+    //     ];
+    //   case "Product":
+    //     return [
+    //       <SearchButton
+    //         key='search-product'
+    //         navigation={navigation}
+    //         isWhite={white}
+    //       />,
+    //       <BasketButton
+    //         key='basket-product'
+    //         navigation={navigation}
+    //         isWhite={white}
+    //       />,
+    //     ];
+    //   case "Search":
+    //     return [
+    //       <BellButton
+    //         key='chat-search'
+    //         navigation={navigation}
+    //         isWhite={white}
+    //       />,
+    //       <BasketButton
+    //         key='basket-search'
+    //         navigation={navigation}
+    //         isWhite={white}
+    //       />,
+    //     ];
+    //   case "Settings":
+    //     return [
+    //       <BellButton
+    //         key='chat-search'
+    //         navigation={navigation}
+    //         isWhite={white}
+    //       />,
+    //       <BasketButton
+    //         key='basket-search'
+    //         navigation={navigation}
+    //         isWhite={white}
+    //       />,
+    //     ];
+    //   default:
+    //     break;
+    // }
+  };
   renderSearch = () => {
     const { navigation } = this.props;
     return (
@@ -302,13 +302,13 @@ class Header extends React.Component {
     ];
 
     return (
-      <Block style={{...headerStyles,zIndex:1}}>
+      <Block style={{ ...headerStyles, zIndex: 1 }}>
         <NavBar
           back={false}
           title={title}
           style={navbarStyles}
           transparent={transparent}
-          // right={this.renderRight()}
+          right={this.renderRight()}
           // rightStyle={{ alignItems: "center" }}
           left={
             <Icon
@@ -341,6 +341,10 @@ const styles = StyleSheet.create({
   button: {
     padding: 12,
     position: "relative",
+  },
+  logo: {
+    width: 100,
+    height: 100,
   },
   title: {
     width: "100%",

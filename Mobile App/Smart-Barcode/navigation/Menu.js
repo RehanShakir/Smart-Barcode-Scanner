@@ -19,12 +19,11 @@ function CustomDrawerContent({
       style={styles.container}
       forceInset={{ top: "always", horizontal: "never" }}>
       <Block flex={0.6} style={styles.header}>
-        <Image resizeMode="contain" style={styles.logo} source={Images.Logo} />
+        <Image resizeMode='contain' style={styles.logo} source={Images.Logo} />
       </Block>
       <Block flex style={{ paddingLeft: 8, paddingRight: 14 }}>
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
           {screens.map((item, index) => {
-            console.log(item, state.index);
             return (
               <DrawerCustomItem
                 title={item}
@@ -44,11 +43,8 @@ function CustomDrawerContent({
                 borderWidth: StyleSheet.hairlineWidth,
               }}
             />
-            <Text color='#8898AA' style={{ marginTop: 16, marginLeft: 8 }}>
-              DOCUMENTATION
-            </Text>
           </Block>
-          <DrawerCustomItem title='Getting Started' navigation={navigation} />
+          <DrawerCustomItem title='Logout' />
         </ScrollView>
       </Block>
     </Block>
@@ -59,10 +55,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  logo:{
-    width:'100%',
-    height:'100%',
-  },  
+  logo: {
+    width: "100%",
+    height: "100%",
+  },
   header: {
     // paddingHorizontal: 28,
     // paddingBottom: theme.SIZES.BASE,

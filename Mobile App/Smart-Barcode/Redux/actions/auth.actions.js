@@ -7,10 +7,11 @@ import {
   REFRESH,
 } from "../types";
 import server from "../../Axios/index";
+import { ToastAndroid } from "react-native";
 import { QueryCache } from "react-query";
 import { updateProfile } from "../../Axios/apiFunctions";
 
-import { saveToken, deleteToken } from "../localstorage";
+import { saveToken, deleteToken, saveState } from "../localstorage";
 
 export const signUp = (formValues) => {
   // const { fullName, email, password } = formValues;
@@ -20,10 +21,7 @@ export const signUp = (formValues) => {
     try {
       const res = await server.post("/auth/signup", formValues);
       if (res.status === 200) {
-        notification["success"]({
-          message: "Sign Up Successfull",
-        });
-        console.log("Sign Up Successfully");
+        ToastAndroid.show("Sign Up Successfull", ToastAndroid.SHORT);
       }
       dispatch({ type: SIGN_UP });
     } catch (error) {
@@ -39,16 +37,13 @@ export const signIn = (email, password) => {
       const res = await server.post("/auth/login", { email, password });
       if (res.status === 200) {
         saveToken(res.data.token);
+        saveState(true);
         dispatch({ type: SIGN_IN, payload: res.data });
       }
     } catch (error) {
       if (error.response.status === 500) {
-        return {
-          error: error.response.data.message,
-          status: error.response.status,
-        };
+        ToastAndroid.show(error.response.data.message, ToastAndroid.SHORT);
       }
-      // console.log(error.response);
     }
   };
 };
@@ -56,6 +51,7 @@ export const signIn = (email, password) => {
 export const loadProfile = (token) => {
   return async (dispatch) => {
     try {
+      console.log("IN LOAD PROFFF");
       const res = await server.get("/auth/my-profile", {
         headers: {
           Authorization: `Basic ${token}`,
@@ -92,6 +88,5 @@ export const signOut = () => {
 };
 
 export const refresh = () => {
-  console.log(`Refreshing`);
   return { type: REFRESH };
 };

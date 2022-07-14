@@ -52,7 +52,6 @@ const authReducer = (state = INITIAL_STATE, action) => {
 
     case SIGN_OUT:
       return {
-        ...state,
         INITIAL_STATE,
       };
 

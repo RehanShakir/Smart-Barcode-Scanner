@@ -1,11 +1,4 @@
-import argonTheme from './Theme';
-import articles from './articles';
-import Images from './Images';
-import tabs from './tabs';
+import argonTheme from "./Theme";
+import Images from "./Images";
 
-export {
-  articles, 
-  argonTheme,
-  Images,
-  tabs
-};
+export { argonTheme, Images };
