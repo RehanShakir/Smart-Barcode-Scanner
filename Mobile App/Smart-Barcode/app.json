@@ -19,9 +19,17 @@
     "ios": {
       "supportsTablet": true
     },
-    "description": "Sendsafe Global",
+    "description": "Smart Barcode reader for easy inventory management",
     "android": {
-      "package": "com.app.sendsafeglobal"
+      "package": "com.app.sendsafeglobal",
+
+      "permissions": [
+        "CAMERA",
+        "ACCESS_FINE_LOCATION",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
+      "versionCode": 2
     }
   }
 }

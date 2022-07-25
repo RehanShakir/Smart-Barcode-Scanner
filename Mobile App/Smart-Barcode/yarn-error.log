@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/bin/yarnpkg add expo-splash-screen@~0.15.1
+  /usr/bin/node /usr/bin/yarn add @react-native-picker/picker
 
 PATH: 
   /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin
@@ -41,6 +41,7 @@ npm manifest:
     "dependencies": {
       "@react-native-async-storage/async-storage": "~1.17.3",
       "@react-native-masked-view/masked-view": "0.2.6",
+      "@react-native-picker/picker": "^2.4.2",
       "@react-navigation/bottom-tabs": "^6.3.1",
       "@react-navigation/compat": "^5.1.25",
       "@react-navigation/drawer": "5.12.4",
@@ -56,6 +57,7 @@ npm manifest:
       "expo-image-picker": "~13.1.1",
       "expo-images-picker": "^2.4.1",
       "expo-modules-core": "~0.9.2",
+      "expo-splash-screen": "^0.15.1",
       "expo-updates": "~0.13.2",
       "galio-framework": "^0.8.0",
       "prop-types": "^15.7.2",
@@ -1834,6 +1836,11 @@ Lockfile:
     "resolved" "https://registry.npmjs.org/@react-native-masked-view/masked-view/-/masked-view-0.2.6.tgz"
     "version" "0.2.6"
   
+  "@react-native-picker/picker@^2.4.2":
+    "integrity" "sha512-0nY8638h1J3wKz6P3IJMpOoxJDdOj7Dk/K2hP/xpqP3KnIY0lmoqYlhyNihuyVPocDGajf6SA7LFFsFepQ56ag=="
+    "resolved" "https://registry.npmjs.org/@react-native-picker/picker/-/picker-2.4.2.tgz"
+    "version" "2.4.2"
+  
   "@react-native/assets@1.0.0":
     "integrity" "sha512-KrwSpS1tKI70wuKl68DwJZYEvXktDHdZMG0k2AXD/rJVSlB23/X2CB2cutVR0HwNMJIal9HOUOBB2rVfa6UGtQ=="
     "resolved" "https://registry.npmjs.org/@react-native/assets/-/assets-1.0.0.tgz"
@@ -3489,7 +3496,7 @@ Lockfile:
       "compare-versions" "^3.4.0"
       "invariant" "^2.2.4"
   
-  "expo-splash-screen@~0.15.0":
+  "expo-splash-screen@^0.15.1", "expo-splash-screen@~0.15.0":
     "integrity" "sha512-Yvz6p/ig+cQp9c1PLSm1YshpNJXRp/xtxajfwPq2kampf61zA+xnoMk+J6YcNeXeIlqHysj3ND2tMhEEQjM/ow=="
     "resolved" "https://registry.npmjs.org/expo-splash-screen/-/expo-splash-screen-0.15.1.tgz"
     "version" "0.15.1"

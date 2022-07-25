@@ -185,3 +185,25 @@ exports.deleteInusrance = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+/**
+ * Get Scanned Data by Barcode
+ * @param {Request} req - request object
+ * @param {Response} res - response object
+ */
+exports.getDataByBarcode = async (req, res) => {
+  try {
+    console.log(req.params.barcode);
+    const scannedData = await Scanner.find({
+      userId: req.user._id,
+      barcode: req.params.barcode,
+    }).populate({
+      path: "userId",
+      select: "-password",
+    });
+
+    return res.status(200).json({ scannedData });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};

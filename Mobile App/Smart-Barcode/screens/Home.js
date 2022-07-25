@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,
   Dimensions,
@@ -6,13 +6,19 @@ import {
   Text,
   View,
   ToastAndroid,
+  BackHandler,
   Image,
 } from "react-native";
+import { useRoute, useFocusEffect } from "@react-navigation/native";
+
 import CheckboxGroup from "react-native-checkbox-group";
+import Constants from "expo-constants";
+import GridImageView from "react-native-grid-image-viewer";
 
 import { Block, theme, Button, Input } from "galio-framework";
 import { RadioButton, Avatar } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
+import { Picker } from "@react-native-picker/picker";
 
 import TableComponent from "../components/Table";
 import { BarCodeScanner } from "expo-barcode-scanner";
@@ -27,14 +33,16 @@ import {
   removePhoto,
   deleteBarcode,
   scanBarcode,
+  getDataByBarcode,
 } from "../Axios/apiFunctions";
 import Modal from "react-native-modal";
 
 const { width, height } = Dimensions.get("screen");
 
 const Home = () => {
+  const route = useRoute();
   const [scanBarCodeModal, setScanBarCodeModal] = useState(false);
-  const [scannig, setScanning] = useState(false);
+  const [scanning, setScanning] = useState(false);
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [barcode, setBarcode] = useState("");
@@ -45,6 +53,8 @@ const Home = () => {
     id: "",
     insurance: [],
   });
+  const [selectedBarcode, setSelectedBarcode] = useState();
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [scannerId, setScannerId] = useState("");
   const [uploadModalVisible, setUploadModalVisible] = useState(false);
@@ -64,11 +74,26 @@ const Home = () => {
     photos: [],
   });
   const [photosModalVisible, setPhotosModalVisible] = useState(false);
+  const [barcodeData, setBarcodeData] = useState();
 
-  const { data: scannedData } = useQuery(
+  const { data: scannedData, isFetching: fetching } = useQuery(
     "getScannedDataOfLoggedInUser",
     getScannedDataLoggedInUser
   );
+
+  const { data: barcodeDataQuery, isFetching: loading } = useQuery(
+    ["getDataByBarcode", selectedBarcode],
+    () => getDataByBarcode(selectedBarcode)
+  );
+
+  useEffect(() => {
+    !loading && setBarcodeData(barcodeDataQuery);
+  }, [selectedBarcode, loading]);
+
+  useEffect(() => {
+    !fetching && setSelectedBarcode(scannedData?.data?.scannedData[0]?.barcode);
+  }, [fetching]);
+
   const queryClient = useQueryClient();
 
   const getDataMutation = useMutation(getScannedDataLoggedInUser, {
@@ -76,6 +101,31 @@ const Home = () => {
       queryClient.invalidateQueries("getScannedDataOfLoggedInUser");
     },
   });
+
+  const getBarcodeDataMutation = useMutation(getDataByBarcode, {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["getDataByBarcode", selectedBarcode]);
+    },
+  });
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        if (route.name === "Home") {
+          setScanning(false);
+          return true;
+        } else {
+          return false;
+        }
+      };
+
+      BackHandler.addEventListener("hardwareBackPress", onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+    }, [route])
+  );
+
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -89,6 +139,7 @@ const Home = () => {
       //   }
       // }
     })();
+
     return () => {};
   }, []);
   const handleBarCodeScanned = ({ type, data }) => {
@@ -96,9 +147,6 @@ const Home = () => {
     setBarcode(data);
 
     setScanBarCodeModal(true);
-    console.log(
-      `Bar code with type ${type} and data ${data} has been scanned!`
-    );
   };
 
   if (hasPermission === null) {
@@ -112,93 +160,6 @@ const Home = () => {
     return <View style={styles.container}></View>;
   };
 
-  // console.log(scannedData);
-  // console.log(getScannedDataLoggedInUser());
-
-  const tableHead = [
-    "BARCODE",
-    "CHOOSED INSURANCES	",
-    "CLAIM INSURANCE	",
-    "UPLOAD PHOTOS",
-    "CLAIM STATUS",
-    "PHOTOS",
-    "DATE",
-    "DELETE",
-  ];
-
-  let tableData = [];
-
-  const mappingData = scannedData?.data?.scannedData?.map((data, index) => {
-    tableData.push([
-      data.barcode,
-      <Button
-        shadowless
-        style={{ height: "70%", alignSelf: "center" }}
-        textStyle={{ fontSize: 12, fontWeight: "700" }}
-        onPress={() => {
-          setInsuranceModalVisible(true);
-          handleInsuranceModal(data._id, data.buttons, data.deleteButtonFlag);
-        }}>
-        Choosed Insurances
-      </Button>,
-      <Button
-        shadowless
-        style={{ height: "70%", alignSelf: "center" }}
-        textStyle={{ fontSize: 12, fontWeight: "700" }}
-        onPress={() => {
-          handleClaimInsurance(data, index);
-        }}>
-        Claim Insurance
-      </Button>,
-      <Button
-        shadowless
-        style={{ height: "70%", alignSelf: "center" }}
-        textStyle={{ fontSize: 12, fontWeight: "700" }}
-        onPress={() => {
-          handleUploadPhtotsMoal(data._id, index);
-        }}>
-        Upload Photos
-      </Button>,
-      data.claimStatus === "inProgress" ? (
-        <Text style={{ color: "blue", fontWeight: "800", textAlign: "center" }}>
-          IN PROGRESS
-        </Text>
-      ) : data.claimStatus === "finished" ? (
-        <Text
-          style={{ color: "green", fontWeight: "800", textAlign: "center" }}>
-          {data.claimStatus.toUpperCase()}
-        </Text>
-      ) : (
-        <Text style={{ color: "red", fontWeight: "800", textAlign: "center" }}>
-          {data.claimStatus.toUpperCase()}
-        </Text>
-      ),
-      <Button
-        shadowless
-        style={{ height: "70%", alignSelf: "center" }}
-        textStyle={{ fontSize: 12, fontWeight: "700" }}
-        onPress={() => {
-          handleImagePreview(data._id, data.productPhotos);
-        }}>
-        View Photos
-      </Button>,
-      formattedDate(data.createdAt),
-      <Button
-        style={{
-          height: "70%",
-          width: "80%",
-          backgroundColor: "red",
-          alignSelf: "center",
-        }}
-        textStyle={{ fontSize: 12, fontWeight: "700" }}
-        onPress={() => {
-          handleDeleteEntry(data._id);
-        }}>
-        Delete
-      </Button>,
-    ]);
-  });
-
   /**Choosed Insurance Functions START*/
   const handleInsuranceModal = (id, insurance, deleteButtonFlag) => {
     setInsuranceModalVisible(true);
@@ -209,7 +170,6 @@ const Home = () => {
     setShowButton(deleteButtonFlag);
   };
   const handleDeleteInsurance = async (insurance) => {
-    console.log(insurance);
     const res = await removeInsuracne(choosedInsurance.id, insurance);
     if (res.status === 200) {
       getDataMutation.mutate();
@@ -274,8 +234,6 @@ const Home = () => {
       base64: false,
     });
 
-    // console.log(result);
-
     if (!result.cancelled) {
       setImage(result);
     }
@@ -284,11 +242,8 @@ const Home = () => {
   const handleUpload = async () => {
     try {
       const formData = new FormData();
-      // console.log(image);
-      // console.log(scannerId);
       let uriParts = image.uri.split(".");
       let fileType = uriParts[uriParts.length - 1];
-      console.log(fileType);
 
       formData.append("photos", {
         uri: image.uri,
@@ -298,7 +253,8 @@ const Home = () => {
       const res = await uploadPhotos(formData, scannerId);
 
       if (res.status === 200) {
-        getDataMutation.mutate();
+        setImage(null);
+        getBarcodeDataMutation.mutate(selectedBarcode);
         ToastAndroid.show("Photos Uploaded Successfully!", ToastAndroid.SHORT);
         setUploadModalVisible(false);
       }
@@ -327,7 +283,7 @@ const Home = () => {
   const handleDeletePhoto = async (id, photo) => {
     const res = await removePhoto(id, photo);
     if (res.status === 200) {
-      getDataMutation.mutate();
+      getBarcodeDataMutation.mutate({ selectedBarcode });
       setPhotosModalVisible(false);
       ToastAndroid.show("Photo Deleted Successfully!", ToastAndroid.SHORT);
     } else {
@@ -358,13 +314,9 @@ const Home = () => {
 
   /**Scan Barcode Functions START*/
   const handleBarcodeModalOk = async () => {
-    // setBarcodeBtnLoading(true);
-    console.log(barcode, checkBoxValues);
     const res = await scanBarcode(barcode, checkBoxValues);
 
     if (res.status === 200) {
-      // setBarcodeBtnLoading(false);
-
       setScanBarCodeModal(false);
       getDataMutation.mutate();
 
@@ -380,39 +332,154 @@ const Home = () => {
   };
 
   /**Scan Barcode Functions END*/
-  // const tableData = [
-  //   ["1", "2", "3"],
-  //   ["a", "b", "c"],
-  //   ["1", "2", "3"],
-  //   ["a", "b", "c"],
-  // ];
 
+  const tableData1 = [
+    [
+      !loading && !fetching
+        ? barcodeData?.data?.scannedData[0]?.barcode
+        : "Loading...",
+    ],
+    [
+      <Button
+        shadowless
+        style={{ height: "70%", alignSelf: "center" }}
+        textStyle={{ fontSize: 12, fontWeight: "700" }}
+        onPress={() => {
+          setInsuranceModalVisible(true);
+          handleInsuranceModal(
+            barcodeData?.data?.scannedData[0]?._id,
+            barcodeData?.data?.scannedData[0]?.buttons,
+            barcodeData?.data?.scannedData[0]?.deleteButtonFlag
+          );
+        }}>
+        Choosed Insurances
+      </Button>,
+    ],
+    [
+      <Button
+        shadowless
+        style={{ height: "70%", alignSelf: "center" }}
+        textStyle={{ fontSize: 12, fontWeight: "700" }}
+        onPress={() => {
+          handleClaimInsurance(barcodeData?.data?.scannedData[0]);
+        }}>
+        Claim Insurance
+      </Button>,
+    ],
+    [
+      <Button
+        shadowless
+        style={{ height: "70%", alignSelf: "center" }}
+        textStyle={{ fontSize: 12, fontWeight: "700" }}
+        onPress={() => {
+          handleUploadPhtotsMoal(barcodeData?.data?.scannedData[0]?._id);
+        }}>
+        Upload Photos
+      </Button>,
+    ],
+    [
+      !loading && !fetching ? (
+        barcodeData?.data?.scannedData[0]?.claimStatus === "inProgress" ? (
+          <Text
+            style={{ color: "blue", fontWeight: "800", textAlign: "center" }}>
+            IN PROGRESS
+          </Text>
+        ) : barcodeData?.data?.scannedData[0]?.claimStatus === "finished" ? (
+          <Text
+            style={{ color: "green", fontWeight: "800", textAlign: "center" }}>
+            {barcodeData?.data?.scannedData[0]?.claimStatus.toUpperCase()}
+          </Text>
+        ) : (
+          <Text
+            style={{ color: "red", fontWeight: "800", textAlign: "center" }}>
+            {barcodeData?.data?.scannedData[0]?.claimStatus.toUpperCase()}
+          </Text>
+        )
+      ) : (
+        "Loading..."
+      ),
+    ],
+    [
+      <Button
+        shadowless
+        style={{ height: "70%", alignSelf: "center" }}
+        textStyle={{ fontSize: 12, fontWeight: "700" }}
+        onPress={() => {
+          handleImagePreview(
+            barcodeData?.data?.scannedData[0]?._id,
+            barcodeData?.data?.scannedData[0]?.productPhotos
+          );
+        }}>
+        View Photos
+      </Button>,
+    ],
+    [formattedDate(barcodeData?.data?.scannedData[0]?.createdAt)],
+    [
+      <Button
+        style={{
+          height: "70%",
+          width: "80%",
+          backgroundColor: "red",
+          alignSelf: "center",
+        }}
+        textStyle={{ fontSize: 12, fontWeight: "700" }}
+        onPress={() => {
+          handleDeleteEntry(barcodeData?.data?.scannedData[0]?._id);
+        }}>
+        Delete
+      </Button>,
+    ],
+  ];
   return (
     <Block flex center style={styles.home}>
-      {!scannig && (
+      {
         <Button
           shadowless
           style={{ marginTop: 50, alignSelf: "center" }}
           textStyle={{ fontSize: 12, fontWeight: "700" }}
-          onPress={() => setScanning(true)}>
-          Scan Barcode
+          onPress={() => (!scanning ? setScanning(true) : setScanning(false))}>
+          {!scanning ? "Scan Barcode" : "Exit"}
         </Button>
-      )}
-      <TableComponent tableHead={tableHead} tableData={tableData} />
+      }
+      <Picker
+        selectedValue={selectedBarcode}
+        style={{
+          width: "50%",
+          backgroundColor: "whitesmoke",
+        }}
+        onValueChange={(itemValue, itemIndex) => {
+          setSelectedBarcode(itemValue);
+          getBarcodeDataMutation.mutate(itemValue);
+        }}>
+        {scannedData?.data?.scannedData?.map((data, index) => {
+          return (
+            <Picker.Item
+              label={data.barcode}
+              value={data.barcode}
+              key={index + data.barcode}
+            />
+          );
+        })}
+      </Picker>
+
+      <TableComponent tableData1={tableData1} />
+      {/* <TableComponent tableHead={tableHead} tableData={tableData1} /> */}
 
       {/**BARCODE SCANNER CODE */}
-      {scannig && (
+      {/* <View style={styles.articles}> */}
+      {scanning && (
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
         />
       )}
-      {/* {scanned && (
+      {/* </View> */}
+      {/* {scanning && (
         <Button
           shadowless
           textStyle={{ fontSize: 12, fontWeight: "700" }}
           onPress={() => {
-            setScanned(false);
+            setScanning(false);
           }}>
           Tap To Scan Barcode
         </Button>
@@ -650,25 +717,37 @@ const Home = () => {
               }}>
               Photos
             </Text>
-            {photos.photos.map((photo, index) => {
+            <Button
+              shadowless
+              style={{ marginTop: 10, alignSelf: "center", marginBottom: 50 }}
+              textStyle={{ fontSize: 12, fontWeight: "700" }}
+              onPress={() => setPhotosModalVisible(false)}>
+              Close (X)
+            </Button>
+            {photos?.photos?.map((photo, index) => {
+              console.log(photo);
               return (
                 <View
+                  key={index}
                   style={{
                     display: "flex",
                     justifyContent: "center",
                     flexDirection: "row",
+                    flex: 1,
                     // marginBottom: 15,
                   }}>
                   {/* <Image.PreviewGroup key={index + "prImg"}> */}
-                  <Avatar.Image
-                    source={{
-                      uri: photo,
-                    }}
-                    size={150}
-                  />
+                  {/* <Avatar.Image
+                  source={{
+                    uri: photo,
+                  }}
+                  size={150}
+                /> */}
+                  <GridImageView heightOfGridImage={100} data={[photo]} />
+
                   <Button
-                    shadowless
-                    style={{ marginTop: 50, alignSelf: "center" }}
+                    // shadowless
+                    style={{ width: 40, marginTop: -50, alignSelf: "center" }}
                     textStyle={{ fontSize: 12, fontWeight: "700" }}
                     color='danger'
                     onPress={() => handleDeletePhoto(photos.id, photo)}>
@@ -679,13 +758,6 @@ const Home = () => {
                 </View>
               );
             })}
-            <Button
-              shadowless
-              style={{ marginTop: 50, alignSelf: "center" }}
-              textStyle={{ fontSize: 12, fontWeight: "700" }}
-              onPress={() => setPhotosModalVisible(false)}>
-              Close (X)
-            </Button>
           </View>
         </ScrollView>
       </Modal>
@@ -732,7 +804,6 @@ const Home = () => {
             </Text>
             <CheckboxGroup
               callback={(selected) => {
-                console.log(selected);
                 setCheckBoxValues(selected);
               }}
               iconColor={"#00a2dd"}
@@ -782,10 +853,10 @@ const Home = () => {
 const styles = StyleSheet.create({
   home: {
     width: width,
+    backgroundColor: "white",
   },
   articles: {
-    width: width - theme.SIZES.BASE * 2,
-    paddingVertical: theme.SIZES.BASE,
+    // width: width - theme.SIZES.BASE * 2,
   },
 });
 

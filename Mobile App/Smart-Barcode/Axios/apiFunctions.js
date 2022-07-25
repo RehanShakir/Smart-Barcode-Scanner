@@ -162,3 +162,10 @@ export const deleteBarcode = async (id) =>
 
 export const userCounts = async (userId) =>
   await server.get(`/admin/user-count/${userId}`);
+
+export const getDataByBarcode = async (barcode) =>
+  server.get(`/barcode/${barcode}`, {
+    headers: {
+      Authorization: `Bearer ${await getToken()}`,
+    },
+  });

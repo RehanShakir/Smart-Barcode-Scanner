@@ -46,18 +46,10 @@ const Login = ({ navigation }) => {
   const handleLogin = async () => {
     console.log(email, password);
     const res = await dispatch(signIn(email, password));
-    console.log(res);
-
-    if (res?.status) {
-      ToastAndroid.show(res.error, ToastAndroid.SHORT);
-    }
-
-    if (!res) {
+    console.log("ogin" + res);
+    console.log("log" + (await getState()));
+    if (await getState()) {
       navigation.navigate("Home");
-      // navigation.navigate("Home");
-      // authState.role === "admin"
-      // ? history.push("/admin")
-      // : history.push("/client");
     }
   };
 

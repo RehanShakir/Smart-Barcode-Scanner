@@ -11,6 +11,7 @@ const {
   removePhoto,
   removeInsurance,
   deleteInusrance,
+  getDataByBarcode,
 } = controller;
 const router = Router();
 const upload = multer({ dest: "upload/" });
@@ -70,5 +71,12 @@ router.patch("/remove-insurance/:id", removeInsurance);
  * @body {files}
  */
 router.delete("/delete/:id", deleteInusrance);
+
+/**
+ * Get Data By Barcode
+ * @param {string} barcode
+ */
+
+router.get("/:barcode", getDataByBarcode);
 
 module.exports = router;
