@@ -22,14 +22,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Profile = () => {
   const authState = useSelector((state) => state.auth);
-  // console.log(authState);
 
   const { data } = useQuery(
     authState.role === "admin" ? "getCount" : "getScannedCountLoggedInUser",
     () =>
       authState.role === "admin" ? getCounts() : getScannedCountLoggedInUser()
   );
-  // console.log(data?.data?.scannedBarcodes);
   return (
     <Block flex style={styles.profile}>
       <Block flex>
@@ -49,19 +47,7 @@ const Profile = () => {
                   middle
                   row
                   space='evenly'
-                  style={{ marginTop: 20, paddingBottom: 24 }}>
-                  {/* <Button
-                    small
-                    style={{ backgroundColor: argonTheme.COLORS.INFO }}>
-                    CONNECT
-                  </Button> */}
-
-                  {/* <Button
-                    small
-                    style={{ backgroundColor: argonTheme.COLORS.DEFAULT }}>
-                    MESSAGE
-                  </Button> */}
-                </Block>
+                  style={{ marginTop: 20, paddingBottom: 24 }}></Block>
                 <Block row space='between'>
                   <Block middle>
                     <Text

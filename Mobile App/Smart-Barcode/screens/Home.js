@@ -172,7 +172,8 @@ const Home = () => {
   const handleDeleteInsurance = async (insurance) => {
     const res = await removeInsuracne(choosedInsurance.id, insurance);
     if (res.status === 200) {
-      getDataMutation.mutate();
+      getBarcodeDataMutation.mutate(selectedBarcode);
+
       setInsuranceModalVisible(false);
       ToastAndroid.show("Insurance Deleted Successfully!", ToastAndroid.SHORT);
     } else {
@@ -207,7 +208,8 @@ const Home = () => {
     if (res.status === 200) {
       // form.resetFields();
       setIsModalVisible(false);
-      getDataMutation.mutate();
+      getBarcodeDataMutation.mutate(selectedBarcode);
+
       ToastAndroid.show(
         "Insurance Claim Request Submitted Successfully",
         ToastAndroid.SHORT
@@ -283,7 +285,7 @@ const Home = () => {
   const handleDeletePhoto = async (id, photo) => {
     const res = await removePhoto(id, photo);
     if (res.status === 200) {
-      getBarcodeDataMutation.mutate({ selectedBarcode });
+      getBarcodeDataMutation.mutate(selectedBarcode);
       setPhotosModalVisible(false);
       ToastAndroid.show("Photo Deleted Successfully!", ToastAndroid.SHORT);
     } else {
@@ -300,7 +302,8 @@ const Home = () => {
   const handleDeleteEntry = async (id) => {
     const res = await deleteBarcode(id);
     if (res.status === 200) {
-      getDataMutation.mutate();
+      getBarcodeDataMutation.mutate(selectedBarcode);
+
       ToastAndroid.show(res?.data?.message, ToastAndroid.SHORT);
     } else {
       ToastAndroid.show(
@@ -318,7 +321,7 @@ const Home = () => {
 
     if (res.status === 200) {
       setScanBarCodeModal(false);
-      getDataMutation.mutate();
+      getBarcodeDataMutation.mutate(selectedBarcode);
 
       ToastAndroid.show("Barcode Added Successfully!", ToastAndroid.SHORT);
     } else {
@@ -446,6 +449,8 @@ const Home = () => {
         style={{
           width: "50%",
           backgroundColor: "whitesmoke",
+          marginTop: 35,
+          marginBottom: 30,
         }}
         onValueChange={(itemValue, itemIndex) => {
           setSelectedBarcode(itemValue);
@@ -463,27 +468,14 @@ const Home = () => {
       </Picker>
 
       <TableComponent tableData1={tableData1} />
-      {/* <TableComponent tableHead={tableHead} tableData={tableData1} /> */}
 
       {/**BARCODE SCANNER CODE */}
-      {/* <View style={styles.articles}> */}
       {scanning && (
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
         />
       )}
-      {/* </View> */}
-      {/* {scanning && (
-        <Button
-          shadowless
-          textStyle={{ fontSize: 12, fontWeight: "700" }}
-          onPress={() => {
-            setScanning(false);
-          }}>
-          Tap To Scan Barcode
-        </Button>
-      )} */}
 
       {/**Choosed Insurances Modal */}
       <Modal
@@ -565,20 +557,21 @@ const Home = () => {
             Claim Insurance
           </Text>
           <Block flex center>
-            {/* <KeyboardAvoidingView
-              style={{ flex: 1 }}
-              behavior='padding'
-              enabled> */}
             <ScrollView>
               <Block width={width * 0.8}>
-                <Input placeholder='Name' onChangeText={(e) => setName(e)} />
                 <Input
+                  color={"black"}
+                  placeholder='Name'
+                  onChangeText={(e) => setName(e)}
+                />
+                <Input
+                  color={"black"}
                   placeholder='Address'
                   onChangeText={(e) => setAddress(e)}
                 />
                 <Input
-                  placeholder='Track & Trace Code
-'
+                  placeholder='Track & Trace Code'
+                  color={"black"}
                   onChangeText={(e) => setCode(e)}
                 />
                 <Text style={{ fontWeight: "700" }}>Product Status</Text>
@@ -600,22 +593,28 @@ const Home = () => {
                 </RadioButton.Group>
 
                 <Input
-                  placeholder='Package Contents
-'
+                  placeholder='Package Contents'
+                  color={"black"}
                   onChangeText={(e) => setPackageContents(e)}
                 />
                 <Input
                   placeholder='Website'
+                  color={"black"}
                   onChangeText={(e) => setWebsite(e)}
                 />
                 <Input
                   placeholder='Size & Weight'
+                  color={"black"}
                   onChangeText={(e) => setSizeWeight(e)}
                 />
-                <Input placeholder='Email' onChangeText={(e) => setEmail(e)} />
                 <Input
-                  placeholder='Phone Number
-'
+                  placeholder='Email'
+                  color={"black"}
+                  onChangeText={(e) => setEmail(e)}
+                />
+                <Input
+                  placeholder='Phone Number'
+                  color={"black"}
                   onChangeText={(e) => setPhoneNumber(e)}
                 />
               </Block>
@@ -724,8 +723,18 @@ const Home = () => {
               onPress={() => setPhotosModalVisible(false)}>
               Close (X)
             </Button>
+            <Text
+              style={{
+                color: "green",
+                textAlign: "center",
+                marginTop: -10,
+                marginBottom: 20,
+                fontWeight: "bold",
+              }}>
+              *(Touch the image to open)
+            </Text>
+
             {photos?.photos?.map((photo, index) => {
-              console.log(photo);
               return (
                 <View
                   key={index}
@@ -736,13 +745,6 @@ const Home = () => {
                     flex: 1,
                     // marginBottom: 15,
                   }}>
-                  {/* <Image.PreviewGroup key={index + "prImg"}> */}
-                  {/* <Avatar.Image
-                  source={{
-                    uri: photo,
-                  }}
-                  size={150}
-                /> */}
                   <GridImageView heightOfGridImage={100} data={[photo]} />
 
                   <Button
@@ -753,8 +755,6 @@ const Home = () => {
                     onPress={() => handleDeletePhoto(photos.id, photo)}>
                     Delete
                   </Button>
-
-                  {/* </Image.PreviewGroup> */}
                 </View>
               );
             })}

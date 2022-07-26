@@ -24,14 +24,10 @@ const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const authState = useSelector((state) => state.auth);
-  // console.log(authState.isSignedIn);
 
   const fetchUser = async () => {
     const token = await getToken();
-    console.log(token);
     if (!authState.isSignedIn && token) {
-      console.log("in use if");
-
       dispatch(loadProfile(token));
       navigation.navigate("Home");
     }
@@ -44,10 +40,7 @@ const Login = ({ navigation }) => {
   if (getState()) {
   }
   const handleLogin = async () => {
-    console.log(email, password);
     const res = await dispatch(signIn(email, password));
-    console.log("ogin" + res);
-    console.log("log" + (await getState()));
     if (await getState()) {
       navigation.navigate("Home");
     }
